@@ -152,7 +152,7 @@ class CasualSelfAttention(nn.Module):
         print('x shape is ', x.shape)
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
-        qkv = self.c_attn(x)
+        qkv = self.c_attn(x)  
         #print(f'C: {C} self.n_embd: {self.n_embd}')
         q, k, v = qkv.split(self.n_embd, dim=2)
         q = q.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
@@ -166,7 +166,10 @@ class CasualSelfAttention(nn.Module):
         if layer_n != -1:
             print(f'attn scores of layer {layer_n} is {attn}')
             import matplotlib.pyplot as plt
-            plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1).detach().numpy())
+            print('im here!!! ', attn.size())
+            mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
+            plt.colorbar(mat, label='intensity')
+            plt.show()
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)[48:, :32].detach().numpy())
         y = attn @ v
         y = y.transpose(1,2).contiguous().view(B,T,C)
@@ -177,6 +180,8 @@ class Block(nn.Module):
     def __init__(self, config):
         print('im in block instructor')
         super().__init__()
+        self.normval = None
+        self.meanval = None
         self.c_attn = CasualSelfAttention(config)
         self.c_fc = MLP(config)
         self.ln_1 = nn.LayerNorm(config.n_embd)
@@ -186,6 +191,8 @@ class Block(nn.Module):
     def forward(self, x, layer_n=-1):
         #print('im here!!!', x)
         x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+        self.normval = torch.sqrt(1e-5 + torch.var(x, dim=-1, correction=0, keepdim=True).detach())
+        self.meanval = torch.mean(x, dim=-1).detach().unsqueeze(-1)
         return x + self.c_fc(self.ln_2(x))
     
 class GPT(nn.Module):
@@ -195,6 +202,8 @@ class GPT(nn.Module):
         self.config = config
         self.n_layers = config.n_layers
         self.alpha = 100.0
+        self.norms = None
+        self.means = None
         print('i initialized n-layers')
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size + 1, config.n_embd),
@@ -224,15 +233,25 @@ class GPT(nn.Module):
         B, T = idx.size()
         device = idx.device
         pos = self.transformer.wpe(torch.arange(T).to(device))
+        pos_sizes = (pos @ pos.t()).detach().numpy()
+        import matplotlib.pyplot as plt
+        print('pos_sizes matshow:')
+        mat = plt.matshow(pos_sizes[32:, 32:])
+        plt.colorbar(mat, label='intensity')
+        plt.show()
         #print(f'idx device: {idx.device} wte device: {self.transformer.wte.weight.device}')
-        
+        self.norms = torch.empty((self.config.n_layers, B, T, 1))
+        self.means = torch.empty((self.config.n_layers, B, T, 1))
         x = self.transformer.wte(idx) + pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0
         for block in self.transformer.h:
-            layer_n += 1
+            #print('avali is ', torch.var(x, dim=-1, correction=0, keepdim=True).detach().size())
+            self.norms[layer_n,:,:] = torch.sqrt(1e-5 + torch.var(x, dim=-1, correction=0, keepdim=True).detach())
+            self.means[layer_n,:,:] = torch.mean(x, dim=-1).detach().unsqueeze(-1)
             x = block(x, layer_n)
+            layer_n += 1
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)
@@ -266,7 +285,6 @@ class GPT(nn.Module):
         with torch.no_grad():
             pos = self.transformer.wpe(torch.arange(T).to(device))
             x = self.transformer.wte(idx) + pos
-            #x = self.transformer.wte(idx)
             self.layer_probes[:, 0, :] = self.lm_head(x[:, index, :])
             for depth, block in enumerate(self.transformer.h, start=1):
                 x = block(x)
@@ -277,25 +295,49 @@ class GPT(nn.Module):
         B, T = idx.size()
         device = idx.device
         
-        x = self.transformer.wte(idx)
-        device = idx.device
-        #x = self.transformer.wpe(torch.arange(T).to(device).view(1, T))
+        with torch.no_grad():
+            #pos = self.transformer.wpe(torch.arange(T).to(device))
+            #pos = self.transformer.wpe(torch.tensor([1]).repeat(T).to(device))
+            x = self.transformer.wte(idx)
+            #x = x + self.transformer.wpe(torch.arange(T).to(device).view(1, T))
+            pos_indices = torch.tensor([0])
+            pos_indices = torch.arange(T).to(device).view(1,T)
+            pos_indices[:,:63] = 1
+            #pos_indices = pos_indices.repeat(1, T).to(device)
+            pos = self.transformer.wpe(pos_indices)
+            #pos[:,self.config.block_size, :] = self.transformer.wpe(torch.tensor(self.config.block_size))
+            x = x + pos
+            
+            #x = self.transformer.w
 
-        print('T is ', T)
-        #x[:,self.config.block_size, :] += self.transformer.wpe(torch.tensor(self.config.block_size))
-        
-        #x += self.transformer.wpe(torch.arange(T).to(device))
-        #x = self.rope(self.transformer.wte(idx))
+            #x[:,self.config.block_size, :] += self.transformer.wpe(torch.tensor(self.config.block_size))
+            
+            #x += self.transformer.wpe(torch.arange(T).to(device))
+            #x = self.rope(self.transformer.wte(idx))
 
-        layer_n = 0
-        for block in self.transformer.h:
-            layer_n += 1
-            x = block(x, layer_n)
-        logits = self.lm_head(x)
-        
-        tensor1 = logits[:, self.config.block_size:T-1, :].contiguous().view(-1, logits.size(-1))
-        tensor2 = idx[:, self.config.block_size + 1:].contiguous().view(-1)
-        loss = F.cross_entropy(tensor1, tensor2)
+            ## first normalize the token embeddings with the correct norm including the positional embeddings
+            layer_n = 0
+            print('x size is ', x.size())
+            for _ in self.transformer.h:
+                x0 = x
+                x = x - self.means[layer_n, :, :]
+                x = x / self.norms[layer_n, :, :]
+                x = x * self.transformer.h[layer_n].ln_1.weight + self.transformer.h[layer_n].ln_1.bias
+                x = x0 + self.transformer.h[layer_n].c_attn(x, layer_n)
+                ## next we apply MLP
+                x1 = x
+                x = x - self.transformer.h[layer_n].meanval
+                x = x / self.transformer.h[layer_n].normval
+                x = x * self.transformer.h[layer_n].ln_2.weight + self.transformer.h[layer_n].ln_2.bias
+                x = x1 + self.transformer.h[layer_n].c_fc(x)
+                #x = block(x, layer_n)
+                layer_n += 1
+
+            logits = self.lm_head(x)
+            
+            tensor1 = logits[:, self.config.block_size:T-1, :].contiguous().view(-1, logits.size(-1))
+            tensor2 = idx[:, self.config.block_size + 1:].contiguous().view(-1)
+            loss = F.cross_entropy(tensor1, tensor2)
         return logits, loss
 
 

@@ -1,7 +1,7 @@
 import torch
-block_size = 8
+block_size = 64
 batch_size = 4096
-vocab_size = 128
+vocab_size = 1024
 import torch
 import numpy as np
 import os
@@ -12,14 +12,14 @@ def get_batch():
    def cat_sorted_tensor(x):
       vals, _ = torch.sort(x)
       #print('vals are ', vals)
-      return torch.cat((x, vals), dim=0)
+      return torch.cat((x, torch.tensor([vocab_size]), vals), dim=0)
    x = torch.stack([cat_sorted_tensor(torch.randperm(vocab_size)[:block_size]) for _ in range(batch_size)])
    return x
 
 import math
 warmup_iters = 100
 max_iters = 20000
-max_iter = 40001
+max_iter = 60001
 learning_rate = 1e-4
 min_lr = 1e-6
 decay_lr = True
@@ -89,9 +89,15 @@ for itr in range(max_iter):
    mymodel.eval()
    x = get_batch()
    x = x.to(device)
-   _, test_loss = mymodel(x)
+   if itr % 100 == 0:
+      logits, test_loss = mymodel(x, flag=False)
+   else:
+      logits, test_loss = mymodel(x)
    mymodel.train()
-   if itr % 1000 == 0:
+   if itr % 100 == 0:
+      print(f'x: {x[0]}')
+      vals, indices = torch.topk(logits[0, 8:], 3, -1)
+      #print(f'indices: {indices}')
       print(f'itr: {itr} train loss: {loss.item()} test loss: {test_loss.item()}')
    if itr % 20000 == 0:
       checkpoint = {
@@ -99,4 +105,4 @@ for itr in range(max_iter):
          'optimizer': optimizer.state_dict()
       }
       import os
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/tbyt_itr:{itr}_checkpoint.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/tbyt_bl64_v1024_embd64_1head_{mymodel.config.n_layers}_itr:{itr}_checkpoint.pt'))

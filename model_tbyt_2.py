@@ -302,7 +302,7 @@ class GPT(nn.Module):
             #x = x + self.transformer.wpe(torch.arange(T).to(device).view(1, T))
             pos_indices = torch.tensor([0])
             pos_indices = torch.arange(T).to(device).view(1,T)
-            pos_indices[:,:63] = 1
+            pos_indices[:,:32] = 1
             #pos_indices = pos_indices.repeat(1, T).to(device)
             pos = self.transformer.wpe(pos_indices)
             #pos[:,self.config.block_size, :] = self.transformer.wpe(torch.tensor(self.config.block_size))

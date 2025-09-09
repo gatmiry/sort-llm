@@ -1,7 +1,7 @@
 import torch
-block_size = 64
+block_size = 32
 batch_size = 4096
-vocab_size = 1024
+vocab_size = 128 #1024
 import torch
 import numpy as np
 import os
@@ -56,7 +56,7 @@ def create_optimizer(model, weight_decay, learning_rate, device):
 
 
 
-from model_tbyt import GPT, GPTConfig
+from model_tbyt_2 import GPT, GPTConfig
 print('im here!')
 mymodel = GPT(GPTConfig(block_size=block_size, vocab_size=vocab_size))
 device = 'cpu'

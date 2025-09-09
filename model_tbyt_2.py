@@ -145,58 +145,112 @@ class CasualSelfAttention(nn.Module):
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
         self.register_buffer('bias', torch.tril(torch.ones(config.block_size*2 + 1, config.block_size*2 + 1)).view(1,1,config.block_size*2 + 1, config.block_size*2 + 1))
+        print('bias diag is ', self.bias[0,0,0,:])
         self.c_proj.NANOGPT_SCALE_INIT = True
         self.config = config
 
-    def forward(self, x, layer_n=-1):
+    def forward(self, x, layer_n=-1, return_attention=False, word_embeddings=None):
         print('x shape is ', x.shape)
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
-        qkv = self.c_attn(x)  
+        qkv = self.c_attn(x)
+        print('thissss is ', word_embeddings)
+        if word_embeddings is not None:
+            _, _, word_v = self.c_attn(word_embeddings).split(self.n_embd, dim=2)  
         #print(f'C: {C} self.n_embd: {self.n_embd}')
         q, k, v = qkv.split(self.n_embd, dim=2)
         q = q.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
-        print('attn dim is ', attn.shape)
-        print('bias is ', self.bias.shape)
+        #print('attn dim is ', attn.shape)
+        #print('bias is ', self.bias.shape)
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
+        #print('attn[:,:,33,:] is ', attn[:,:,33,:])
         if layer_n != -1:
-            print(f'attn scores of layer {layer_n} is {attn}')
+            #print(f'attn scores of layer {layer_n} is {attn}')
             import matplotlib.pyplot as plt
             print('im here!!! ', attn.size())
-            mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
-            plt.colorbar(mat, label='intensity')
-            plt.show()
-            #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)[48:, :32].detach().numpy())
-        y = attn @ v
+            #mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
+            #plt.colorbar(mat, label='intensity')
+            #plt.show()
+            
+        y = attn @ v 
         y = y.transpose(1,2).contiguous().view(B,T,C)
+        if word_embeddings is not None:
+            print('im doing the additional work!!')
+            y = y - attn.view(B, T, T) @ word_v + word_v
         y = self.c_proj(y)
-        return y
+        if return_attention:
+            return attn
+        else:
+            return y
 
 class Block(nn.Module):
-    def __init__(self, config):
+    def __init__(self, config, position=-1):
         print('im in block instructor')
         super().__init__()
+        self.position = position
         self.normval = None
         self.meanval = None
         self.c_attn = CasualSelfAttention(config)
         self.c_fc = MLP(config)
         self.ln_1 = nn.LayerNorm(config.n_embd)
         self.ln_2 = nn.LayerNorm(config.n_embd)
+        self.config = config
         print('i initialized everying in block')
 
-    def forward(self, x, layer_n=-1):
-        #print('im here!!!', x)
-        x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+    def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None):
+        print('im here!!!', x)
+        B, T, C = x.size()
+        import matplotlib.pyplot as plt
+        first_in_batch = []
+        #for position in range(65):
+        
+        
+        #first_in_batch.append(2000 * Vh[0,0].item())
+        
+        #print(f'singular values of layer {layer_n} are ')
+        #print('S dims are ', S.shape)
+        #plt.figure(1)
+        #plt.plot(S.detach().numpy())
+        #plt.show()
+        #print(f'first singular direction of layer {layer_n} is ', )
+        #plt.plot(200* U[:,0].detach().numpy())
+        #plt.figure(2)
+        #plt.plot(first_in_batch)
+        #plt.show()
+        U, S, Vh = torch.linalg.svd(self.c_attn(self.ln_1(x))[:,self.position,:])
+        print('S is ')
+        plt.plot(S.detach().numpy())
+        plt.show()
+        print('norm without residual ', torch.norm(self.c_attn(self.ln_1(x))))
+        print('residual part norm ', torch.norm(x))
+        if layer_n == 1 or midvec == None or midvec2 == None or pos_embeddings == None or word_embeddings == None:
+            #print('word embeddings are ', word_embeddings)
+            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+        else:
+            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n, word_embeddings=word_embeddings)
+            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+        #    qweights, kweights, vweights = self.c_attn.c_attn.weight.split(self.config.n_embd, dim=0)
+        #    attn = self.c_attn(self.ln_1(x), layer_n=layer_n, return_attention=True)
+        #    print('shape is ', (attn @ self.ln_1(x)).transpose(1,2).shape)
+            #print('critical point is ', (attn @ self.ln_1(pos_embeddings[:65, :]).repeat(B, 1, 1, 1)).shape)
+        #    x = x + self.c_attn.c_proj((self.ln_1(x)/2 + (attn @ self.ln_1(pos_embeddings[:65, :]).repeat(B, 1, 1, 1)).transpose(1,2).view(B, T, C)/2) @ vweights.t())#self.c_attn.c_proj((self.ln_1(x) + 0.2* self.ln_1(midvec + midvec2)) @ vweights.t())#self.c_attn(self.ln_1(x), layer_n=layer_n)
+
+        
+        self.Vh = Vh
         self.normval = torch.sqrt(1e-5 + torch.var(x, dim=-1, correction=0, keepdim=True).detach())
         self.meanval = torch.mean(x, dim=-1).detach().unsqueeze(-1)
+        #if layer_n == 0:
+        #    return x    
+        #else:
         return x + self.c_fc(self.ln_2(x))
+        
     
 class GPT(nn.Module):
-    def __init__(self, config):
+    def __init__(self, config, position=-1):
         super().__init__()
         print('Im in GPT instructor')
         self.config = config
@@ -204,11 +258,12 @@ class GPT(nn.Module):
         self.alpha = 100.0
         self.norms = None
         self.means = None
+        self.position = position
         print('i initialized n-layers')
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size + 1, config.n_embd),
             wpe = nn.Embedding(config.block_size * 4 + 1, config.n_embd),
-            h = nn.ModuleList([Block(config) for _ in range(config.n_layers)]),
+            h = nn.ModuleList([Block(config, self.position) for _ in range(config.n_layers)]),
             ln_f = nn.LayerNorm(config.n_embd)
         ))
         #self.rope = RotaryPositionalEmbeddings(config.n_embd // config.n_heads, config.block_size * 4 + 1)
@@ -218,6 +273,11 @@ class GPT(nn.Module):
         print('I have initialized all the variables in GPT instructor')
         self.apply(self._init_weights)
         
+
+    def set_position(self, position):
+        self.position = position
+        for block in self.transformer.h:
+            block.position = position    
     def _init_weights(self, module):
         std = 0.02
         if isinstance(module, nn.Linear):
@@ -229,29 +289,40 @@ class GPT(nn.Module):
         if isinstance(module, nn.Embedding):
             torch.nn.init.normal_(module.weight, mean=0, std=std)
 
+
+    
     def forward(self, idx, targets=None, flag=False):
+        #import matplotlib.pyplot as plt
+        #print('numbers are ')
+        #plt.plot(idx[:,34])
         B, T = idx.size()
         device = idx.device
         pos = self.transformer.wpe(torch.arange(T).to(device))
         pos_sizes = (pos @ pos.t()).detach().numpy()
         import matplotlib.pyplot as plt
-        print('pos_sizes matshow:')
-        mat = plt.matshow(pos_sizes[32:, 32:])
-        plt.colorbar(mat, label='intensity')
-        plt.show()
-        #print(f'idx device: {idx.device} wte device: {self.transformer.wte.weight.device}')
+        #print('pos_sizes matshow:')
+        #mat = plt.matshow(pos_sizes[32:, 32:])
+        #plt.colorbar(mat, label='intensity')
+        #plt.show()
+        
         self.norms = torch.empty((self.config.n_layers, B, T, 1))
         self.means = torch.empty((self.config.n_layers, B, T, 1))
-        x = self.transformer.wte(idx) + pos
+        if self.config.without_pos:
+            x = self.transformer.wte(idx)
+        else:
+            x = self.transformer.wte(idx) + pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0
+        self.Vhs = []
         for block in self.transformer.h:
             #print('avali is ', torch.var(x, dim=-1, correction=0, keepdim=True).detach().size())
             self.norms[layer_n,:,:] = torch.sqrt(1e-5 + torch.var(x, dim=-1, correction=0, keepdim=True).detach())
             self.means[layer_n,:,:] = torch.mean(x, dim=-1).detach().unsqueeze(-1)
-            x = block(x, layer_n)
+            x = block(x, layer_n, self.transformer.wpe.weight[32,:], self.transformer.wte.weight[128,:], self.transformer.wpe.weight, self.transformer.wte(idx))
             layer_n += 1
+            ###
+            self.Vhs.append(block.Vh)
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)
@@ -302,7 +373,7 @@ class GPT(nn.Module):
             #x = x + self.transformer.wpe(torch.arange(T).to(device).view(1, T))
             pos_indices = torch.tensor([0])
             pos_indices = torch.arange(T).to(device).view(1,T)
-            pos_indices[:,:32] = 1
+            pos_indices[:,33:64] = 64
             #pos_indices = pos_indices.repeat(1, T).to(device)
             pos = self.transformer.wpe(pos_indices)
             #pos[:,self.config.block_size, :] = self.transformer.wpe(torch.tensor(self.config.block_size))
@@ -347,6 +418,7 @@ class GPTConfig():
     n_layers = 2
     n_heads = 1
     n_embd = 64
+    without_pos = False
 
     def __init__(self, block_size=None, vocab_size=None):
         if block_size:

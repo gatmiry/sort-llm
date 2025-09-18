@@ -158,7 +158,7 @@ class CasualSelfAttention(nn.Module):
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
         qkv = self.c_attn(x)
-        print('thissss is ', word_embeddings)
+        #print('thissss is ', word_embeddings)
         if word_embeddings is not None:
             _, _, word_v = self.c_attn(word_embeddings).split(self.n_embd, dim=2)  
         #print(f'C: {C} self.n_embd: {self.n_embd}')
@@ -183,12 +183,13 @@ class CasualSelfAttention(nn.Module):
         print('attn location 17 is ', attn[0,0,35,17])
         if layer_n == 0:
             attn[0,0,35,5] = attn[0,0,35,5] - 5.0
-            attn[0,0,35,4] = attn[0,0,35,4] + 7.0
-            attn[0,0,35,3] = attn[0,0,35,3] + 16.0
+            attn[0,0,35,4] = attn[0,0,35,4] + 20.0
+            #attn[0,0,35,3] = attn[0,0,35,3] + 16.0
+            attn[0,0,35,9] = attn[0,0,35,9] + 16.0
             attn[0,0,35,22] = attn[0,0,35,22] - 20.0
             attn[0,0,35,27] = attn[0,0,35,27] - 6.0
             attn[0,0,35,17] = attn[0,0,35,17] - 6.0
-            attn[0,0,35,35] = attn[0,0,35,35] + 8.2#new sweet spot is 3.8 #+ 1.5 #this is the sweet spot # seems like it ranges monotonically between 16 and 107 as you vary this score
+            attn[0,0,35,35] = attn[0,0,35,35] + 14.7#8.2#new sweet spot is 3.8 #+ 1.5 #this is the sweet spot # seems like it ranges monotonically between 16 and 107 as you vary this score
             print('entry 22 is ', idx[0,22])
             print('entry 9 is ', idx[0,9])
         attn = F.softmax(attn, dim=-1)
@@ -231,7 +232,7 @@ class Block(nn.Module):
         #print('i initialized everying in block')
 
     def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None, idx=None):
-        print('im here!!!', x)
+        #print('im here!!!', x)
         B, T, C = x.size()
         import matplotlib.pyplot as plt
         first_in_batch = []

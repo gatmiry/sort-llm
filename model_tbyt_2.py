@@ -134,7 +134,11 @@ class MLP(nn.Module):
         self.gelu = nn.GELU(approximate='tanh')
         self.fc_2 = nn.Linear(config.n_embd * 3, config.n_embd)
         self.NANO_SCALE_GPT = True
-    def forward(self, x):
+    def forward(self, x, layer_n=-1):
+        #if layer_n == 0:
+        #    return self.fc_2(self.fc_1(x))
+        #else:
+        #    return self.fc_2(self.gelu(self.fc_1(x)))
         return self.fc_2(self.gelu(self.fc_1(x)))
 
 class CasualSelfAttention(nn.Module):
@@ -149,7 +153,7 @@ class CasualSelfAttention(nn.Module):
         self.c_proj.NANOGPT_SCALE_INIT = True
         self.config = config
 
-    def forward(self, x, layer_n=-1, return_attention=False, word_embeddings=None):
+    def forward(self, x, layer_n=-1, return_attention=False, word_embeddings=None, idx=None):
         print('x shape is ', x.shape)
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
@@ -165,22 +169,46 @@ class CasualSelfAttention(nn.Module):
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
         #print('attn dim is ', attn.shape)
         #print('bias is ', self.bias.shape)
+        print('attn dim is ', attn.shape)
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
+
+        ## cutting off the tail of the scores
+        if idx is not None:
+            cond = idx.unsqueeze(1) <= idx.unsqueeze(0)
+            #attn = torch.where(cond, attn, 0.0) 
+
+
+        ## manually change the attention in positions 9, 22, 27 --> position 17 has the right number which is 20
+        print('attn location 9 is ', attn[0,0,35,9])
+        print('attn location 17 is ', attn[0,0,35,17])
+        if layer_n == 0:
+            attn[0,0,35,5] = attn[0,0,35,5] - 5.0
+            attn[0,0,35,4] = attn[0,0,35,4] + 7.0
+            attn[0,0,35,3] = attn[0,0,35,3] + 16.0
+            attn[0,0,35,22] = attn[0,0,35,22] - 20.0
+            attn[0,0,35,27] = attn[0,0,35,27] - 6.0
+            attn[0,0,35,17] = attn[0,0,35,17] - 6.0
+            attn[0,0,35,35] = attn[0,0,35,35] + 8.2#new sweet spot is 3.8 #+ 1.5 #this is the sweet spot # seems like it ranges monotonically between 16 and 107 as you vary this score
+            print('entry 22 is ', idx[0,22])
+            print('entry 9 is ', idx[0,9])
         attn = F.softmax(attn, dim=-1)
+        if layer_n == 0:
+            self.attn = attn
         #print('attn[:,:,33,:] is ', attn[:,:,33,:])
         if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
             import matplotlib.pyplot as plt
-            print('im here!!! ', attn.size())
+            #print('im here!!! ', attn.size())
+            print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
             #mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
             #plt.colorbar(mat, label='intensity')
             #plt.show()
             
         y = attn @ v 
         y = y.transpose(1,2).contiguous().view(B,T,C)
-        if word_embeddings is not None:
-            print('im doing the additional work!!')
-            y = y - attn.view(B, T, T) @ word_v + word_v
+        #if word_embeddings is not None:
+        #    print('im doing the additional work!!')
+        #    y = y - attn.view(B, T, T) @ word_v + word_v
         y = self.c_proj(y)
         if return_attention:
             return attn
@@ -188,8 +216,8 @@ class CasualSelfAttention(nn.Module):
             return y
 
 class Block(nn.Module):
-    def __init__(self, config, position=-1):
-        print('im in block instructor')
+    def __init__(self, config, position=-1, use_attention=True):
+        #print('im in block instructor')
         super().__init__()
         self.position = position
         self.normval = None
@@ -199,9 +227,10 @@ class Block(nn.Module):
         self.ln_1 = nn.LayerNorm(config.n_embd)
         self.ln_2 = nn.LayerNorm(config.n_embd)
         self.config = config
-        print('i initialized everying in block')
+        self.use_attention = use_attention
+        #print('i initialized everying in block')
 
-    def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None):
+    def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None, idx=None):
         print('im here!!!', x)
         B, T, C = x.size()
         import matplotlib.pyplot as plt
@@ -222,17 +251,23 @@ class Block(nn.Module):
         #plt.plot(first_in_batch)
         #plt.show()
         U, S, Vh = torch.linalg.svd(self.c_attn(self.ln_1(x))[:,self.position,:])
-        print('S is ')
-        plt.plot(S.detach().numpy())
-        plt.show()
-        print('norm without residual ', torch.norm(self.c_attn(self.ln_1(x))))
-        print('residual part norm ', torch.norm(x))
-        if layer_n == 1 or midvec == None or midvec2 == None or pos_embeddings == None or word_embeddings == None:
+        #print('S is ')
+        #plt.plot(S.detach().to('cpu').numpy())
+        #plt.show()
+        #print('norm without residual ', torch.norm(self.c_attn(self.ln_1(x))))
+        #print('residual part norm ', torch.norm(x))
+        #print('idxxxx is ', idx)
+        if midvec == None or midvec2 == None or pos_embeddings == None or word_embeddings == None:
             #print('word embeddings are ', word_embeddings)
+            print('don have to be here!')
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            #x = x
         else:
-            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n, word_embeddings=word_embeddings)
-            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n, word_embeddings=word_embeddings, idx=idx)
+            #if layer_n == 1:
+            #    x = x
+            #else:
+            #    x = x + self.c_attn(self.ln_1(x), layer_n=layer_n, word_embeddings=word_embeddings, idx=idx)
         #    qweights, kweights, vweights = self.c_attn.c_attn.weight.split(self.config.n_embd, dim=0)
         #    attn = self.c_attn(self.ln_1(x), layer_n=layer_n, return_attention=True)
         #    print('shape is ', (attn @ self.ln_1(x)).transpose(1,2).shape)
@@ -246,7 +281,11 @@ class Block(nn.Module):
         #if layer_n == 0:
         #    return x    
         #else:
-        return x + self.c_fc(self.ln_2(x))
+        return x + self.c_fc(self.ln_2(x), layer_n = layer_n)
+        #if layer_n == 0:
+        #    return x + self.c_fc(self.ln_2(x))
+        #if layer_n == 1:
+        #    return x 
         
     
 class GPT(nn.Module):
@@ -298,7 +337,7 @@ class GPT(nn.Module):
         B, T = idx.size()
         device = idx.device
         pos = self.transformer.wpe(torch.arange(T).to(device))
-        pos_sizes = (pos @ pos.t()).detach().numpy()
+        pos_sizes = (pos @ pos.t()).detach().to('cpu').numpy()
         import matplotlib.pyplot as plt
         #print('pos_sizes matshow:')
         #mat = plt.matshow(pos_sizes[32:, 32:])
@@ -319,7 +358,7 @@ class GPT(nn.Module):
             #print('avali is ', torch.var(x, dim=-1, correction=0, keepdim=True).detach().size())
             self.norms[layer_n,:,:] = torch.sqrt(1e-5 + torch.var(x, dim=-1, correction=0, keepdim=True).detach())
             self.means[layer_n,:,:] = torch.mean(x, dim=-1).detach().unsqueeze(-1)
-            x = block(x, layer_n, self.transformer.wpe.weight[32,:], self.transformer.wte.weight[128,:], self.transformer.wpe.weight, self.transformer.wte(idx))
+            x = block(x, layer_n, self.transformer.wpe.weight[32,:], self.transformer.wte.weight[128,:], self.transformer.wpe.weight, self.transformer.wte(idx), idx)
             layer_n += 1
             ###
             self.Vhs.append(block.Vh)

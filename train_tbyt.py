@@ -1,7 +1,7 @@
 import torch
 block_size = 32
 batch_size = 4096
-vocab_size = 128 #1024
+vocab_size = 1024 #1024
 import torch
 import numpy as np
 import os
@@ -58,7 +58,8 @@ def create_optimizer(model, weight_decay, learning_rate, device):
 
 from model_tbyt_2 import GPT, GPTConfig
 print('im here!')
-mymodel = GPT(GPTConfig(block_size=block_size, vocab_size=vocab_size))
+myconfig = GPTConfig(block_size=block_size, vocab_size=vocab_size)
+mymodel = GPT(myconfig)
 device = 'cpu'
 if torch.cuda.is_available():
    device = 'cuda'
@@ -105,4 +106,4 @@ for itr in range(max_iter):
          'optimizer': optimizer.state_dict()
       }
       import os
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/tbyt_bl64_v1024_embd64_1head_{mymodel.config.n_layers}_itr:{itr}_checkpoint.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/sep9_tbyt_n_embd:{myconfig.n_embd}_1head_n_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))

@@ -106,4 +106,4 @@ for itr in range(max_iter):
          'optimizer': optimizer.state_dict()
       }
       import os
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/sep9_tbyt_n_embd:{myconfig.n_embd}_1head_n_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec27_tbyt_n_embd:{myconfig.n_embd}_1head_n_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))

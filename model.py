@@ -30,7 +30,7 @@ class CasualSelfAttention(nn.Module):
         q = q.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
-        attn = q @ k.transpose(-1,-2) / (k.size(-1)) ** -0.5
+        attn = q @ k.transpose(-1,-2) / (k.size(-1)) ** 0.5
         #attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
         y = attn @ v

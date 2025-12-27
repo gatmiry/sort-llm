@@ -159,14 +159,14 @@ class CasualSelfAttention(nn.Module):
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
-        print('attn dim is ', attn.shape)
-        print('bias is ', self.bias.shape)
+        #print('attn dim is ', attn.shape)
+        #print('bias is ', self.bias.shape)
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
-        if layer_n != -1:
-            print(f'attn scores of layer {layer_n} is {attn}')
-            import matplotlib.pyplot as plt
-            plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1).detach().numpy())
+        #if layer_n != -1:
+            #print(f'attn scores of layer {layer_n} is {attn}')
+            #import matplotlib.pyplot as plt
+            #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1).detach().numpy())
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)[48:, :32].detach().numpy())
         y = attn @ v
         y = y.transpose(1,2).contiguous().view(B,T,C)
@@ -191,11 +191,11 @@ class Block(nn.Module):
 class GPT(nn.Module):
     def __init__(self, config):
         super().__init__()
-        print('Im in GPT instructor')
+        #print('Im in GPT instructor')
         self.config = config
         self.n_layers = config.n_layers
         self.alpha = 100.0
-        print('i initialized n-layers')
+        #print('i initialized n-layers')
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size + 1, config.n_embd),
             wpe = nn.Embedding(config.block_size * 4 + 1, config.n_embd),
@@ -203,10 +203,10 @@ class GPT(nn.Module):
             ln_f = nn.LayerNorm(config.n_embd)
         ))
         #self.rope = RotaryPositionalEmbeddings(config.n_embd // config.n_heads, config.block_size * 4 + 1)
-        print('i initialized transformer')
+        #print('i initialized transformer')
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         self.lm_head.weight = self.transformer.wte.weight
-        print('I have initialized all the variables in GPT instructor')
+        #print('I have initialized all the variables in GPT instructor')
         self.apply(self._init_weights)
         
     def _init_weights(self, module):
@@ -226,7 +226,7 @@ class GPT(nn.Module):
         pos = self.transformer.wpe(torch.arange(T).to(device))
         #print(f'idx device: {idx.device} wte device: {self.transformer.wte.weight.device}')
         
-        x = self.transformer.wte(idx) + pos
+        x = self.transformer.wte(idx) #+ pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0

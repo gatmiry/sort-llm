@@ -179,8 +179,8 @@ class CasualSelfAttention(nn.Module):
 
 
         ## manually change the attention in positions 9, 22, 27 --> position 17 has the right number which is 20
-        print('attn location 9 is ', attn[0,0,35,9])
-        print('attn location 17 is ', attn[0,0,35,17])
+        #print('attn location 9 is ', attn[0,0,35,9])
+        #print('attn location 17 is ', attn[0,0,35,17])
         if layer_n == 0:
             attn[0,0,35,5] = attn[0,0,35,5] - 5.0
             attn[0,0,35,4] = attn[0,0,35,4] + 20.0
@@ -190,8 +190,8 @@ class CasualSelfAttention(nn.Module):
             attn[0,0,35,27] = attn[0,0,35,27] - 6.0
             attn[0,0,35,17] = attn[0,0,35,17] - 6.0
             attn[0,0,35,35] = attn[0,0,35,35] + 14.7#8.2#new sweet spot is 3.8 #+ 1.5 #this is the sweet spot # seems like it ranges monotonically between 16 and 107 as you vary this score
-            print('entry 22 is ', idx[0,22])
-            print('entry 9 is ', idx[0,9])
+            #print('entry 22 is ', idx[0,22])
+            #print('entry 9 is ', idx[0,9])
         attn = F.softmax(attn, dim=-1)
         if layer_n == 0:
             self.attn = attn
@@ -200,7 +200,7 @@ class CasualSelfAttention(nn.Module):
             #print(f'attn scores of layer {layer_n} is {attn}')
             import matplotlib.pyplot as plt
             #print('im here!!! ', attn.size())
-            print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
+            #print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
             #mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
             #plt.colorbar(mat, label='intensity')
             #plt.show()

@@ -149,7 +149,7 @@ class CasualSelfAttention(nn.Module):
         self.config = config
 
     def forward(self, x, layer_n=-1):
-        print('x shape is ', x.shape)
+        #print('x shape is ', x.shape)
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
         qkv = self.c_attn(x)
@@ -175,13 +175,13 @@ class CasualSelfAttention(nn.Module):
 
 class Block(nn.Module):
     def __init__(self, config):
-        print('im in block instructor')
+        #print('im in block instructor')
         super().__init__()
         self.c_attn = CasualSelfAttention(config)
         self.c_fc = MLP(config)
         self.ln_1 = nn.LayerNorm(config.n_embd)
         self.ln_2 = nn.LayerNorm(config.n_embd)
-        print('i initialized everying in block')
+        #print('i initialized everying in block')
 
     def forward(self, x, layer_n=-1):
         #print('im here!!!', x)

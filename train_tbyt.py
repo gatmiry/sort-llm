@@ -1,7 +1,7 @@
 import torch
 block_size = 32
 batch_size = 4096
-vocab_size = 1024 #1024
+vocab_size = 128 #1024
 import torch
 import numpy as np
 import os
@@ -56,7 +56,7 @@ def create_optimizer(model, weight_decay, learning_rate, device):
 
 
 
-from model_tbyt_2 import GPT, GPTConfig
+from model_tbyt import GPT, GPTConfig
 print('im here!')
 myconfig = GPTConfig(block_size=block_size, vocab_size=vocab_size)
 mymodel = GPT(myconfig)
@@ -69,7 +69,8 @@ print(f'using device: {device}')
 mymodel.to(device)
 
 optimizer = create_optimizer(mymodel, weight_decay=0.1, learning_rate=6e-4, device=device)
-
+import wandb
+wandb.init(project='sort-llm', name='tbyt')
 for itr in range(max_iter):
    #print(f'itr: {itr}')
    optimizer.zero_grad()
@@ -106,4 +107,4 @@ for itr in range(max_iter):
          'optimizer': optimizer.state_dict()
       }
       import os
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec27_tbyt_n_embd:{myconfig.n_embd}_1head_n_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec27_tbyt_n_embd:{myconfig.n_embd}_1head_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))

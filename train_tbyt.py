@@ -19,7 +19,7 @@ def get_batch():
 import math
 warmup_iters = 100
 max_iters = 20000
-max_iter = 60001
+max_iter = 80000
 learning_rate = 1e-4
 min_lr = 1e-6
 decay_lr = True
@@ -70,7 +70,8 @@ mymodel.to(device)
 
 optimizer = create_optimizer(mymodel, weight_decay=0.1, learning_rate=6e-4, device=device)
 import wandb
-wandb.init(project='sort-llm', name='tbyt')
+import time
+wandb.init(project='sort-llm', name=f'with-pos-embedding-2head-max-iter-80000-time-{time.time()}')
 for itr in range(max_iter):
    #print(f'itr: {itr}')
    optimizer.zero_grad()
@@ -101,10 +102,16 @@ for itr in range(max_iter):
       vals, indices = torch.topk(logits[0, 8:], 3, -1)
       #print(f'indices: {indices}')
       print(f'itr: {itr} train loss: {loss.item()} test loss: {test_loss.item()}')
+      wandb.log({
+         'train_loss': loss.item(),
+         'test_loss': test_loss.item(),
+         'x': x[0]
+      })
    if itr % 20000 == 0:
       checkpoint = {
          'model': mymodel.state_dict(),
          'optimizer': optimizer.state_dict()
       }
       import os
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec27_tbyt_n_embd:{myconfig.n_embd}_1head_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'))
+      import time
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec28_tbyt_with-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))

@@ -31,6 +31,8 @@ def get_statistics(thresholds, threshold_index):
     clogit_icscore_perlocation = np.array([0.0 for i in range(block_size)])
     iclogit_cscore_perlocation = np.array([0.0 for i in range(block_size)])
     iclogit_icscore_perlocation = np.array([0.0 for i in range(block_size)])
+    count_perlocation = np.array([0.0 for i in range(block_size)])
+    count_perthreshold = []
     clogit_cscore_perthreshold = []
     clogit_icscore_perthreshold = []
     iclogit_cscore_perthreshold = []
@@ -57,6 +59,7 @@ def get_statistics(thresholds, threshold_index):
         
         candidates = [[] for j in range(block_size, 2*block_size + 1)]
         is_largest_score_correct = [None for j in range(block_size, 2*block_size + 1)]
+        tmp_count_perlocation = np.array([0.0 for i in range(block_size)])
         for j in range(block_size, 2*block_size):
             max_score = float('-inf')
             max_score_num = -1
@@ -67,6 +70,7 @@ def get_statistics(thresholds, threshold_index):
             for k in range(0, 2*block_size + 1):
                 score = model.transformer.h[0].c_attn.attn[j,k].item()
                 if score >= threshold:
+                    tmp_count_perlocation[j-block_size] += 1
                     dist = abs(idx[0,k] - idx[0,j + 1]).item()
                     if dist > max_dist:
                         max_dist = dist
@@ -86,6 +90,7 @@ def get_statistics(thresholds, threshold_index):
             is_largest_score_correct[j-block_size] = (max_score_num == idx[0,j + 1].item())    
 
             if t == threshold_index:
+                count_perlocation[j-block_size] = tmp_count_perlocation[j-block_size]
                 average_dist_perlocation[j-block_size] = average_temp_dist
                 max_dist_perlocation[j-block_size] = average_max_dist
 
@@ -111,6 +116,8 @@ def get_statistics(thresholds, threshold_index):
             if is_largest_score_correct[j-block_size] == False:
                 print(f'scores for position {j} are {[(num, model.transformer.h[0].c_attn.attn[j,k].item()) for k, num in candidates[j-block_size]]}\n\n\n')
 
+        count_perthreshold.append(np.mean(tmp_count_perlocation))
+
         average_max_dist /= block_size
         average_dist /= block_size
         max_dist_perthreshold.append(average_max_dist)
@@ -120,24 +127,27 @@ def get_statistics(thresholds, threshold_index):
         clogit_icscore_perthreshold.append(clogit_icscore / block_size)
         iclogit_cscore_perthreshold.append(iclogit_cscore / block_size)
         iclogit_icscore_perthreshold.append(iclogit_icscore / block_size)
+    count_perthreshold = np.array(count_perthreshold)
     clogit_cscore_perthreshold = np.array(clogit_cscore_perthreshold)
     clogit_icscore_perthreshold = np.array(clogit_icscore_perthreshold)
     iclogit_cscore_perthreshold = np.array(iclogit_cscore_perthreshold)
     iclogit_icscore_perthreshold = np.array(iclogit_icscore_perthreshold)
     average_dist_perthreshold = np.array(average_dist_perthreshold)
     max_dist_perthreshold = np.array(max_dist_perthreshold)
-    return (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
+    return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
-thresholds = [0.05, 0.1]
+thresholds = [0.01, 0.05, 0.1, 0.15, 0.2]
 threshold_index = 0
 num_tries = 10
 ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))
 ave_iclogit_cscore_perthreshold = np.zeros(len(thresholds))
 ave_clogit_icscore_perthreshold = np.zeros(len(thresholds))
 ave_iclogit_icscore_perthreshold = np.zeros(len(thresholds))
+ave_count_perthreshold = np.zeros(len(thresholds))
+ave_count_perlocation = np.zeros(block_size)
 for counter in range(num_tries):
-    lsperlocation, lsperthreshold, am_perlocation, am_perthreshold = get_statistics(thresholds, threshold_index)
+    count_perlocation, count_perthreshold, lsperlocation, lsperthreshold, am_perlocation, am_perthreshold = get_statistics(thresholds, threshold_index)
     clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold = lsperthreshold
     average_dist_perthreshold, max_dist_perthreshold = am_perthreshold
     clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation = lsperlocation
@@ -148,11 +158,15 @@ for counter in range(num_tries):
     ave_iclogit_cscore_perthreshold += iclogit_cscore_perthreshold
     ave_clogit_icscore_perthreshold += clogit_icscore_perthreshold
     ave_iclogit_icscore_perthreshold += iclogit_icscore_perthreshold
+    ave_count_perthreshold += count_perthreshold
+    ave_count_perlocation += count_perlocation
 
 ave_clogit_cscore_perthreshold /= num_tries
 ave_iclogit_cscore_perthreshold /= num_tries
 ave_clogit_icscore_perthreshold /= num_tries
 ave_iclogit_icscore_perthreshold /= num_tries
+ave_count_perthreshold /= num_tries
+ave_count_perlocation /= num_tries
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
@@ -163,17 +177,51 @@ print(f'ave_iclogit_icscore_perthreshold is {ave_iclogit_icscore_perthreshold}')
 x_pos = np.arange(len(thresholds))
 width = 0.6
 
-# Create stacked bar chart
+# First plot: CLogit CScore and ICLogit CScore
+plt.figure(figsize=(8, 6))
 plt.bar(x_pos, ave_clogit_cscore_perthreshold, width, label='CLogit CScore', color='#1f77b4')
 plt.bar(x_pos, ave_iclogit_cscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold, label='ICLogit CScore', color='#ff7f0e')
-plt.bar(x_pos, ave_clogit_icscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold + ave_iclogit_cscore_perthreshold, label='CLogit ICScore', color='#2ca02c')
-plt.bar(x_pos, ave_iclogit_icscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold + ave_iclogit_cscore_perthreshold + ave_clogit_icscore_perthreshold, label='ICLogit ICScore', color='#d62728')
-
 plt.xlabel('Threshold')
 plt.ylabel('Average Score per Threshold')
-plt.title('Average Score per Threshold (Stacked)')
+plt.title('CScore per Threshold (Stacked)')
 plt.xticks(x_pos, thresholds)
 plt.legend()
-plt.savefig('plots/clogit_cscore_perthreshold.png', dpi=150, bbox_inches='tight')
-print('Plot saved to clogit_cscore_perthreshold.png')
+plt.savefig('plots/cscore_perthreshold.png', dpi=150, bbox_inches='tight')
+print('Plot saved to plots/cscore_perthreshold.png')
+plt.close()
+
+# Second plot: CLogit ICScore and ICLogit ICScore
+plt.figure(figsize=(8, 6))
+plt.bar(x_pos, ave_clogit_icscore_perthreshold, width, label='CLogit ICScore', color='#2ca02c')
+plt.bar(x_pos, ave_iclogit_icscore_perthreshold, width, bottom=ave_clogit_icscore_perthreshold, label='ICLogit ICScore', color='#d62728')
+plt.xlabel('Threshold')
+plt.ylabel('Average Score per Threshold')
+plt.title('ICScore per Threshold (Stacked)')
+plt.xticks(x_pos, thresholds)
+plt.legend()
+plt.savefig('plots/icscore_perthreshold.png', dpi=150, bbox_inches='tight')
+print('Plot saved to plots/icscore_perthreshold.png')
+plt.close()
+
+# Third plot: Average count per threshold
+plt.figure(figsize=(8, 6))
+plt.plot(thresholds, ave_count_perthreshold, marker='o', linewidth=2, markersize=8, color='#9467bd')
+plt.xlabel('Threshold')
+plt.ylabel('Average Count per Threshold')
+plt.title('Average Count per Threshold')
+plt.grid(True, alpha=0.3)
+plt.savefig('plots/count_perthreshold.png', dpi=150, bbox_inches='tight')
+print('Plot saved to plots/count_perthreshold.png')
+plt.close()
+
+# Fourth plot: Average count per location
+plt.figure(figsize=(8, 6))
+location_indices = np.arange(block_size)
+plt.plot(location_indices, ave_count_perlocation, marker='o', linewidth=2, markersize=8, color='#8c564b')
+plt.xlabel('Location Index (within block)')
+plt.ylabel('Average Count per Location')
+plt.title('Average Count per Location')
+plt.grid(True, alpha=0.3)
+plt.savefig('plots/count_perlocation.png', dpi=150, bbox_inches='tight')
+print('Plot saved to plots/count_perlocation.png')
 plt.close()

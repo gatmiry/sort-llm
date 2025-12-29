@@ -195,6 +195,8 @@ class CasualSelfAttention(nn.Module):
         attn = F.softmax(attn, dim=-1)
         if layer_n == 0:
             self.attn = attn
+            import matplotlib.pyplot as plt
+            plt.plot(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1)[33,:].detach().numpy())
         #print('attn[:,:,33,:] is ', attn[:,:,33,:])
         if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
@@ -350,7 +352,7 @@ class GPT(nn.Module):
         if self.config.without_pos:
             x = self.transformer.wte(idx)
         else:
-            x = self.transformer.wte(idx) + pos
+            x = self.transformer.wte(idx) #+ pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0

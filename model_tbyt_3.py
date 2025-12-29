@@ -166,18 +166,19 @@ class CasualSelfAttention(nn.Module):
             #attn[:,:,38,0] += 14.0
             #attn[:,:,38,21] += 1.0
             #attn[:,:,38,5] += 7.0
-            attn[:,:,38,21] += 1.0
-            attn[:,:,38,30] -= 0.1
-            print('attn position 38,30 ', attn[:,:,38,30], ' position 38, 5 ', attn[:,:,38,5])
+            #attn[:,:,38,21] += 1.0
+            #attn[:,:,38,30] -= 0.1
+            attn[:,:,41,7] += 20.7
+            print('attn position 41,22 ', attn[:,:,41,22], ' position 41, 7 ', attn[:,:,41,7])
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
         print('layer_n is ', layer_n)
         #if layer_n == 0:
-        self.attn = attn
+        self.attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
 
         if layer_n == 1:
             print('alaki')
-            attn[:,:,38,30] += 0.0
+            #attn[:,:,38,30] += 0.0
             #attn[:,:,38,5] += 2.0
         #if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')

@@ -92,7 +92,7 @@ def get_statistics(thresholds, threshold_index):
             if t == threshold_index:
                 count_perlocation[j-block_size] = tmp_count_perlocation[j-block_size]
                 average_dist_perlocation[j-block_size] = average_temp_dist
-                max_dist_perlocation[j-block_size] = average_max_dist
+                max_dist_perlocation[j-block_size] = max_dist
 
             if is_correct[j-block_size] == 1.0 and is_largest_score_correct[j-block_size] == True:
                 if t == threshold_index:

@@ -5,7 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 thresholds = [0.01, 0.05, 0.1, 0.15, 0.2]
-threshold_index = 0
+threshold_index = 2
 num_tries = 10
 
 ave_average_dist_perthreshold = np.zeros(len(thresholds))

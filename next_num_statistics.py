@@ -67,7 +67,7 @@ def get_statistics(thresholds, threshold_index):
             for k in range(0, 2*block_size + 1):
                 score = model.transformer.h[0].c_attn.attn[j,k].item()
                 if score >= threshold:
-                    dist = abs(idx[0,k] - idx[0,j + 1])
+                    dist = abs(idx[0,k] - idx[0,j + 1]).item()
                     if dist > max_dist:
                         max_dist = dist
                     num_dist += 1
@@ -118,12 +118,62 @@ def get_statistics(thresholds, threshold_index):
         ### added max_dist_perthreshold and average_dist_perthreshold to the list
         clogit_cscore_perthreshold.append(clogit_cscore / block_size)
         clogit_icscore_perthreshold.append(clogit_icscore / block_size)
-        clogit_cscore_perthreshold.append(iclogit_cscore / block_size)
+        iclogit_cscore_perthreshold.append(iclogit_cscore / block_size)
         iclogit_icscore_perthreshold.append(iclogit_icscore / block_size)
-    clogit_cscore_perlocation = [clogit_cscore_perlocation[i] / len(thresholds) for i in range(block_size)]
-    clogit_icscore_perlocation = [clogit_icscore_perlocation[i] / len(thresholds) for i in range(block_size)]
-    iclogit_cscore_perlocation = [iclogit_cscore_perlocation[i] / len(thresholds) for i in range(block_size)]
-    iclogit_icscore_perlocation = [iclogit_icscore_perlocation[i] / len(thresholds) for i in range(block_size)]
+    clogit_cscore_perthreshold = np.array(clogit_cscore_perthreshold)
+    clogit_icscore_perthreshold = np.array(clogit_icscore_perthreshold)
+    iclogit_cscore_perthreshold = np.array(iclogit_cscore_perthreshold)
+    iclogit_icscore_perthreshold = np.array(iclogit_icscore_perthreshold)
+    average_dist_perthreshold = np.array(average_dist_perthreshold)
+    max_dist_perthreshold = np.array(max_dist_perthreshold)
     return (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
+thresholds = [0.05, 0.1]
+threshold_index = 0
+num_tries = 10
+ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))
+ave_iclogit_cscore_perthreshold = np.zeros(len(thresholds))
+ave_clogit_icscore_perthreshold = np.zeros(len(thresholds))
+ave_iclogit_icscore_perthreshold = np.zeros(len(thresholds))
+for counter in range(num_tries):
+    lsperlocation, lsperthreshold, am_perlocation, am_perthreshold = get_statistics(thresholds, threshold_index)
+    clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold = lsperthreshold
+    average_dist_perthreshold, max_dist_perthreshold = am_perthreshold
+    clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation = lsperlocation
+    average_dist_perlocation, max_dist_perlocation = am_perlocation
+    
+    #print(f'clogit_cscore_perthreshold is {clogit_cscore_perthreshold}')
+    ave_clogit_cscore_perthreshold += clogit_cscore_perthreshold
+    ave_iclogit_cscore_perthreshold += iclogit_cscore_perthreshold
+    ave_clogit_icscore_perthreshold += clogit_icscore_perthreshold
+    ave_iclogit_icscore_perthreshold += iclogit_icscore_perthreshold
+
+ave_clogit_cscore_perthreshold /= num_tries
+ave_iclogit_cscore_perthreshold /= num_tries
+ave_clogit_icscore_perthreshold /= num_tries
+ave_iclogit_icscore_perthreshold /= num_tries
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+import matplotlib.pyplot as plt
+print(f'ave_clogit_cscore_perthreshold is {ave_clogit_cscore_perthreshold}')
+print(f'ave_iclogit_cscore_perthreshold is {ave_iclogit_cscore_perthreshold}')
+print(f'ave_clogit_icscore_perthreshold is {ave_clogit_icscore_perthreshold}')
+print(f'ave_iclogit_icscore_perthreshold is {ave_iclogit_icscore_perthreshold}')
+x_pos = np.arange(len(thresholds))
+width = 0.6
+
+# Create stacked bar chart
+plt.bar(x_pos, ave_clogit_cscore_perthreshold, width, label='CLogit CScore', color='#1f77b4')
+plt.bar(x_pos, ave_iclogit_cscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold, label='ICLogit CScore', color='#ff7f0e')
+plt.bar(x_pos, ave_clogit_icscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold + ave_iclogit_cscore_perthreshold, label='CLogit ICScore', color='#2ca02c')
+plt.bar(x_pos, ave_iclogit_icscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold + ave_iclogit_cscore_perthreshold + ave_clogit_icscore_perthreshold, label='ICLogit ICScore', color='#d62728')
+
+plt.xlabel('Threshold')
+plt.ylabel('Average Score per Threshold')
+plt.title('Average Score per Threshold (Stacked)')
+plt.xticks(x_pos, thresholds)
+plt.legend()
+plt.savefig('plots/clogit_cscore_perthreshold.png', dpi=150, bbox_inches='tight')
+print('Plot saved to clogit_cscore_perthreshold.png')
+plt.close()

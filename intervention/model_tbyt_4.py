@@ -359,11 +359,12 @@ class GPTIntervention:
 
     def intervent_attention(self, attention_layer_num, location, unsorted_lb, unsorted_ub, unsorted_lb_num, unsorted_ub_num, unsorted_intensity_inc, sorted_lb, sorted_num, sorted_intensity_inc):
         target_val = self.idx[0, location].item()
+        next_number = self.idx[0, location + 1].item()
         unsorted_part = self.idx[0, :self.config.block_size]
         sorted_part = self.idx[0, self.config.block_size + 1:2*self.config.block_size + 1]
         
         # Pick unsorted_lb_num numbers: target_val - unsorted_lb <= x <= target_val
-        unsorted_lb_mask = (unsorted_part >= target_val - unsorted_lb) & (unsorted_part <= target_val)
+        unsorted_lb_mask = (unsorted_part >= target_val - unsorted_lb) & (unsorted_part <= target_val) & (unsorted_part != next_number)
         unsorted_lb_indices = torch.where(unsorted_lb_mask)[0]
         if len(unsorted_lb_indices) < unsorted_lb_num:
             raise Exception("Not enough numbers for unsorted_lb_num")
@@ -371,7 +372,7 @@ class GPTIntervention:
         unsorted_lb_values = unsorted_part[unsorted_lb_selected]
         
         # Pick unsorted_ub_num numbers: target_val <= x <= target_val + unsorted_ub
-        unsorted_ub_mask = (unsorted_part >= target_val) & (unsorted_part <= target_val + unsorted_ub)
+        unsorted_ub_mask = (unsorted_part > target_val) & (unsorted_part <= target_val + unsorted_ub) and (unsorted_part != next_number)
         unsorted_ub_indices = torch.where(unsorted_ub_mask)[0]
         if len(unsorted_ub_indices) < unsorted_ub_num:
             raise Exception("Not enough numbers for unsorted_ub_num")
@@ -388,7 +389,6 @@ class GPTIntervention:
         sorted_actual_indices = sorted_selected + self.config.block_size + 1
         
         original_forward = self.gpt.transformer.h[attention_layer_num].c_attn.forward
-        next_number = self.idx[0, location + 1].item()
         next_number_location = torch.where(self.idx[0, :self.config.block_size] == next_number)[0][0].item()
         main_attention_val = self.read_attention(attention_layer_num, location, next_number_location).item()
 

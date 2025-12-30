@@ -43,7 +43,7 @@ def get_batch(changing_num=-1, changing_index=-1, initial_sequence=None, batch_s
 
 idx = get_batch()
 print('idx is ', idx)
-loss, logits = model(idx)
+logits, loss = model(idx)
 print('model output is ', torch.argmax(logits, dim=-1))
 import matplotlib
 import matplotlib.pyplot as plt
@@ -53,10 +53,11 @@ plt.title('Original Attention')
 plt.savefig('plots_intervented_attention/original_attention.png', dpi=150, bbox_inches='tight')
 plt.show()
 intervention_model = GPTIntervention(model, idx)
+location = 34  
 new_model, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values) = intervention_model.intervent_attention(attention_layer_num=0, 
-                                            location=34, 
-                                            unsorted_lb=5, 
-                                            unsorted_ub=5, 
+                                            location=location, 
+                                            unsorted_lb=10, 
+                                            unsorted_ub=10, 
                                             unsorted_lb_num=1, 
                                             unsorted_ub_num=1, 
                                             unsorted_intensity_inc=1.0, 
@@ -64,17 +65,17 @@ new_model, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, un
                                             sorted_num=0, 
                                             sorted_intensity_inc=0.0)
 
-
+print('location is ', location, ' with value', idx[0, location].item())
 print('unsorted_lb_selected is ', unsorted_lb_selected)
 print('unsorted_lb_values is ', unsorted_lb_values)
 print('unsorted_ub_selected is ', unsorted_ub_selected)
 print('unsorted_ub_values is ', unsorted_ub_values)
 print('sorted_actual_indices is ', sorted_actual_indices)
 print('sorted_values is ', sorted_values)
-_, logits = new_model(idx)
+logits, _ = new_model(idx)
 print('logits from new model shape is ', logits.shape)
 print('new model output is ', torch.argmax(logits, dim=-1))
-plt.plot(new_model.transformer.h[0].c_attn.new_attn[34,:].detach().numpy())
+plt.plot(new_model.transformer.h[0].c_attn.new_attn[38,:].detach().numpy())
 plt.title('Interventioned Attention')
 plt.savefig('plots_intervented_attention/interventioned_attention.png', dpi=150, bbox_inches='tight')
 plt.show()

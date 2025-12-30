@@ -390,7 +390,7 @@ class GPTIntervention:
         next_number_location = torch.where(self.idx[0, :self.config.block_size] == next_number)[0][0]
         main_attention_val = self.read_attention(attention_layer_num, location, next_number_location)
 
-        def new_forward(x, layer_n=-1):
+        def new_forward(self, x, layer_n=-1):
             B, T, C = x.size()
             qkv = self.c_attn(x)
             q, k, v = qkv.split(self.n_embd, dim=2)
@@ -398,18 +398,23 @@ class GPTIntervention:
             k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
             v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
             attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
-            if layer_n == attention_layer_num:
-                attn[:,:,location,:] += unsorted_intensity_inc
+            #if layer_n == attention_layer_num:
+            for index in unsorted_lb_selected:
+                attn[:,:,location,index] = main_attention_val + unsorted_intensity_inc
+            for index in unsorted_ub_selected:
+                attn[:,:,location,index] = main_attention_val + unsorted_intensity_inc
+            for index in sorted_actual_indices:
+                attn[:,:,location,index] = main_attention_val + sorted_intensity_inc
+
             attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
             attn = F.softmax(attn, dim=-1)
-            #self.attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
+            self.new_attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
 
-            if layer_n == 1:
-                print('alaki')
             y = attn @ v
             y = y.transpose(1,2).contiguous().view(B,T,C)
             y = self.c_proj(y)
             return y
         
-        self.gpt.transformer.h[0].c_attn.forward = new_forward
-        return self.gpt, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values)
+        self.new_gpt = self.gpt.clone()
+        self.new_gpt.transformer.h[attention_layer_num].c_attn.forward = new_forward
+        return self.new_gpt, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values)

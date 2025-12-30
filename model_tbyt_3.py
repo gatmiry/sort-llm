@@ -168,8 +168,9 @@ class CasualSelfAttention(nn.Module):
             #attn[:,:,38,5] += 7.0
             #attn[:,:,38,21] += 1.0
             #attn[:,:,38,30] -= 0.1
-            attn[:,:,41,7] += 20.7
-            print('attn position 41,22 ', attn[:,:,41,22], ' position 41, 7 ', attn[:,:,41,7])
+            #attn[:,:,41,7] += 20.7
+            #attn[:,:,44,5] += 4.0
+            print('attn position 44,5 ', attn[:,:,44,5], ' position 44, 23 ', attn[:,:,44,23])
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
         print('layer_n is ', layer_n)
@@ -206,7 +207,7 @@ class Block(nn.Module):
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
         else:
-            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
     
 class GPT(nn.Module):

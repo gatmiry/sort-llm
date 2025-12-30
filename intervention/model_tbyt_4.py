@@ -372,7 +372,7 @@ class GPTIntervention:
         unsorted_lb_values = unsorted_part[unsorted_lb_selected]
         
         # Pick unsorted_ub_num numbers: target_val <= x <= target_val + unsorted_ub
-        unsorted_ub_mask = (unsorted_part > target_val) & (unsorted_part <= target_val + unsorted_ub) and (unsorted_part != next_number)
+        unsorted_ub_mask = (unsorted_part > target_val) & (unsorted_part <= target_val + unsorted_ub) & (unsorted_part != next_number)
         unsorted_ub_indices = torch.where(unsorted_ub_mask)[0]
         if len(unsorted_ub_indices) < unsorted_ub_num:
             raise Exception("Not enough numbers for unsorted_ub_num")
@@ -403,19 +403,25 @@ class GPTIntervention:
             for index in unsorted_lb_selected:
                 attn[:,:,location,index.item()] = main_attention_val + unsorted_intensity_inc
             for index in unsorted_ub_selected:
-                if len(unsorted_ub_selected) > 0:
-                    attn[:,:,location,index.item()] = main_attention_val + unsorted_intensity_inc
+                #print(f'im adding unsorted_intensity_inc: {unsorted_intensity_inc} in unsorted_ub_selected: {index.item()}')
+                
+                attn[:,:,location,index.item()] = main_attention_val + unsorted_intensity_inc
             for index in sorted_actual_indices:
                 attn[:,:,location,index.item()] = main_attention_val + sorted_intensity_inc
 
             attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
+            #print('altered attention is ')
+            import matplotlib.pyplot as plt
+            
             attn = F.softmax(attn, dim=-1)
+            #plt.plot(attn[0, 0, location, :].detach().numpy())
+            #plt.savefig('plots_intervented_attention/altered_attention.png', dpi=150, bbox_inches='tight')
             self.new_attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
 
             y = attn @ v
             y = y.transpose(1,2).contiguous().view(B,T,C)
             y = self.c_proj(y)
-            print('new forwarad is returning y with shape ', y.shape)
+            #print('new forwarad is returning y with shape ', y.shape)
             return y
         
         self.new_gpt = self.gpt

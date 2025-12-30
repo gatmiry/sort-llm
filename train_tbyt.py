@@ -19,7 +19,7 @@ def get_batch():
 import math
 warmup_iters = 100
 max_iters = 20000
-max_iter = 80000
+max_iter = 120000
 learning_rate = 1e-4
 min_lr = 1e-6
 decay_lr = True
@@ -114,4 +114,4 @@ for itr in range(max_iter):
       }
       import os
       import time
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec28_tbyt_with-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec29-embedsize/dec29_tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))

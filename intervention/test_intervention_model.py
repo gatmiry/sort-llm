@@ -42,11 +42,11 @@ def get_batch(changing_num=-1, changing_index=-1, initial_sequence=None, batch_s
 
 
 idx = get_batch()
-idx = torch.tensor([[ 77,  65, 105, 107,  13,  26,  89,  62,  72,  57,  69, 115,   2,  59,
-         106,  27,  33,  30,  83,  68,  70,  23,  40,  74,  50,  15,  76, 113,
-         112,  90,  78,  97, 128,   2,  13,  15,  23,  26,  27,  30,  33,  40,
-          50,  57,  59,  62,  65,  68,  69,  70,  72,  74,  76,  77,  78,  83,
-          89,  90,  97, 105, 106, 107, 112, 113, 115]])
+#idx = torch.tensor([[ 77,  65, 105, 107,  13,  26,  89,  62,  72,  57,  69, 115,   2,  59,
+#         106,  27,  33,  30,  83,  68,  70,  23,  40,  74,  50,  15,  76, 113,
+#         112,  90,  78,  97, 128,   2,  13,  15,  23,  26,  27,  30,  33,  40,
+#          50,  57,  59,  62,  65,  68,  69,  70,  72,  74,  76,  77,  78,  83,
+#          89,  90,  97, 105, 106, 107, 112, 113, 115]])
 print('idx is ', idx)
 logits, loss = model(idx)
 print('model output is ', torch.argmax(logits, dim=-1))
@@ -59,22 +59,34 @@ plt.savefig('plots_intervented_attention/original_attention.png', dpi=150, bbox_
 plt.show()
 intervention_model = GPTIntervention(model, idx)
 location = 34  
+print('model next logit is ', logits[0, location, torch.argmax(logits, dim=-1)[0,location]].item())
 new_model, ((unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values)) = intervention_model.intervent_attention(attention_layer_num=0, 
                                             location=location, 
                                             unsorted_lb=10, 
                                             unsorted_ub=10, 
                                             unsorted_lb_num=1, 
                                             unsorted_ub_num=1, 
-                                            unsorted_intensity_inc=-1.2, 
+                                            unsorted_intensity_inc=10.0, 
+                                            sorted_lb=0, 
+                                            sorted_num=0, 
+                                            sorted_intensity_inc=0.0)
+
+new_model, _ = intervention_model.intervent_attention(attention_layer_num=1, 
+                                            location=location, 
+                                            unsorted_lb=10, 
+                                            unsorted_ub=10, 
+                                            unsorted_lb_num=1, 
+                                            unsorted_ub_num=1, 
+                                            unsorted_intensity_inc=10.0, 
                                             sorted_lb=0, 
                                             sorted_num=0, 
                                             sorted_intensity_inc=0.0)
 
 new_generated_number, next_number = intervention_model.check_if_still_works()
 print('new generated number is ', new_generated_number, ' and next number is ', next_number, '\n')
-intervention_model.revert_attention(0)
-new_generated_number, next_number = intervention_model.check_if_still_works()
-print('new generated number after revert is ', new_generated_number, ' and next number is ', next_number, '\n')
+#intervention_model.revert_attention(0)
+#new_generated_number, next_number = intervention_model.check_if_still_works()
+#print('new generated number after revert is ', new_generated_number, ' and next number is ', next_number, '\n')
 
 print('location is ', location, ' with value', idx[0, location].item())
 print('unsorted_lb_selected is ', unsorted_lb_selected)
@@ -83,9 +95,12 @@ print('unsorted_ub_selected is ', unsorted_ub_selected)
 print('unsorted_ub_values is ', unsorted_ub_values)
 print('sorted_actual_indices is ', sorted_actual_indices)
 print('sorted_values is ', sorted_values)
+
 logits, _ = new_model(idx)
-print('logits from new model shape is ', logits.shape)
-print('new model output is ', torch.argmax(logits, dim=-1))
+#print('logits from new model shape is ', logits.shape)
+output_indices = torch.argmax(logits, dim=-1)
+#print('new output index is ', output_indices[0,location])
+#print('new model next logit is ', logits[0, location, output_indices[0,location]].item())
 plt.plot(new_model.transformer.h[0].c_attn.new_attn[location,:].detach().numpy())
 plt.title('Interventioned Attention')
 plt.savefig('plots_intervented_attention/interventioned_attention.png', dpi=150, bbox_inches='tight')

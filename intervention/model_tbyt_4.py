@@ -424,6 +424,9 @@ class GPTIntervention:
             #plt.savefig('plots_intervented_attention/altered_attention.png', dpi=150, bbox_inches='tight')
             self.new_attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
 
+            print('next number is ', next_number)
+            print('next number location is ', next_number_location)
+            print('attn on next number location is ', attn[0,0,location, next_number_location].item()) 
             y = attn @ v
             y = y.transpose(1,2).contiguous().view(B,T,C)
             y = self.c_proj(y)

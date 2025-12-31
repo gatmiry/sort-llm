@@ -353,11 +353,17 @@ class GPTIntervention:
         self.raw_attn = []
         self.raw_attn.append(self.gpt.transformer.h[0].c_attn.raw_attn)
         self.raw_attn.append(self.gpt.transformer.h[1].c_attn.raw_attn)
+        self.old_attention_forward = [None, None]
 
     def read_attention(self, attention_layer_num, location1, location2):
         return self.raw_attn[attention_layer_num][location1, location2]
 
+    def check_if_still_works(self):
+        logits, _ = self.gpt(self.idx)
+        return torch.argmax(logits, dim=-1)[0, self.location].item() , self.idx[0, self.location + 1].item()
+
     def intervent_attention(self, attention_layer_num, location, unsorted_lb, unsorted_ub, unsorted_lb_num, unsorted_ub_num, unsorted_intensity_inc, sorted_lb, sorted_num, sorted_intensity_inc):
+        self.location = location
         target_val = self.idx[0, location].item()
         next_number = self.idx[0, location + 1].item()
         unsorted_part = self.idx[0, :self.config.block_size]
@@ -424,7 +430,17 @@ class GPTIntervention:
             #print('new forwarad is returning y with shape ', y.shape)
             return y
         
-        self.new_gpt = self.gpt
-        attention_module = self.new_gpt.transformer.h[attention_layer_num].c_attn
+        attention_module = self.gpt.transformer.h[attention_layer_num].c_attn
+        self.old_attention_forward[attention_layer_num] = attention_module.forward
         attention_module.forward = types.MethodType(new_forward, attention_module)
-        return self.new_gpt, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values)
+        return self.gpt, ((unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values))
+
+    def revert_attention(self, attention_layer_num):
+        if self.old_attention_forward[attention_layer_num] is None:
+            raise Exception("No old attention forward found")
+        attention_module = self.gpt.transformer.h[attention_layer_num].c_attn
+        attention_module.forward = self.old_attention_forward[attention_layer_num]
+        return self.gpt
+    
+    def get_attention_matrix(self, attention_layer_num):
+        return self.gpt.transformer.h[attention_layer_num].c_attn.attn

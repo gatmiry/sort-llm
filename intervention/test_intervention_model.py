@@ -59,16 +59,22 @@ plt.savefig('plots_intervented_attention/original_attention.png', dpi=150, bbox_
 plt.show()
 intervention_model = GPTIntervention(model, idx)
 location = 34  
-new_model, (unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values) = intervention_model.intervent_attention(attention_layer_num=0, 
+new_model, ((unsorted_lb_selected, unsorted_lb_values), (unsorted_ub_selected, unsorted_ub_values), (sorted_actual_indices, sorted_values)) = intervention_model.intervent_attention(attention_layer_num=0, 
                                             location=location, 
                                             unsorted_lb=10, 
                                             unsorted_ub=10, 
                                             unsorted_lb_num=1, 
                                             unsorted_ub_num=1, 
-                                            unsorted_intensity_inc=-1.0, 
+                                            unsorted_intensity_inc=-1.2, 
                                             sorted_lb=0, 
                                             sorted_num=0, 
                                             sorted_intensity_inc=0.0)
+
+new_generated_number, next_number = intervention_model.check_if_still_works()
+print('new generated number is ', new_generated_number, ' and next number is ', next_number, '\n')
+intervention_model.revert_attention(0)
+new_generated_number, next_number = intervention_model.check_if_still_works()
+print('new generated number after revert is ', new_generated_number, ' and next number is ', next_number, '\n')
 
 print('location is ', location, ' with value', idx[0, location].item())
 print('unsorted_lb_selected is ', unsorted_lb_selected)

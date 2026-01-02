@@ -1,6 +1,9 @@
 from model_lowrank import GPTConfig, GPT
 import torch
 import os
+import matplotlib.pyplot as plt
+import random
+
 itr_num = 140000
 #block_size = 8
 #vocab_size = 128
@@ -49,19 +52,30 @@ print('idx shape is ', idx.shape)
 model.set_svds_once(idx, position)
 
 print('singular values are ', model.transformer.h[0].c_attn.S)
-import matplotlib.pyplot as plt
+
+
+
+
 plt.plot(model.transformer.h[0].c_fc.S.detach().numpy())
+plt.xlabel("Singular value index")
+plt.ylabel("Singular value magnitude")
+plt.title("Singular Values of c_fc")
 plt.savefig('figures/singular_values.png')
+plt.close()
+
+
 
 #### finding the projection
 idx = get_batch()
 model.find_svd_projection(idx)
 plt.plot(model.transformer.h[0].c_fc.projected[:,0].detach().numpy())
+plt.xlabel("Token / feature index")
+plt.ylabel("Projection value (dimension 0)")
+plt.title("SVD Projection onto First Dimension")
 plt.savefig('figures/projected.png')
 plt.close()
 
 
-import random
 base_index = random.randint(0, block_size - 1)
 idx = get_batch(changing_num=0, changing_index=base_index)
 print('base index is ', base_index)
@@ -79,7 +93,13 @@ for num in range(config.vocab_size):
    
 inc = 0.000001
 plt.plot(direction_vals)
-plt.ylim(ymin=direction_vals[0] - inc, ymax=direction_vals[0] + inc)  # Adjust these values as needed
+plt.xlabel("Vocabulary value (num)")
+plt.ylabel("Projected value along direction {}".format(direction_index))
+plt.title("Effect of Changing One Token on Projection")
+plt.ylim(
+    ymin=direction_vals[0] - inc,
+    ymax=direction_vals[0] + inc
+)
 plt.savefig('figures/direction_vals.png')
 plt.show()
 

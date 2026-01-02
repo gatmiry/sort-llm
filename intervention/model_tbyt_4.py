@@ -183,7 +183,7 @@ class CasualSelfAttention(nn.Module):
             #attn[:,:,38,5] += 2.0
         #if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
-            #import matplotlib.pyplot as plt
+
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1).detach().numpy())
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)[48:, :32].detach().numpy())
         y = attn @ v

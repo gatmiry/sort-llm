@@ -6,6 +6,7 @@ import torch
 import numpy as np
 import os
 #from torch.func import vmap
+import math
 
 def sample_perm(_):
    return torch.randperm(vocab_size)[:block_size]
@@ -26,7 +27,7 @@ def get_batch_tbyt():
    x = torch.stack([cat_sorted_tensor(torch.randperm(vocab_size)[:block_size]) for _ in range(batch_size)])
    return x
 
-import math
+
 warmup_iters = 200
 max_iters = 15000
 learning_rate = 1e-4

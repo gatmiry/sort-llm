@@ -5,10 +5,8 @@ import math
 
 from typing import Optional
 
-import torch
-
 from torch import nn, Tensor
-
+import matplotlib.pyplot as plt
 
 class RotaryPositionalEmbeddings(nn.Module):
     """
@@ -165,7 +163,7 @@ class CasualSelfAttention(nn.Module):
         attn = F.softmax(attn, dim=-1)
         #if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
-            #import matplotlib.pyplot as plt
+
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1).detach().numpy())
             #plt.matshow(attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)[48:, :32].detach().numpy())
         y = attn @ v

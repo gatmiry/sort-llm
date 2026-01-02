@@ -5,10 +5,8 @@ import math
 
 from typing import Optional
 
-import torch
-
 from torch import nn, Tensor
-
+import matplotlib.pyplot as plt
 
 class RotaryPositionalEmbeddings(nn.Module):
     """
@@ -195,8 +193,11 @@ class CasualSelfAttention(nn.Module):
         attn = F.softmax(attn, dim=-1)
         if layer_n == 0:
             self.attn = attn
-            import matplotlib.pyplot as plt
-            plt.plot(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1)[33,:].detach().numpy())
+            y = attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1)[33, :].detach().cpu().numpy()
+            plt.plot(y)
+            plt.xlabel("Key position (token index)")
+            plt.ylabel("Attention probability")
+            plt.title(f"Layer {layer_n} attention from query position 33")
         #print('attn[:,:,33,:] is ', attn[:,:,33,:])
         if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
@@ -234,9 +235,7 @@ class Block(nn.Module):
         #print('i initialized everying in block')
 
     def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None, idx=None):
-        #print('im here!!!', x)
         B, T, C = x.size()
-        import matplotlib.pyplot as plt
         first_in_batch = []
         #for position in range(65):
         
@@ -334,14 +333,13 @@ class GPT(nn.Module):
 
     
     def forward(self, idx, targets=None, flag=False):
-        #import matplotlib.pyplot as plt
         #print('numbers are ')
         #plt.plot(idx[:,34])
         B, T = idx.size()
         device = idx.device
         pos = self.transformer.wpe(torch.arange(T).to(device))
         pos_sizes = (pos @ pos.t()).detach().to('cpu').numpy()
-        import matplotlib.pyplot as plt
+
         #print('pos_sizes matshow:')
         #mat = plt.matshow(pos_sizes[32:, 32:])
         #plt.colorbar(mat, label='intensity')

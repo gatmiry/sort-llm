@@ -3,13 +3,9 @@ import torch.nn.functional as F
 import torch
 import math
 import types
-
-from typing import Optional
-
-import torch
-
 from torch import nn, Tensor
-
+from typing import Optional
+import matplotlib.pyplot as plt
 
 class RotaryPositionalEmbeddings(nn.Module):
     """
@@ -417,7 +413,7 @@ class GPTIntervention:
 
             attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
             #print('altered attention is ')
-            import matplotlib.pyplot as plt
+
             
             attn = F.softmax(attn, dim=-1)
             #plt.plot(attn[0, 0, location, :].detach().numpy())

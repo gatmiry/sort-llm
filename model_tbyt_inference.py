@@ -198,6 +198,7 @@ class CasualSelfAttention(nn.Module):
             plt.xlabel("Key position (token index)")
             plt.ylabel("Attention probability")
             plt.title(f"Layer {layer_n} attention from query position 33")
+            plt.savefig(f"layer_{layer_n}_attention_from_query_33.png")
         #print('attn[:,:,33,:] is ', attn[:,:,33,:])
         if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
@@ -206,7 +207,7 @@ class CasualSelfAttention(nn.Module):
             #print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
             #mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
             #plt.colorbar(mat, label='intensity')
-            #plt.show()
+
             
         y = attn @ v 
         y = y.transpose(1,2).contiguous().view(B,T,C)
@@ -247,15 +248,23 @@ class Block(nn.Module):
         #plt.figure(1)
         #plt.plot(S.detach().numpy())
         #plt.show()
+
         #print(f'first singular direction of layer {layer_n} is ', )
         #plt.plot(200* U[:,0].detach().numpy())
         #plt.figure(2)
         #plt.plot(first_in_batch)
         #plt.show()
+
         U, S, Vh = torch.linalg.svd(self.c_attn(self.ln_1(x))[:,self.position,:])
         #print('S is ')
         #plt.plot(S.detach().to('cpu').numpy())
         #plt.show()
+        plt.plot(S.detach().cpu().numpy())
+        plt.xlabel("Singular value index")
+        plt.ylabel("Singular value magnitude")
+        plt.title(f"SVD spectrum at position {self.position} (layer {layer_n})")
+        plt.savefig(f'svd_spectrum_position_{self.position}_layer_{layer_n}.png')
+
         #print('norm without residual ', torch.norm(self.c_attn(self.ln_1(x))))
         #print('residual part norm ', torch.norm(x))
         #print('idxxxx is ', idx)

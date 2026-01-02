@@ -1,6 +1,9 @@
 from model_tbyt_4 import GPTConfig, GPT, GPTIntervention
 import torch
 import os
+import matplotlib
+import matplotlib.pyplot as plt
+
 itr_num = 140000
 #block_size = 8
 #vocab_size = 128
@@ -50,10 +53,11 @@ idx = get_batch()
 print('idx is ', idx)
 logits, loss = model(idx)
 print('model output is ', torch.argmax(logits, dim=-1))
-import matplotlib
-import matplotlib.pyplot as plt
+
 matplotlib.use('Agg')  # Use non-interactive backend
 plt.plot(model.transformer.h[0].c_attn.attn[34,:].detach().numpy())
+plt.xlabel("Key / Token index")
+plt.ylabel("Attention weight")
 plt.title('Original Attention')
 plt.savefig('plots_intervented_attention/original_attention.png', dpi=150, bbox_inches='tight')
 plt.show()
@@ -102,6 +106,8 @@ output_indices = torch.argmax(logits, dim=-1)
 #print('new output index is ', output_indices[0,location])
 #print('new model next logit is ', logits[0, location, output_indices[0,location]].item())
 plt.plot(new_model.transformer.h[0].c_attn.new_attn[location,:].detach().numpy())
+plt.xlabel("Key / Token index")
+plt.ylabel("Attention weight")
 plt.title('Interventioned Attention')
 plt.savefig('plots_intervented_attention/interventioned_attention.png', dpi=150, bbox_inches='tight')
 plt.show()

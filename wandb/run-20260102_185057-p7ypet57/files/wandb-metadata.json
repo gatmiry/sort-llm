@@ -1,0 +1,92 @@
+{
+  "os":  "Linux-4.18.0-553.44.1.el8_10.x86_64-x86_64-with-glibc2.28",
+  "python":  "CPython 3.11.14",
+  "startedAt":  "2026-01-02T23:50:57.141953Z",
+  "program":  "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/./train_tbyt.py",
+  "codePath":  "train_tbyt.py",
+  "codePathLocal":  "train_tbyt.py",
+  "git":  {
+    "remote":  "git@github.com:gatmiry/sort-llm.git",
+    "commit":  "454881fb52d538a259cec3746b3140d2243d8b50"
+  },
+  "email":  "suhither@gmail.com",
+  "root":  "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm",
+  "host":  "holygpu8a11603.rc.fas.harvard.edu",
+  "executable":  "/n/home13/chloe00/miniforge3/envs/vla/bin/python",
+  "cpu_count":  96,
+  "cpu_count_logical":  96,
+  "gpu":  "NVIDIA H100 80GB HBM3",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "53660876800",
+      "used":  "19946176512"
+    }
+  },
+  "memory":  {
+    "total":  "1622574575616"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA H100 80GB HBM3",
+      "memoryTotal":  "85520809984",
+      "cudaCores":  16896,
+      "architecture":  "Hopper",
+      "uuid":  "GPU-4d012ec9-1b0b-ba13-c44a-6e56db2c5334"
+    }
+  ],
+  "cudaVersion":  "12.9",
+  "slurm":  {
+    "cluster_name":  "odyssey",
+    "conf":  "/etc/slurm/slurm.conf",
+    "cpus_on_node":  "1",
+    "gpus_on_node":  "1",
+    "gtids":  "0",
+    "job_account":  "kempner_grads",
+    "job_cpus_per_node":  "1",
+    "job_end_time":  "1767419281",
+    "job_gid":  "5142",
+    "job_gpus":  "3",
+    "job_id":  "54014639",
+    "job_name":  "interactive",
+    "job_nodelist":  "holygpu8a11603",
+    "job_num_nodes":  "1",
+    "job_partition":  "kempner_h100",
+    "job_qos":  "normal",
+    "job_start_time":  "1767397681",
+    "job_uid":  "65790",
+    "job_user":  "chloe00",
+    "jobid":  "54014639",
+    "launch_node_ipaddr":  "10.242.104.152",
+    "localid":  "0",
+    "mem_per_node":  "204800",
+    "mpi_type":  "none",
+    "nnodes":  "1",
+    "nodeid":  "0",
+    "nodelist":  "holygpu8a11603",
+    "oom_kill_step":  "0",
+    "prio_process":  "0",
+    "procid":  "0",
+    "pty_port":  "10440",
+    "pty_win_col":  "368",
+    "pty_win_row":  "23",
+    "script_context":  "prolog_task",
+    "srun_comm_host":  "10.242.104.152",
+    "srun_comm_port":  "10359",
+    "step_id":  "4294967290",
+    "step_launcher_port":  "10359",
+    "step_nodelist":  "holygpu8a11603",
+    "step_num_nodes":  "1",
+    "step_num_tasks":  "1",
+    "step_tasks_per_node":  "1",
+    "stepid":  "4294967290",
+    "stepmgr":  "holygpu8a11603",
+    "submit_dir":  "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm",
+    "submit_host":  "boslogin07.rc.fas.harvard.edu",
+    "task_pid":  "3850452",
+    "tasks_per_node":  "1",
+    "topology_addr":  "main.holyoke.holyndr.holygpu8a11603",
+    "topology_addr_pattern":  "switch.switch.switch.node"
+  },
+  "writerId":  "2z9kruddt6mj0bc9a0qtk4ucxqhz3tnb"
+}

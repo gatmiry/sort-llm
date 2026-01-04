@@ -6,6 +6,8 @@ import torch
 import numpy as np
 import os
 #from torch.func import vmap
+import math
+from model_tbyt_train import GPT, GPTConfig
 
 
 def get_batch():
@@ -16,7 +18,7 @@ def get_batch():
    x = torch.stack([cat_sorted_tensor(torch.randperm(vocab_size)[:block_size]) for _ in range(batch_size)])
    return x
 
-import math
+
 warmup_iters = 100
 max_iters = 20000
 max_iter = 120000
@@ -56,7 +58,7 @@ def create_optimizer(model, weight_decay, learning_rate, device):
 
 
 
-from model_tbyt import GPT, GPTConfig
+
 print('im here!')
 myconfig = GPTConfig(block_size=block_size, vocab_size=vocab_size)
 mymodel = GPT(myconfig)
@@ -77,10 +79,10 @@ for itr in range(max_iter):
    optimizer.zero_grad()
    x = get_batch()
    x = x.to(device)
-   #print('device: ', device)
+
    #print(f'model device: {next(mymodel.parameters()).device} x device: {x.device}')
    logits, loss = mymodel(x)
-   #print('I computed the loss')
+
    loss.backward()
    #print('did backward')
    lr = get_lr(itr)
@@ -114,4 +116,18 @@ for itr in range(max_iter):
       }
       import os
       import time
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec29-embedsize/dec29_tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))
+      save_dir = os.path.join(os.getcwd(), "saved_models", "dec29-embedsize")
+      os.makedirs(save_dir, exist_ok=True)
+
+      save_path = os.path.join(
+         save_dir,
+         f"dec29_tbyt_with-pos-embedding_"
+         f"n_embd:{myconfig.n_embd}_"
+         f"head:{mymodel.config.n_heads}_"
+         f"layers:{mymodel.config.n_layers}_"
+         f"vocab_size:{vocab_size}_"
+         f"itr:{itr}_"
+         f"checkpoint_time_{time.time()}.pt"
+      )
+
+      torch.save(checkpoint, save_path)

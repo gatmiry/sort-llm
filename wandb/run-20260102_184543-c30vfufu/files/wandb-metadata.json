@@ -1,0 +1,28 @@
+{
+  "os":  "Linux-4.18.0-553.44.1.el8_10.x86_64-x86_64-with-glibc2.28",
+  "python":  "CPython 3.11.14",
+  "startedAt":  "2026-01-02T23:45:43.696210Z",
+  "program":  "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/./train_tbyt.py",
+  "codePath":  "train_tbyt.py",
+  "codePathLocal":  "train_tbyt.py",
+  "git":  {
+    "remote":  "git@github.com:gatmiry/sort-llm.git",
+    "commit":  "454881fb52d538a259cec3746b3140d2243d8b50"
+  },
+  "email":  "suhither@gmail.com",
+  "root":  "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm",
+  "host":  "boslogin07.rc.fas.harvard.edu",
+  "executable":  "/n/home13/chloe00/miniforge3/envs/vla/bin/python",
+  "cpu_count":  32,
+  "cpu_count_logical":  32,
+  "disk":  {
+    "/":  {
+      "total":  "53660815360",
+      "used":  "16235401216"
+    }
+  },
+  "memory":  {
+    "total":  "1081162022912"
+  },
+  "writerId":  "c9af0rn5uq8ette3ilhk69xgt8k3xmtb"
+}

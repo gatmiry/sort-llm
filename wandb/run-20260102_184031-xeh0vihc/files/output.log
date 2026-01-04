@@ -1,0 +1,19 @@
+x: tensor([ 73,  75,  55, 115,  56,  38, 125,  89,  14,  66, 121,   9,  92,   1,
+         83,  87, 119,  16,  20,  26,  30,  36,  54,  24,   8,   7,  96, 101,
+         63,  62,  42,  64, 128,   1,   7,   8,   9,  14,  16,  20,  24,  26,
+         30,  36,  38,  42,  54,  55,  56,  62,  63,  64,  66,  73,  75,  83,
+         87,  89,  92,  96, 101, 115, 119, 121, 125])
+itr: 0 train loss: 4.859805107116699 test loss: 4.859807968139648
+Traceback (most recent call last):
+  File "/n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/./train_tbyt.py", line 119, in <module>
+    torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec29-embedsize/dec29_tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))
+  File "/n/home13/chloe00/miniforge3/envs/vla/lib/python3.11/site-packages/torch/serialization.py", line 943, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home13/chloe00/miniforge3/envs/vla/lib/python3.11/site-packages/torch/serialization.py", line 810, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home13/chloe00/miniforge3/envs/vla/lib/python3.11/site-packages/torch/serialization.py", line 781, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(self.name, _compute_crc32))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Parent directory /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/./saved_models/dec29-embedsize does not exist.

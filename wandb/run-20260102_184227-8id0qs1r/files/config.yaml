@@ -1,0 +1,40 @@
+_wandb:
+    value:
+        cli_version: 0.21.4
+        e:
+            i9x5nl5n7ndsq8jv5b95cauw75np2ati:
+                codePath: train_tbyt.py
+                codePathLocal: train_tbyt.py
+                cpu_count: 32
+                cpu_count_logical: 32
+                disk:
+                    /:
+                        total: "53660815360"
+                        used: "16235479040"
+                email: suhither@gmail.com
+                executable: /n/home13/chloe00/miniforge3/envs/vla/bin/python
+                git:
+                    commit: 454881fb52d538a259cec3746b3140d2243d8b50
+                    remote: git@github.com:gatmiry/sort-llm.git
+                host: boslogin07.rc.fas.harvard.edu
+                memory:
+                    total: "1081162022912"
+                os: Linux-4.18.0-553.44.1.el8_10.x86_64-x86_64-with-glibc2.28
+                program: /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/./train_tbyt.py
+                python: CPython 3.11.14
+                root: /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm
+                startedAt: "2026-01-02T23:42:27.523741Z"
+                writerId: i9x5nl5n7ndsq8jv5b95cauw75np2ati
+        m: []
+        python_version: 3.11.14
+        t:
+            "1":
+                - 1
+            "2":
+                - 1
+            "3":
+                - 13
+            "4": 3.11.14
+            "5": 0.21.4
+            "12": 0.21.4
+            "13": linux-x86_64

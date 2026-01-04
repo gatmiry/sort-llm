@@ -192,6 +192,7 @@ class CasualSelfAttention(nn.Module):
             #print('entry 9 is ', idx[0,9])
         attn = F.softmax(attn, dim=-1)
         if layer_n == 0:
+            import matplotlib.pyplot as plt
             self.attn = attn
             y = attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1)[33, :].detach().cpu().numpy()
             plt.plot(y)
@@ -233,7 +234,7 @@ class Block(nn.Module):
         self.ln_2 = nn.LayerNorm(config.n_embd)
         self.config = config
         self.use_attention = use_attention
-        #print('i initialized everying in block')
+    
 
     def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None, idx=None):
         B, T, C = x.size()
@@ -302,14 +303,13 @@ class Block(nn.Module):
 class GPT(nn.Module):
     def __init__(self, config, position=-1):
         super().__init__()
-        print('Im in GPT instructor')
         self.config = config
         self.n_layers = config.n_layers
         self.alpha = 100.0
         self.norms = None
         self.means = None
         self.position = position
-        print('i initialized n-layers')
+        
         self.transformer = nn.ModuleDict(dict(
             wte = nn.Embedding(config.vocab_size + 1, config.n_embd),
             wpe = nn.Embedding(config.block_size * 4 + 1, config.n_embd),
@@ -466,7 +466,7 @@ class GPTConfig():
     vocab_size: int = 128
     n_layers = 2
     n_heads = 1
-    n_embd = 64
+    n_embd = 8
     without_pos = False
 
     def __init__(self, block_size=None, vocab_size=None):

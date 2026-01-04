@@ -124,6 +124,7 @@ class RotaryPositionalEmbeddings(nn.Module):
         # tensor has shape [b, s, n_h, h_d]
         x_out = x_out.flatten(3)
         return x_out.type_as(x)
+        
 
 class MLP(nn.Module):
     def __init__(self, config):
@@ -134,6 +135,7 @@ class MLP(nn.Module):
         self.NANO_SCALE_GPT = True
     def forward(self, x):
         return self.fc_2(self.gelu(self.fc_1(x)))
+
 
 class CasualSelfAttention(nn.Module):
     def __init__(self, config):
@@ -224,7 +226,7 @@ class GPT(nn.Module):
         pos = self.transformer.wpe(torch.arange(T).to(device))
         #print(f'idx device: {idx.device} wte device: {self.transformer.wte.weight.device}')
         
-        x = self.transformer.wte(idx) #+ pos
+        x = self.transformer.wte(idx) + pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0
@@ -300,7 +302,7 @@ class GPT(nn.Module):
 class GPTConfig():
     block_size: int = 32
     vocab_size: int = 128
-    n_layers = 4
+    n_layers = 2
     n_heads = 1
     n_embd = 8
 

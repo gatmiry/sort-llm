@@ -19,3 +19,5 @@ config: {'_wandb': {}}
 2026-01-05 18:02:01,518 INFO    MainThread:2489209 [wandb_run.py:_redirect():2423] Wrapping output streams.
 2026-01-05 18:02:01,518 INFO    MainThread:2489209 [wandb_run.py:_redirect():2446] Redirects installed.
 2026-01-05 18:02:01,548 INFO    MainThread:2489209 [wandb_init.py:init():1049] run started, returning control to user process
+2026-01-05 21:52:43,452 INFO    wandb-AsyncioManager-main:2489209 [service_client.py:_forward_responses():84] Reached EOF.
+2026-01-05 21:52:43,454 INFO    wandb-AsyncioManager-main:2489209 [mailbox.py:close():137] Closing mailbox, abandoning 1 handles.

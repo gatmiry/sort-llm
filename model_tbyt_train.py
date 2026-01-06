@@ -149,7 +149,6 @@ class CasualSelfAttention(nn.Module):
         self.config = config
 
     def forward(self, x, layer_n=-1):
-        #print('x shape is ', x.shape)
         B, T, C = x.size()
         #print(f'B: {B} T: {T} C:{C}')
         qkv = self.c_attn(x)
@@ -159,7 +158,7 @@ class CasualSelfAttention(nn.Module):
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
-        #print('attn dim is ', attn.shape)
+        
         #print('bias is ', self.bias.shape)
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
@@ -172,21 +171,30 @@ class CasualSelfAttention(nn.Module):
         y = y.transpose(1,2).contiguous().view(B,T,C)
         y = self.c_proj(y)
         return y
+    
 
 class Block(nn.Module):
     def __init__(self, config):
-        #print('im in block instructor')
         super().__init__()
         self.c_attn = CasualSelfAttention(config)
-        self.c_fc = MLP(config)
+        # self.c_fc = MLP(config)
         self.ln_1 = nn.LayerNorm(config.n_embd)
-        self.ln_2 = nn.LayerNorm(config.n_embd)
-        #print('i initialized everying in block')
+        # self.ln_2 = nn.LayerNorm(config.n_embd)
+
+        self.use_mlp = getattr(config, "use_mlp", True)
+        if self.use_mlp:
+            self.c_fc = MLP(config)
+            self.ln_2 = nn.LayerNorm(config.n_embd)
 
     def forward(self, x, layer_n=-1):
-        #print('im here!!!', x)
+        # x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+        # return x + self.c_fc(self.ln_2(x))
+    
         x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
-        return x + self.c_fc(self.ln_2(x))
+        if self.use_mlp:
+            x = x + self.c_fc(self.ln_2(x))
+        return x
+    
     
 class GPT(nn.Module):
     def __init__(self, config):
@@ -302,9 +310,10 @@ class GPT(nn.Module):
 class GPTConfig():
     block_size: int = 32
     vocab_size: int = 128
-    n_layers = 2
+    n_layers = 1
     n_heads = 1
     n_embd = 8
+    use_mlp = False
 
     def __init__(self, block_size=None, vocab_size=None):
         if block_size:

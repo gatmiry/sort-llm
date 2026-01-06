@@ -1,0 +1,21 @@
+2026-01-05 18:00:08,476 INFO    MainThread:795521 [wandb_setup.py:_flush():81] Current SDK version is 0.21.4
+2026-01-05 18:00:08,477 INFO    MainThread:795521 [wandb_setup.py:_flush():81] Configure stats pid to 795521
+2026-01-05 18:00:08,477 INFO    MainThread:795521 [wandb_setup.py:_flush():81] Loading settings from /n/home13/chloe00/.config/wandb/settings
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_setup.py:_flush():81] Loading settings from /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/wandb/settings
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_init.py:setup_run_log_directory():686] Logging user logs to /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/wandb/run-20260105_180008-k33qduqo/logs/debug.log
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_init.py:setup_run_log_directory():687] Logging internal logs to /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/wandb/run-20260105_180008-k33qduqo/logs/debug-internal.log
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_init.py:init():813] calling init triggers
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_init.py:init():818] wandb.init called with sweep_config: {}
+config: {'_wandb': {}}
+2026-01-05 18:00:08,478 INFO    MainThread:795521 [wandb_init.py:init():854] starting backend
+2026-01-05 18:00:09,785 INFO    MainThread:795521 [wandb_init.py:init():857] sending inform_init request
+2026-01-05 18:00:09,819 INFO    MainThread:795521 [wandb_init.py:init():865] backend started and connected
+2026-01-05 18:00:09,820 INFO    MainThread:795521 [wandb_init.py:init():936] updated telemetry
+2026-01-05 18:00:09,958 INFO    MainThread:795521 [wandb_init.py:init():960] communicating run to backend with 90.0 second timeout
+2026-01-05 18:00:10,646 INFO    MainThread:795521 [wandb_init.py:init():1011] starting run threads in backend
+2026-01-05 18:00:15,263 INFO    MainThread:795521 [wandb_run.py:_console_start():2506] atexit reg
+2026-01-05 18:00:15,263 INFO    MainThread:795521 [wandb_run.py:_redirect():2354] redirect: wrap_raw
+2026-01-05 18:00:15,263 INFO    MainThread:795521 [wandb_run.py:_redirect():2423] Wrapping output streams.
+2026-01-05 18:00:15,263 INFO    MainThread:795521 [wandb_run.py:_redirect():2446] Redirects installed.
+2026-01-05 18:00:15,296 INFO    MainThread:795521 [wandb_init.py:init():1049] run started, returning control to user process

@@ -204,10 +204,10 @@ class CasualSelfAttention(nn.Module):
         if layer_n != -1:
             #print(f'attn scores of layer {layer_n} is {attn}')
             import matplotlib.pyplot as plt
-            #print('im here!!! ', attn.size())
-            #print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
-            #mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
-            #plt.colorbar(mat, label='intensity')
+            print('im here!!! ', attn.size())
+            print('attn max from index 32 on are ', idx[0,torch.argmax(attn[0,0,32:,:], dim=1)])
+            mat = plt.matshow(attn.view(2*self.config.block_size + 1, 2*self.config.block_size + 1).detach().numpy())
+            plt.colorbar(mat, label='intensity')
 
             
         y = attn @ v 
@@ -223,17 +223,21 @@ class CasualSelfAttention(nn.Module):
 
 class Block(nn.Module):
     def __init__(self, config, position=-1, use_attention=True):
-        #print('im in block instructor')
         super().__init__()
         self.position = position
         self.normval = None
         self.meanval = None
         self.c_attn = CasualSelfAttention(config)
-        self.c_fc = MLP(config)
+        # self.c_fc = MLP(config)
         self.ln_1 = nn.LayerNorm(config.n_embd)
-        self.ln_2 = nn.LayerNorm(config.n_embd)
+        # self.ln_2 = nn.LayerNorm(config.n_embd)
         self.config = config
         self.use_attention = use_attention
+
+        self.use_mlp = getattr(config, "use_mlp", True)
+        if self.use_mlp:
+            self.c_fc = MLP(config)
+            self.ln_2 = nn.LayerNorm(config.n_embd)
     
 
     def forward(self, x, layer_n=-1, midvec=None, midvec2=None, pos_embeddings=None, word_embeddings=None, idx=None):
@@ -292,8 +296,12 @@ class Block(nn.Module):
         self.meanval = torch.mean(x, dim=-1).detach().unsqueeze(-1)
         #if layer_n == 0:
         #    return x    
-        #else:
-        return x + self.c_fc(self.ln_2(x), layer_n = layer_n)
+
+        # return x + self.c_fc(self.ln_2(x), layer_n = layer_n)
+        if self.use_mlp:
+            x = x + self.c_fc(self.ln_2(x), layer_n=layer_n)
+
+        return x
         #if layer_n == 0:
         #    return x + self.c_fc(self.ln_2(x))
         #if layer_n == 1:
@@ -342,7 +350,7 @@ class GPT(nn.Module):
 
     
     def forward(self, idx, targets=None, flag=False):
-        #print('numbers are ')
+
         #plt.plot(idx[:,34])
         B, T = idx.size()
         device = idx.device
@@ -468,6 +476,7 @@ class GPTConfig():
     n_heads = 1
     n_embd = 8
     without_pos = False
+    use_mlp = False
 
     def __init__(self, block_size=None, vocab_size=None):
         if block_size:

@@ -122,6 +122,7 @@ for itr in range(max_iter):
       save_path = os.path.join(
          save_dir,
          f"dec29_tbyt_with-pos-embedding_"
+         f"mlp:{myconfig.use_mlp}_"
          f"n_embd:{myconfig.n_embd}_"
          f"head:{mymodel.config.n_heads}_"
          f"layers:{mymodel.config.n_layers}_"

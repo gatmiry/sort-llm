@@ -277,7 +277,6 @@ class Block(nn.Module):
             #print('word embeddings are ', word_embeddings)
             print('don have to be here!')
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
-            #x = x
         else:
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n, word_embeddings=word_embeddings, idx=idx)
             #if layer_n == 1:

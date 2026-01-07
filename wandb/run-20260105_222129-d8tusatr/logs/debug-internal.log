@@ -1,0 +1,6 @@
+{"time":"2026-01-05T22:21:29.796099316-05:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-01-05T22:21:30.037521873-05:00","level":"INFO","msg":"stream: created new stream","id":"d8tusatr"}
+{"time":"2026-01-05T22:21:30.037581343-05:00","level":"INFO","msg":"stream: started","id":"d8tusatr"}
+{"time":"2026-01-05T22:21:30.038771225-05:00","level":"INFO","msg":"handler: started","stream_id":"d8tusatr"}
+{"time":"2026-01-05T22:21:30.038808245-05:00","level":"INFO","msg":"writer: started","stream_id":"d8tusatr"}
+{"time":"2026-01-05T22:21:30.038953214-05:00","level":"INFO","msg":"sender: started","stream_id":"d8tusatr"}

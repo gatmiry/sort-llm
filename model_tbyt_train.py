@@ -310,9 +310,9 @@ class GPT(nn.Module):
 class GPTConfig():
     block_size: int = 32
     vocab_size: int = 128
-    n_layers = 1
+    n_layers = 2
     n_heads = 1
-    n_embd = 8
+    n_embd = 64
     use_mlp = False
 
     def __init__(self, block_size=None, vocab_size=None):

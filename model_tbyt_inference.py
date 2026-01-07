@@ -165,8 +165,7 @@ class CasualSelfAttention(nn.Module):
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
-        #print('attn dim is ', attn.shape)
-        #print('bias is ', self.bias.shape)
+    
         print('attn dim is ', attn.shape)
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
 
@@ -349,7 +348,6 @@ class GPT(nn.Module):
 
     
     def forward(self, idx, targets=None, flag=False):
-
         #plt.plot(idx[:,34])
         B, T = idx.size()
         device = idx.device
@@ -471,7 +469,7 @@ class GPT(nn.Module):
 class GPTConfig():
     block_size: int = 32
     vocab_size: int = 128
-    n_layers = 1
+    n_layers = 2
     n_heads = 1
     n_embd = 8
     without_pos = False

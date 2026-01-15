@@ -160,7 +160,8 @@ class CasualSelfAttention(nn.Module):
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
         #print('attn dim is ', attn.shape)
         #print('bias is ', self.bias.shape)
-        if layer_n == 0:
+        
+        #if layer_n == 0:
             #attn[:,:,40,22] += 40.0
             #attn[:,:,40,8] -= 40.0
             #attn[:,:,38,0] += 14.0
@@ -170,15 +171,15 @@ class CasualSelfAttention(nn.Module):
             #attn[:,:,38,30] -= 0.1
             #attn[:,:,41,7] += 20.7
             #attn[:,:,44,5] += 4.0
-            print('attn position 44,5 ', attn[:,:,44,5], ' position 44, 23 ', attn[:,:,44,23])
+            #print('attn position 44,5 ', attn[:,:,44,5], ' position 44, 23 ', attn[:,:,44,23])
         attn = attn.masked_fill(self.bias[:,:, :T, :T] == 0, float('-inf'))
         attn = F.softmax(attn, dim=-1)
         print('layer_n is ', layer_n)
         #if layer_n == 0:
         self.attn = attn.view(2*self.config.block_size + 1,2*self.config.block_size + 1)
 
-        if layer_n == 1:
-            print('alaki')
+        #if layer_n == 1:
+            #print('alaki')
             #attn[:,:,38,30] += 0.0
             #attn[:,:,38,5] += 2.0
         #if layer_n != -1:
@@ -207,7 +208,7 @@ class Block(nn.Module):
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
         else:
-            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
     
 class GPT(nn.Module):
@@ -322,11 +323,11 @@ class GPT(nn.Module):
 
 
 class GPTConfig():
-    block_size: int = 32
-    vocab_size: int = 128
+    block_size: int = 16
+    vocab_size: int = 256
     n_layers = 2
     n_heads = 1
-    n_embd = 64
+    n_embd = 32
 
     def __init__(self, block_size=None, vocab_size=None):
         if block_size:

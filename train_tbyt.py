@@ -56,7 +56,7 @@ def create_optimizer(model, weight_decay, learning_rate, device):
 
 
 
-from model_tbyt import GPT, GPTConfig
+from model_tbyt_train import GPT, GPTConfig
 print('im here!')
 myconfig = GPTConfig(block_size=block_size, vocab_size=vocab_size)
 mymodel = GPT(myconfig)
@@ -114,4 +114,4 @@ for itr in range(max_iter):
       }
       import os
       import time
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/dec29-embedsize/dec29_tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))
+      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/jan14-tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))

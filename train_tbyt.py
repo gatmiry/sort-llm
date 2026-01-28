@@ -5,6 +5,7 @@ vocab_size = 128 #1024
 import torch
 import numpy as np
 import os
+from datetime import datetime
 #from torch.func import vmap
 
 
@@ -68,10 +69,16 @@ elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
 print(f'using device: {device}')
 mymodel.to(device)
 
+# Create subfolder for checkpoints with date/time and vocab_size
+timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+checkpoint_dir = os.path.join('saved_models', f'{timestamp}_vocab{vocab_size}')
+os.makedirs(checkpoint_dir, exist_ok=True)
+print(f'Checkpoints will be saved to: {checkpoint_dir}')
+
 optimizer = create_optimizer(mymodel, weight_decay=0.1, learning_rate=6e-4, device=device)
 import wandb
 import time
-wandb.init(project='sort-llm', name=f'with-pos-embedding-2head-max-iter-80000-time-{time.time()}')
+wandb.init(project='sort-llm', name=f'jan27-with-pos-embedding-1head-max-iter-120000-time-{time.time()}')
 for itr in range(max_iter):
    #print(f'itr: {itr}')
    optimizer.zero_grad()
@@ -112,6 +119,7 @@ for itr in range(max_iter):
          'model': mymodel.state_dict(),
          'optimizer': optimizer.state_dict()
       }
-      import os
-      import time
-      torch.save(checkpoint, os.path.join(os.getcwd(), f'./saved_models/jan14-tbyt_without-pos-embedding_n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint_time_{time.time()}.pt'))
+      checkpoint_filename = f'n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'
+      checkpoint_path = os.path.join(checkpoint_dir, checkpoint_filename)
+      torch.save(checkpoint, checkpoint_path)
+      print(f'Saved checkpoint to: {checkpoint_path}')

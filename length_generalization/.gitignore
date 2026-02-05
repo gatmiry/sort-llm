@@ -1,0 +1,24 @@
+# Ignore checkpoint files by default (they're large)
+# Explicitly add specific checkpoints with `git add -f <file>` if needed
+checkpoints/**/*.pt
+
+# Ignore log files
+logs/*.out
+logs/*.err
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# W&B local files
+wandb/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.DS_Store

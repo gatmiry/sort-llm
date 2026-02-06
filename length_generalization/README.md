@@ -14,6 +14,8 @@ length_generalization/
 │   ├── sortGPT_len_generalization.py       # Main training script
 │   ├── plot_len_generalization_results.py  # Plotting script (basic)
 │   ├── plot_comprehensive_results.py       # Comprehensive analysis and plotting
+│   ├── plot_layernorm_comparison.py        # LayerNorm comparison plots
+│   ├── plot_in_dist_and_layernorm_value.py # In-dist vs OOD scatter & effect size
 │   ├── run_len_generalization.sh          # SLURM script: dynamic training (MLP off)
 │   ├── run_len_generalization_single_k.sh # SLURM script: fixed single-K training
 │   ├── run_len_generalization_no_ln.sh    # SLURM script: no layer norm
@@ -31,7 +33,12 @@ length_generalization/
 │   ├── len_gen_comprehensive.png
 │   ├── len_gen_mlp_comparison.png
 │   ├── len_gen_fixed_vs_dynamic_full.png
+│   ├── len_gen_layernorm_dynamic.png
+│   ├── len_gen_layernorm_fixed.png
+│   ├── len_gen_layernorm_effect_size_dynamic.png
+│   ├── len_gen_in_dist_vs_ood_scatter.png
 │   ├── len_gen_comprehensive_summary.csv
+│   ├── len_gen_layernorm_minK.csv
 │   └── len_gen_findings_report.txt
 └── README.md                      # This file
 ```
@@ -120,17 +127,11 @@ For **L2 with MLP** at K=8: Dynamic much better (96% vs 64%)
 
 The optimal training regime depends on model capacity.
 
-### 5. Minimum K for ≥95% Generalization
-
-| Configuration | Min train_max_k |
-|--------------|----------------|
-| L1, no MLP, Fixed | **K=4** |
-| L1, no MLP, Dynamic Mix | K=6 |
-| L1, with MLP, Dynamic Mix | K=6 |
-| L1, with MLP, Dynamic Curriculum | K=8 |
-| L2, with MLP, Dynamic Mix | K=8 |
-| L2, no MLP, Dynamic Mix | K=10 |
-| L2, with MLP, Dynamic Curriculum | **K=12** |
+### 6. LayerNorm is Critical
+**Result**: Removing LayerNorm destroys OOD generalization.
+- **With LN**: Generalization reaches 98-100% in best configurations.
+- **Without LN**: Generalization is **0.0%** across almost all configurations (tested K17-32), even when training accuracy is reasonable.
+- **Implication**: Normalization is essential for learning length-invariant algorithms in this architecture.
 
 ## Experiments Completed
 
@@ -138,9 +139,11 @@ The optimal training regime depends on model capacity.
 - ✓ 1-2 layers × MLP on/off × mix/curriculum × K=4,6,8,10,12,14,16 × 3 seeds
 - ✓ 1-2 layers × MLP on/off × fixed K=4,6,8,10,12,14,16 × 3 seeds
 
-### Without LayerNorm (168 runs, in progress)
-- 🔄 1-2 layers × MLP on/off × mix/curriculum × K=4,6,8,10,12,14,16 × 3 seeds (84 jobs)
-- 🔄 1-2 layers × MLP on/off × fixed K=4,6,8,10,12,14,16 × 3 seeds (84 jobs)
+### Without LayerNorm (168 runs)
+- ✓ 1-2 layers × MLP on/off × mix/curriculum × K=4,6,8,10,12,14,16 × 3 seeds (84 jobs)
+- ✓ 1-2 layers × MLP on/off × fixed K=4,6,8,10,12,14,16 × 3 seeds (84 jobs)
+
+**Key Result:** LayerNorm appears critical for length generalization in this setup. Without it, models struggle to generalize OOD (0% acc on K17-32) even when fitting training data partially.
 
 ## How to Use
 

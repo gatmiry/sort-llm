@@ -1,4 +1,0 @@
-layer=1 mode=curriculum min_train_max_k@0.95=8
-layer=1 mode=mix min_train_max_k@0.95=6
-layer=2 mode=curriculum min_train_max_k@0.95=10
-layer=2 mode=mix min_train_max_k@0.95=10

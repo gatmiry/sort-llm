@@ -16,6 +16,7 @@ length_generalization/
 │   ├── plot_comprehensive_results.py       # Comprehensive analysis and plotting
 │   ├── plot_layernorm_comparison.py        # LayerNorm comparison plots
 │   ├── plot_in_dist_and_layernorm_value.py # In-dist vs OOD scatter & effect size
+│   ├── plot_all_final.py                   # Final clean plots + CSVs
 │   ├── run_len_generalization.sh          # SLURM script: dynamic training (MLP off)
 │   ├── run_len_generalization_single_k.sh # SLURM script: fixed single-K training
 │   ├── run_len_generalization_no_ln.sh    # SLURM script: no layer norm
@@ -24,22 +25,19 @@ length_generalization/
 │   ├── with_layernorm/           # Standard runs with LayerNorm (~776MB)
 │   │   ├── dynamic/              # Multi-length training (len_gen_k4...k16)
 │   │   └── fixed/                # Single-K training (len_gen_single_k4...k16)
-│   ├── without_layernorm/        # Runs without LayerNorm (in progress)
+│   ├── without_layernorm/        # Runs without LayerNorm
 │   │   ├── dynamic/              # Multi-length, no layernorm
 │   │   └── fixed/                # Single-K, no layernorm
 │   ├── README.md                 # Checkpoint organization guide
 │   └── TASK_MAPPING.md           # Task ID → configuration mapping
 ├── results/                       # Plots, CSVs, and analysis outputs
-│   ├── len_gen_comprehensive.png
-│   ├── len_gen_mlp_comparison.png
-│   ├── len_gen_fixed_vs_dynamic_full.png
-│   ├── len_gen_layernorm_dynamic.png
-│   ├── len_gen_layernorm_fixed.png
-│   ├── len_gen_layernorm_effect_size_dynamic.png
-│   ├── len_gen_in_dist_vs_ood_scatter.png
-│   ├── len_gen_comprehensive_summary.csv
-│   ├── len_gen_layernorm_minK.csv
-│   └── len_gen_findings_report.txt
+│   ├── fig1_main_result.png
+│   ├── fig2_layernorm_dynamic.png
+│   ├── fig3_layernorm_fixed.png
+│   ├── fig4_in_dist_vs_ood.png
+│   ├── fig5_layernorm_effect_size.png
+│   ├── summary.csv
+│   └── min_k_thresholds.csv
 └── README.md                      # This file
 ```
 
@@ -163,7 +161,7 @@ sbatch code/run_len_generalization_single_k_no_ln.sh
 ### Generate Analysis
 ```bash
 # Comprehensive analysis with all plots and summaries
-python code/plot_comprehensive_results.py
+python code/plot_all_final.py
 
 # Basic plots (older, simpler version)
 python code/plot_len_generalization_results.py

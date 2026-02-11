@@ -157,6 +157,8 @@ class CasualSelfAttention(nn.Module):
         q = q.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         k = k.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
         v = v.view(B, T, self.n_heads, C // self.n_heads).transpose(1,2)
+        # Use standard attention scaling: 1 / sqrt(head_dim) to match training model
+        # Training model uses F.scaled_dot_product_attention which uses 1/sqrt(head_dim)
         attn = q @ k.transpose(-1,-2) * 0.1 / (k.size(-1)) ** 0.5
         #print('attn dim is ', attn.shape)
         #print('bias is ', self.bias.shape)
@@ -204,6 +206,7 @@ class Block(nn.Module):
 
     def forward(self, x, layer_n=-1):
         #print('im here!!!', x)
+        print('layer_n is ', layer_n)
         if layer_n == 1:
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
@@ -246,16 +249,22 @@ class GPT(nn.Module):
     def forward(self, idx, targets=None, flag=False):
         B, T = idx.size()
         device = idx.device
-        pos = self.transformer.wpe(torch.arange(T).to(device))
-        #print(f'idx device: {idx.device} wte device: {self.transformer.wte.weight.device}')
-        
-        x = self.transformer.wte(idx) #+ pos
+        # Conditionally add positional embeddings based on config.without_pos
+        # npos=1 means without_pos=True (no positional embeddings)
+        without_pos = getattr(self.config, 'without_pos', False)
+        if without_pos:
+            x = self.transformer.wte(idx)
+        else:
+            pos = self.transformer.wpe(torch.arange(T).to(device))
+            x = self.transformer.wte(idx) + pos
         #x = self.rope(self.transformer.wte(idx))
 
         layer_n = 0
         for block in self.transformer.h:
             x = block(x, layer_n)
             layer_n += 1
+        # Apply final layer norm before lm_head (like training model)
+        #x = self.transformer.ln_f(x)
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)
@@ -324,15 +333,18 @@ class GPT(nn.Module):
 
 class GPTConfig():
     block_size: int = 16
-    vocab_size: int = 256
+    vocab_size: int = 128
     n_layers = 2
     n_heads = 1
-    n_embd = 32
+    n_embd = 64
+    without_pos: bool = False  # npos=1 means without_pos=True (no positional embeddings)
 
-    def __init__(self, block_size=None, vocab_size=None):
+    def __init__(self, block_size=None, vocab_size=None, without_pos=None):
         if block_size:
             self.block_size = block_size
         if vocab_size:
             self.vocab_size = vocab_size
+        if without_pos is not None:
+            self.without_pos = bool(without_pos)
 
     

@@ -73,12 +73,16 @@ class Block(nn.Module):
     def forward(self, x, layer_n=-1):
         # For layer 1 (second layer, 0-indexed), skip the attention layer
         if layer_n == 1:
-            # x = x + self.attn(self.ln_1(x))  # Commented out for layer 1
-            pass
+            x = x + self.attn(self.ln_1(x))  # Commented out for layer 1
+            #pass
         else:
             x = x + self.attn(self.ln_1(x))
         if self.mlp is not None:
-            x = x + self.mlp(self.ln_2(x))
+            if layer_n == 0:
+                pass
+                #x = x + self.mlp(self.ln_2(x))
+            else:
+                x = x + self.mlp(self.ln_2(x))
         return x
 
 class GPTConfig:

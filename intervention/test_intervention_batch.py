@@ -37,7 +37,7 @@ for round in range(num_rounds):
                                             location=location, 
                                                 unsorted_lb=5, 
                                                 unsorted_ub=5, 
-                                                unsorted_lb_num=1, 
+                                                unsorted_lb_num=0, 
                                                 unsorted_ub_num=1, 
                                                 unsorted_intensity_inc=0.5, 
                                                 sorted_lb=0, 

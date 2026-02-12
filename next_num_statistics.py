@@ -167,6 +167,19 @@ ave_clogit_icscore_perthreshold /= num_tries
 ave_iclogit_icscore_perthreshold /= num_tries
 ave_count_perthreshold /= num_tries
 ave_count_perlocation /= num_tries
+
+# Save data to file for later comparison
+data_file = 'plots/statistics_data.npz'
+np.savez(data_file,
+         thresholds=np.array(thresholds),
+         ave_clogit_cscore_perthreshold=ave_clogit_cscore_perthreshold,
+         ave_iclogit_cscore_perthreshold=ave_iclogit_cscore_perthreshold,
+         ave_clogit_icscore_perthreshold=ave_clogit_icscore_perthreshold,
+         ave_iclogit_icscore_perthreshold=ave_iclogit_icscore_perthreshold,
+         ave_count_perthreshold=ave_count_perthreshold,
+         ave_count_perlocation=ave_count_perlocation)
+print(f'Data saved to {data_file}')
+
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt

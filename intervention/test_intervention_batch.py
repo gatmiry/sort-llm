@@ -14,6 +14,10 @@ model = GPT(config)
 model_state_dict = torch.load(os.path.join(os.getcwd(), f'../saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt'), map_location=device)['model']
 #model_state_dict = torch.load('./saved_models/tbyt_b64_v2048_embd16_1head_2_itr:20000_checkpoint.pt', map_location=device)['model']
 model.load_state_dict(model_state_dict)
+
+
+
+
 model.to(device=device)
 model.eval()
 batch_size = 1
@@ -23,7 +27,7 @@ num_rounds = 1000
 num_tries = 0
 num_successes = 0
 for round in range(num_rounds):
-    idx = get_batch()
+    idx = get_batch().to(device)
     intervention_model = GPTIntervention(model, idx)
     #location = torch.randint(block_size + 1, block_size * 2 + 1, (1,)).item()
     location = 45
@@ -31,8 +35,8 @@ for round in range(num_rounds):
     try:
         new_model, _ = intervention_model.intervent_attention(attention_layer_num=0, 
                                             location=location, 
-                                                unsorted_lb=20, 
-                                                unsorted_ub=20, 
+                                                unsorted_lb=5, 
+                                                unsorted_ub=5, 
                                                 unsorted_lb_num=1, 
                                                 unsorted_ub_num=1, 
                                                 unsorted_intensity_inc=0.0, 

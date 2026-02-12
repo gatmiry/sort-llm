@@ -70,8 +70,13 @@ class Block(nn.Module):
             self.mlp = None
             self.ln_2 = None
 
-    def forward(self, x):
-        x = x + self.attn(self.ln_1(x))
+    def forward(self, x, layer_n=-1):
+        # For layer 1 (second layer, 0-indexed), skip the attention layer
+        if layer_n == 1:
+            # x = x + self.attn(self.ln_1(x))  # Commented out for layer 1
+            pass
+        else:
+            x = x + self.attn(self.ln_1(x))
         if self.mlp is not None:
             x = x + self.mlp(self.ln_2(x))
         return x
@@ -140,8 +145,8 @@ class GPT(nn.Module):
         pos = self.transformer.wpe(self.pos_idx[:T])
         x = self.transformer.wte(idx) if self.config.without_pos else (self.transformer.wte(idx) + pos)
 
-        for block in self.transformer.h:
-            x = block(x)
+        for layer_n, block in enumerate(self.transformer.h):
+            x = block(x, layer_n=layer_n)
 
         x = self.transformer.ln_f(x) # Final layer normalization
 

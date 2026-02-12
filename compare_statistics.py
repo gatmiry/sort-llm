@@ -1,6 +1,11 @@
 """
-Compare ICLogit+ICScore to CLogit+ICScore ratio between two models.
-Loads saved statistics from both next_num_statistics.py and next_num_statistics_loadcheckpoint.py
+Compare the ratio of samples in ICLogit+ICScore category to CLogit+ICScore category.
+
+Categories:
+- ICLogit+ICScore: Model prediction WRONG, Attention max score points to WRONG token
+- CLogit+ICScore: Model prediction CORRECT, Attention max score points to WRONG token
+
+Ratio = (# samples with wrong prediction & wrong attention) / (# samples with correct prediction & wrong attention)
 """
 import os
 import numpy as np
@@ -17,19 +22,26 @@ data2 = np.load('plots_N256_K16_L2_H1_E32/statistics_data.npz')  # Load checkpoi
 
 thresholds = data1['thresholds']
 
+# Get the counts (these are fractions of block_size, representing proportion of samples)
+iclogit_icscore_1 = data1['ave_iclogit_icscore_perthreshold']  # Wrong prediction, wrong attention
+clogit_icscore_1 = data1['ave_clogit_icscore_perthreshold']    # Correct prediction, wrong attention
+
+iclogit_icscore_2 = data2['ave_iclogit_icscore_perthreshold']
+clogit_icscore_2 = data2['ave_clogit_icscore_perthreshold']
+
 # Calculate ratio: ICLogit+ICScore / CLogit+ICScore for each model
-# Avoid division by zero
+# Ratio = (wrong prediction & wrong attention) / (correct prediction & wrong attention)
 epsilon = 1e-10
-ratio1 = data1['ave_iclogit_icscore_perthreshold'] / (data1['ave_clogit_icscore_perthreshold'] + epsilon)
-ratio2 = data2['ave_iclogit_icscore_perthreshold'] / (data2['ave_clogit_icscore_perthreshold'] + epsilon)
+ratio1 = iclogit_icscore_1 / (clogit_icscore_1 + epsilon)
+ratio2 = iclogit_icscore_2 / (clogit_icscore_2 + epsilon)
 
 # Plot comparison
 plt.figure(figsize=(10, 6))
 plt.plot(thresholds, ratio1, marker='o', linewidth=2, markersize=8, label='N128_K32 (original)', color='#1f77b4')
 plt.plot(thresholds, ratio2, marker='s', linewidth=2, markersize=8, label='N256_K16 (load_checkpoint)', color='#ff7f0e')
 plt.xlabel('Threshold')
-plt.ylabel('Ratio: ICLogit+ICScore / CLogit+ICScore')
-plt.title('Comparison of ICLogit+ICScore to CLogit+ICScore Ratio')
+plt.ylabel('Ratio: (Wrong Pred & Wrong Attn) / (Correct Pred & Wrong Attn)')
+plt.title('Ratio of ICLogit+ICScore to CLogit+ICScore Samples')
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.savefig('plots_comparison/ratio_comparison.png', dpi=150, bbox_inches='tight')
@@ -37,14 +49,18 @@ print('Plot saved to plots_comparison/ratio_comparison.png')
 plt.close()
 
 # Print the values
-print("\nModel 1 (N128_K32):")
-print(f"  Thresholds: {thresholds}")
-print(f"  ICLogit+ICScore: {data1['ave_iclogit_icscore_perthreshold']}")
-print(f"  CLogit+ICScore: {data1['ave_clogit_icscore_perthreshold']}")
-print(f"  Ratio: {ratio1}")
+print("\n" + "="*60)
+print("Model 1 (N128_K32 - original):")
+print("="*60)
+print(f"  Thresholds:              {thresholds}")
+print(f"  ICLogit+ICScore (wrong pred, wrong attn): {iclogit_icscore_1}")
+print(f"  CLogit+ICScore (correct pred, wrong attn): {clogit_icscore_1}")
+print(f"  Ratio (ICLogit_ICScore / CLogit_ICScore): {ratio1}")
 
-print("\nModel 2 (N256_K16):")
-print(f"  Thresholds: {thresholds}")
-print(f"  ICLogit+ICScore: {data2['ave_iclogit_icscore_perthreshold']}")
-print(f"  CLogit+ICScore: {data2['ave_clogit_icscore_perthreshold']}")
-print(f"  Ratio: {ratio2}")
+print("\n" + "="*60)
+print("Model 2 (N256_K16 - load_checkpoint):")
+print("="*60)
+print(f"  Thresholds:              {thresholds}")
+print(f"  ICLogit+ICScore (wrong pred, wrong attn): {iclogit_icscore_2}")
+print(f"  CLogit+ICScore (correct pred, wrong attn): {clogit_icscore_2}")
+print(f"  Ratio (ICLogit_ICScore / CLogit_ICScore): {ratio2}")

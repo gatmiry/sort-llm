@@ -8,7 +8,8 @@ block_size = 32
 vocab_size = 128
 instance_num = 1
 device = 'cuda'
-config = GPTConfig(block_size=block_size, vocab_size=vocab_size)
+# Note: checkpoint was trained without positional embeddings (without_pos=True)
+config = GPTConfig(block_size=block_size, vocab_size=vocab_size, without_pos=True)
 model = GPT(config)
 #model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/tbyt_1head_2_itr:{itr_num}_checkpoint_old.pt'), map_location=device)['model']
 model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt'), map_location=device)['model']

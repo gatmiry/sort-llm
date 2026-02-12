@@ -17,10 +17,12 @@ import matplotlib.pyplot as plt
 os.makedirs('plots_comparison', exist_ok=True)
 
 # Load data from both models
-data1 = np.load('plots/statistics_data.npz')  # Original model (N128_K32)
-data2 = np.load('plots_N256_K16_L2_H1_E32/statistics_data.npz')  # Load checkpoint model (N256_K16)
+data1 = np.load('plots/statistics_data.npz')  # Original model (dec28_tbyt)
+data2 = np.load('plots_N128_K16_L2_H1_E32/statistics_data.npz')  # Grid checkpoint (N128_K16_L2_H1_E32)
 
-thresholds = data1['thresholds']
+# Use each file's own thresholds
+thresholds1 = data1['thresholds']
+thresholds2 = data2['thresholds']
 
 # Get the counts (these are fractions of block_size, representing proportion of samples)
 iclogit_icscore_1 = data1['ave_iclogit_icscore_perthreshold']  # Wrong prediction, wrong attention
@@ -35,10 +37,10 @@ epsilon = 1e-10
 ratio1 = iclogit_icscore_1 / (clogit_icscore_1 + epsilon)
 ratio2 = iclogit_icscore_2 / (clogit_icscore_2 + epsilon)
 
-# Plot comparison
+# Plot comparison (each model uses its own thresholds)
 plt.figure(figsize=(10, 6))
-plt.plot(thresholds, ratio1, marker='o', linewidth=2, markersize=8, label='N128_K32 (original)', color='#1f77b4')
-plt.plot(thresholds, ratio2, marker='s', linewidth=2, markersize=8, label='N256_K16 (load_checkpoint)', color='#ff7f0e')
+plt.plot(thresholds1, ratio1, marker='o', linewidth=2, markersize=8, label='model without layer normalization', color='#1f77b4')
+plt.plot(thresholds2, ratio2, marker='s', linewidth=2, markersize=8, label='model with layer normalization', color='#ff7f0e')
 plt.xlabel('Threshold')
 plt.ylabel('Ratio: (Wrong Pred & Wrong Attn) / (Correct Pred & Wrong Attn)')
 plt.title('Ratio of ICLogit+ICScore to CLogit+ICScore Samples')
@@ -50,17 +52,17 @@ plt.close()
 
 # Print the values
 print("\n" + "="*60)
-print("Model 1 (N128_K32 - original):")
+print("Model 1 (model without layer normalization):")
 print("="*60)
-print(f"  Thresholds:              {thresholds}")
+print(f"  Thresholds:              {thresholds1}")
 print(f"  ICLogit+ICScore (wrong pred, wrong attn): {iclogit_icscore_1}")
 print(f"  CLogit+ICScore (correct pred, wrong attn): {clogit_icscore_1}")
 print(f"  Ratio (ICLogit_ICScore / CLogit_ICScore): {ratio1}")
 
 print("\n" + "="*60)
-print("Model 2 (N256_K16 - load_checkpoint):")
+print("Model 2 (model with layer normalization):")
 print("="*60)
-print(f"  Thresholds:              {thresholds}")
+print(f"  Thresholds:              {thresholds2}")
 print(f"  ICLogit+ICScore (wrong pred, wrong attn): {iclogit_icscore_2}")
 print(f"  CLogit+ICScore (correct pred, wrong attn): {clogit_icscore_2}")
 print(f"  Ratio (ICLogit_ICScore / CLogit_ICScore): {ratio2}")

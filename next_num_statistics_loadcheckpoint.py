@@ -144,7 +144,7 @@ def get_statistics(thresholds, threshold_index):
     return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
-thresholds = [0.01, 0.05, 0.1, 0.15]#, 0.2]
+thresholds = [0.01, 0.05, 0.1, 0.15, 0.2]
 threshold_index = 0
 num_tries = 10
 ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))

@@ -12,7 +12,7 @@ from checkpoint_utils import load_checkpoint
 from gpt_intervention_normalized import GPTInterventionNormalized
 
 # Load model using load_checkpoint
-checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E64_r2over1_npos1_mlp1_dup0_testK16_iters60000.pt')
+checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E32_r4over1_npos1_mlp1_dup0_testK16_iters60000.pt')
 device = 'cuda'
 model, config = load_checkpoint(checkpoint_path, device=device)
 model.eval()
@@ -56,7 +56,20 @@ for round in range(num_rounds):
             unsorted_ub=5, 
             unsorted_lb_num=1, 
             unsorted_ub_num=1, 
-            unsorted_intensity_inc=0.0, 
+            unsorted_intensity_inc=2.0, 
+            sorted_lb=0, 
+            sorted_num=0, 
+            sorted_intensity_inc=0.5
+        )
+
+        new_model, _ = intervention_model.intervent_attention(
+            attention_layer_num=1, 
+            location=location, 
+            unsorted_lb=5, 
+            unsorted_ub=5, 
+            unsorted_lb_num=1, 
+            unsorted_ub_num=1, 
+            unsorted_intensity_inc=2.0, 
             sorted_lb=0, 
             sorted_num=0, 
             sorted_intensity_inc=0.5
@@ -67,7 +80,7 @@ for round in range(num_rounds):
         num_tries += 1
         
         intervention_model.revert_attention(0)
-        intervention_model.revert_attention(1)
+        #intervention_model.revert_attention(1)
         
     except Exception as e:
         print(f"Exception in round {round}: {e}")

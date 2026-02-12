@@ -39,7 +39,7 @@ for round in range(num_rounds):
                                                 unsorted_ub=5, 
                                                 unsorted_lb_num=1, 
                                                 unsorted_ub_num=1, 
-                                                unsorted_intensity_inc=0.0, 
+                                                unsorted_intensity_inc=0.5, 
                                                 sorted_lb=0, 
                                                 sorted_num=0, 
                                                 sorted_intensity_inc=0.5)

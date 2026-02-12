@@ -39,6 +39,7 @@ class CausalSelfAttention(nn.Module):
         v = v.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
 
         # Manual attention computation to store weights
+        # Grid training uses F.scaled_dot_product_attention which uses standard 1.0 / sqrt(head_dim)
         scale = 1.0 / math.sqrt(self.head_dim)
         attn = (q @ k.transpose(-2, -1)) * scale
         
@@ -79,8 +80,8 @@ class Block(nn.Module):
             x = x + self.attn(self.ln_1(x))
         if self.mlp is not None:
             if layer_n == 0:
-                pass
-                #x = x + self.mlp(self.ln_2(x))
+                #pass
+                x = x + self.mlp(self.ln_2(x))
             else:
                 x = x + self.mlp(self.ln_2(x))
         return x

@@ -12,7 +12,7 @@ from checkpoint_utils import load_checkpoint
 from gpt_intervention_normalized import GPTInterventionNormalized
 
 # Load model using load_checkpoint
-checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N256_K16_L2_H1_E32_r8over1_npos1_mlp1_dup0_testK16_iters60000.pt')
+checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E64_r2over1_npos1_mlp1_dup0_testK16_iters60000.pt')
 device = 'cuda'
 model, config = load_checkpoint(checkpoint_path, device=device)
 model.eval()

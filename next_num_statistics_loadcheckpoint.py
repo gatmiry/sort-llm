@@ -4,7 +4,7 @@ import numpy as np
 from checkpoint_utils import load_checkpoint
 
 # Load model using load_checkpoint
-checkpoint_path = os.path.join(os.getcwd(), 'Grid_training_without_duplicates/Final_N256_K16_L2_H1_E32_r8over1_npos1_mlp1_dup0_testK16_iters60000.pt')
+checkpoint_path = os.path.join(os.getcwd(), 'Grid_training_without_duplicates/Final_N128_K16_L2_H1_E32_r4over1_npos1_mlp1_dup0_testK16_iters60000.pt')
 device = 'cuda'
 model, config = load_checkpoint(checkpoint_path, device=device)
 
@@ -144,7 +144,7 @@ def get_statistics(thresholds, threshold_index):
     return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
-thresholds = [0.01, 0.05, 0.1, 0.15, 0.2]
+thresholds = [0.01, 0.05, 0.1, 0.15]#, 0.2]
 threshold_index = 0
 num_tries = 10
 ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))

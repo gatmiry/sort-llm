@@ -25,6 +25,9 @@ class CausalSelfAttention(nn.Module):
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
         self.c_proj.NANOGPT_SCALE_INIT = True
+        
+        # Store attention weights for analysis
+        self.attn_weights = None
 
     def forward(self, x):
         B, T, C = x.size()
@@ -35,8 +38,21 @@ class CausalSelfAttention(nn.Module):
         k = k.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
         v = v.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
 
-        # Standard attention computation (matching notebook)
-        y = F.scaled_dot_product_attention(q, k, v, dropout_p=0.0, is_causal=True)
+        # Manual attention computation to store weights
+        scale = 1.0 / math.sqrt(self.head_dim)
+        attn = (q @ k.transpose(-2, -1)) * scale
+        
+        # Causal mask
+        causal_mask = torch.triu(torch.ones(T, T, device=x.device, dtype=torch.bool), diagonal=1)
+        attn = attn.masked_fill(causal_mask, float('-inf'))
+        
+        attn = F.softmax(attn, dim=-1)
+        
+        # Store attention weights (squeeze to 2D for single head, single batch access)
+        # Shape: (B, n_heads, T, T) -> store as (T, T) for compatibility with statistics script
+        self.attn_weights = attn[0, 0].detach()  # First batch, first head
+        
+        y = attn @ v
         y = y.transpose(1, 2).contiguous().view(B, T, C)
         y = self.c_proj(y)
         return y
@@ -116,7 +132,7 @@ class GPT(nn.Module):
         elif isinstance(module, nn.Embedding):
             torch.nn.init.normal_(module.weight, mean=0.0, std=std)
 
-    def forward(self, idx, return_full_logits: bool = False, block_size: Optional[int] = None):
+    def forward(self, idx, targets=None, block_size: Optional[int] = None):
         B, T = idx.size()
         if block_size is None:
             block_size = self.config.block_size
@@ -129,29 +145,21 @@ class GPT(nn.Module):
 
         x = self.transformer.ln_f(x) # Final layer normalization
 
-        targets = idx[:, block_size + 1 :]  # (B, K)
+        # Always return full logits (like model_tbyt_3.py)
+        logits = self.lm_head(x)  # (B, T, V)
 
-        if return_full_logits:
-            logits = self.lm_head(x)                       # (B, T, V)
-            logits_for_loss = logits[:, block_size:T-1, :] # (B, K, V)
-        else:
-            x_for_loss = x[:, block_size:T-1, :]           # (B, K, C)
-            logits_for_loss = self.lm_head(x_for_loss)     # (B, K, V)
-            logits = logits_for_loss
-
-        loss = None
-        if targets.numel() > 0 and logits_for_loss.size(1) == targets.size(1):
-            loss = F.cross_entropy(
-                logits_for_loss.reshape(-1, logits_for_loss.size(-1)),
-                targets.reshape(-1),
-            )
+        # Compute loss on the output portion only
+        logits_for_loss = logits[:, block_size:T-1, :].contiguous().view(-1, logits.size(-1))
+        targets_for_loss = idx[:, block_size + 1:].contiguous().view(-1)
+        
+        loss = F.cross_entropy(logits_for_loss, targets_for_loss)
         
         return logits, loss
 
     def generate(self, idx, topk, sampling_length):
         self.eval()
         for _ in range(sampling_length):
-            logits, _ = self(idx, return_full_logits=True)
+            logits, _ = self(idx)
             logits = logits[:, -1, :]
             vals, indices = torch.topk(logits, topk, dim=-1)
             logits[logits < vals[:, [-1]]] = float('-inf')

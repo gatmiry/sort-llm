@@ -96,6 +96,29 @@ class MLP(nn.Module):
         return self.fc_2(self.gelu(self.fc_1(x)))
 
 
+class RMSNorm(nn.Module):
+    def __init__(self, dim: int, eps: float = 1e-6):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(dim))
+        self.eps = float(eps)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # Normalize by root-mean-square over the last dimension.
+        rms = torch.rsqrt(x.pow(2).mean(dim=-1, keepdim=True) + self.eps)
+        return x * rms * self.weight
+
+
+def make_norm(norm_type: str, dim: int) -> nn.Module:
+    nt = str(norm_type).strip().lower()
+    if nt == "layernorm":
+        return nn.LayerNorm(dim)
+    if nt == "rmsnorm":
+        return RMSNorm(dim)
+    if nt == "none":
+        return nn.Identity()
+    raise ValueError(f"Unknown norm_type={norm_type}; expected layernorm|rmsnorm|none")
+
+
 class CausalSelfAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -103,8 +126,32 @@ class CausalSelfAttention(nn.Module):
         self.n_embd = config.n_embd
         self.n_heads = config.n_heads
         self.head_dim = config.n_embd // config.n_heads
+        self.use_qk_norm = bool(getattr(config, "use_qk_norm", False))
+        self.use_rms_qk_norm = bool(getattr(config, "use_rms_qk_norm", False))
+        self.use_gated_attention = bool(getattr(config, "use_gated_attention", False))
+        self.use_elementwise_attn_output_gate = bool(getattr(config, "use_elementwise_attn_output_gate", False))
 
         self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
+        if self.use_gated_attention and self.use_elementwise_attn_output_gate:
+            raise ValueError("Choose one gate type: head-wise or element-wise, not both.")
+        if self.use_gated_attention:
+            # Head-wise attention output gate.
+            self.c_gate = nn.Linear(config.n_embd, config.n_heads)
+        elif self.use_elementwise_attn_output_gate:
+            # Element-wise gate over every hidden feature in every head.
+            self.c_gate = nn.Linear(config.n_embd, config.n_heads * self.head_dim)
+        else:
+            self.c_gate = None
+        if self.use_qk_norm:
+            if self.use_rms_qk_norm:
+                self.q_norm = RMSNorm(self.head_dim)
+                self.k_norm = RMSNorm(self.head_dim)
+            else:
+                self.q_norm = nn.LayerNorm(self.head_dim)
+                self.k_norm = nn.LayerNorm(self.head_dim)
+        else:
+            self.q_norm = None
+            self.k_norm = None
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
         self.c_proj.NANOGPT_SCALE_INIT = True
 
@@ -116,8 +163,19 @@ class CausalSelfAttention(nn.Module):
         q = q.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
         k = k.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
         v = v.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
+        if self.use_qk_norm:
+            q = self.q_norm(q)
+            k = self.k_norm(k)
 
         y = F.scaled_dot_product_attention(q, k, v, dropout_p=0.0, is_causal=True)
+        if self.use_gated_attention:
+            gate = torch.sigmoid(self.c_gate(x))                # (B, T, H)
+            gate = gate.transpose(1, 2).unsqueeze(-1)           # (B, H, T, 1)
+            y = y * gate
+        elif self.use_elementwise_attn_output_gate:
+            gate = torch.sigmoid(self.c_gate(x))                # (B, T, H*D)
+            gate = gate.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)  # (B, H, T, D)
+            y = y * gate
         y = y.transpose(1, 2).contiguous().view(B, T, C)
         y = self.c_proj(y)
         return y
@@ -127,20 +185,14 @@ class Block(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.use_mlp = bool(getattr(config, "use_mlp", True))
-        self.use_layernorm = bool(getattr(config, "use_layernorm", True))
+        self.norm_type = str(getattr(config, "norm_type", "layernorm")).strip().lower()
 
         self.attn = CausalSelfAttention(config)
-        if self.use_layernorm:
-            self.ln_1 = nn.LayerNorm(config.n_embd)
-        else:
-            self.ln_1 = nn.Identity()
+        self.ln_1 = make_norm(self.norm_type, config.n_embd)
 
         if self.use_mlp:
             self.mlp = MLP(config)
-            if self.use_layernorm:
-                self.ln_2 = nn.LayerNorm(config.n_embd)
-            else:
-                self.ln_2 = nn.Identity()
+            self.ln_2 = make_norm(self.norm_type, config.n_embd)
         else:
             self.mlp = None
             self.ln_2 = None
@@ -163,6 +215,11 @@ class GPTConfig:
         without_pos: bool = False,
         use_mlp: bool = True,
         use_layernorm: bool = True,
+        norm_type: Optional[str] = None,
+        use_qk_norm: bool = False,
+        use_rms_qk_norm: bool = False,
+        use_gated_attention: bool = False,
+        use_elementwise_attn_output_gate: bool = False,
         max_seq_len: Optional[int] = None,
     ):
         self.block_size = int(block_size)
@@ -173,6 +230,14 @@ class GPTConfig:
         self.without_pos = bool(without_pos)
         self.use_mlp = bool(use_mlp)
         self.use_layernorm = bool(use_layernorm)
+        if norm_type is None:
+            self.norm_type = "layernorm" if self.use_layernorm else "none"
+        else:
+            self.norm_type = str(norm_type).strip().lower()
+        self.use_qk_norm = bool(use_qk_norm)
+        self.use_rms_qk_norm = bool(use_rms_qk_norm)
+        self.use_gated_attention = bool(use_gated_attention)
+        self.use_elementwise_attn_output_gate = bool(use_elementwise_attn_output_gate)
         self.max_seq_len = int(max_seq_len if max_seq_len is not None else (2 * self.block_size + 1))
 
 
@@ -182,13 +247,13 @@ class GPT(nn.Module):
         self.config = config
         self.n_layers = config.n_layers
 
-        use_layernorm = bool(getattr(config, "use_layernorm", True))
+        norm_type = str(getattr(config, "norm_type", "layernorm")).strip().lower()
         self.transformer = nn.ModuleDict(
             dict(
                 wte=nn.Embedding(config.vocab_size, config.n_embd),
                 wpe=nn.Embedding(config.max_seq_len, config.n_embd),
                 h=nn.ModuleList([Block(config) for _ in range(config.n_layers)]),
-                ln_f=nn.LayerNorm(config.n_embd) if use_layernorm else nn.Identity(),
+                ln_f=make_norm(norm_type, config.n_embd),
             )
         )
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
@@ -387,9 +452,15 @@ class TrainConfig:
     without_pos: bool = False
     use_mlp: bool = True
     use_layernorm: bool = True
+    norm_type: str = "layernorm"  # layernorm | rmsnorm | none
+    use_qk_norm: bool = False
+    use_rms_qk_norm: bool = False
+    use_gated_attention: bool = False
+    use_elementwise_attn_output_gate: bool = False
 
     # Length sampling
     length_mode: str = "mix"  # mix | curriculum
+    train_k_choices: Optional[List[int]] = None  # if set, sample only from this explicit set
     curriculum_warmup_iters: int = 0
     curriculum_span_iters: int = 20000  # how long to go from min_k -> max_k
 
@@ -411,6 +482,12 @@ class TrainConfig:
     # Eval protocol
     eval_samples_per_length: int = 100
     eval_batch_size: int = 100  # batch size used during evaluation loops
+    eval_id_min: int = 2
+    eval_id_max: int = 50
+    eval_mid_min: int = 51
+    eval_mid_max: int = 100
+    eval_long_min: int = 101
+    eval_long_max: int = 150
 
     seed: int = 1337
     use_compile: bool = False
@@ -429,6 +506,10 @@ def _block_range_tag(a: int, b: int) -> str:
 
 def make_wandb_run_name(cfg: TrainConfig) -> str:
     ga = int(cfg.effective_batch_size) // int(cfg.micro_batch_size)
+    choice_tag = ""
+    if cfg.train_k_choices:
+        vals = "-".join(str(int(k)) for k in sorted(set(int(x) for x in cfg.train_k_choices)))
+        choice_tag = f"_trainChoices{vals}"
     return (
         f"bs{int(cfg.micro_batch_size)}"
         f"_eb{int(cfg.effective_batch_size)}"
@@ -440,13 +521,23 @@ def make_wandb_run_name(cfg: TrainConfig) -> str:
         f"_npos{int(cfg.without_pos)}"
         f"_mlp{int(cfg.use_mlp)}"
         f"_ln{int(cfg.use_layernorm)}"
+        f"_norm{cfg.norm_type}"
+        f"_qkn{int(cfg.use_qk_norm)}"
+        f"_qkrms{int(cfg.use_rms_qk_norm)}"
+        f"_gate{int(cfg.use_gated_attention)}"
+        f"_gateelem{int(cfg.use_elementwise_attn_output_gate)}"
         f"_len{cfg.length_mode}"
+        f"{choice_tag}"
         f"_train{_block_range_tag(cfg.train_min_k, cfg.train_max_k)}"
         f"_test{_block_range_tag(cfg.test_min_k, cfg.test_max_k)}"
         f"_nodup{int(not cfg.allow_duplicates)}"
     )
 
 def make_save_filename(prefix: str, cfg: TrainConfig, iters_done: int) -> str:
+    choice_tag = ""
+    if cfg.train_k_choices:
+        vals = "-".join(str(int(k)) for k in sorted(set(int(x) for x in cfg.train_k_choices)))
+        choice_tag = f"_trainChoices{vals}"
     return (
         f"{prefix}"
         f"_N{int(cfg.vocab_n)}"
@@ -456,7 +547,13 @@ def make_save_filename(prefix: str, cfg: TrainConfig, iters_done: int) -> str:
         f"_npos{int(cfg.without_pos)}"
         f"_mlp{int(cfg.use_mlp)}"
         f"_ln{int(cfg.use_layernorm)}"
+        f"_norm{cfg.norm_type}"
+        f"_qkn{int(cfg.use_qk_norm)}"
+        f"_qkrms{int(cfg.use_rms_qk_norm)}"
+        f"_gate{int(cfg.use_gated_attention)}"
+        f"_gateelem{int(cfg.use_elementwise_attn_output_gate)}"
         f"_len{cfg.length_mode}"
+        f"{choice_tag}"
         f"_train{_block_range_tag(cfg.train_min_k, cfg.train_max_k)}"
         f"_test{_block_range_tag(cfg.test_min_k, cfg.test_max_k)}"
         f"_nodup{int(not cfg.allow_duplicates)}"
@@ -475,6 +572,15 @@ def pick_train_k(itr: int, cfg: TrainConfig) -> int:
     k0 = int(cfg.train_min_k)
     k1 = int(cfg.train_max_k)
     assert k0 <= k1
+    train_k_choices = getattr(cfg, "train_k_choices", None)
+    if train_k_choices:
+        choices = sorted(set(int(x) for x in train_k_choices))
+        if any((x < k0 or x > k1) for x in choices):
+            raise ValueError(f"train_k_choices must lie within [train_min_k, train_max_k]. choices={choices}, range=[{k0},{k1}]")
+        if cfg.length_mode != "mix":
+            raise ValueError("train_k_choices currently supports length_mode='mix' only.")
+        idx = int(torch.randint(low=0, high=len(choices), size=(1,)).item())
+        return int(choices[idx])
 
     if cfg.length_mode == "mix":
         return int(torch.randint(low=k0, high=k1 + 1, size=(1,)).item())
@@ -523,8 +629,8 @@ def train_sorting_gpt(cfg: TrainConfig):
 
     scaler = make_grad_scaler(enabled=(use_amp and amp_dtype == torch.float16))
 
-    # model must support up to test_max_k
-    max_k_for_model = int(cfg.test_max_k)
+    # model must support all eval ranges
+    max_k_for_model = max(int(cfg.test_max_k), int(cfg.eval_id_max), int(cfg.eval_mid_max), int(cfg.eval_long_max))
     max_seq_len = 2 * max_k_for_model + 1
 
     # block_size here is just a default; we always pass block_size explicitly in forward
@@ -537,6 +643,11 @@ def train_sorting_gpt(cfg: TrainConfig):
         without_pos=cfg.without_pos,
         use_mlp=cfg.use_mlp,
         use_layernorm=cfg.use_layernorm,
+        norm_type=cfg.norm_type,
+        use_qk_norm=cfg.use_qk_norm,
+        use_rms_qk_norm=cfg.use_rms_qk_norm,
+        use_gated_attention=cfg.use_gated_attention,
+        use_elementwise_attn_output_gate=cfg.use_elementwise_attn_output_gate,
         max_seq_len=max_seq_len,
     )
     model = GPT(model_cfg).to(device)
@@ -579,14 +690,16 @@ def train_sorting_gpt(cfg: TrainConfig):
     run.define_metric("train/*", step_metric="iter")
     run.define_metric("test/*", step_metric="iter")
     run.define_metric("gen/*", step_metric="iter")
+    run.define_metric("gen_mid/*", step_metric="iter")
+    run.define_metric("gen_long/*", step_metric="iter")
     run.define_metric("lr", step_metric="iter")
 
     iters_done = cfg.max_iters
     last_log_t = time.time()
 
     def do_full_eval(step: int):
-        # In-dist: train_min_k..train_max_k
-        for k in range(int(cfg.train_min_k), int(cfg.train_max_k) + 1):
+        # In-dist bucket
+        for k in range(int(cfg.eval_id_min), int(cfg.eval_id_max) + 1):
             loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
                 model=model,
                 device=device,
@@ -608,9 +721,8 @@ def train_sorting_gpt(cfg: TrainConfig):
                 step=step,
             )
 
-        # Gen: max(train_max_k + 1, test_min_k)..test_max_k
-        gen_start = max(int(cfg.train_max_k) + 1, int(cfg.test_min_k))
-        for k in range(gen_start, int(cfg.test_max_k) + 1):
+        # OOD bucket 1: 51..100
+        for k in range(int(cfg.eval_mid_min), int(cfg.eval_mid_max) + 1):
             loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
                 model=model,
                 device=device,
@@ -623,11 +735,34 @@ def train_sorting_gpt(cfg: TrainConfig):
             run.log(
                 {
                     "iter": step,
-                    f"gen/K{k}/loss": loss,
-                    f"gen/K{k}/exact_match_acc": em_acc,
-                    f"gen/K{k}/token_acc": tok_acc,
-                    f"gen/K{k}/pos_abs_err_sum": abs_sum,
-                    f"gen/K{k}/pos_abs_err_mean": abs_mean,
+                    f"gen_mid/K{k}/loss": loss,
+                    f"gen_mid/K{k}/exact_match_acc": em_acc,
+                    f"gen_mid/K{k}/token_acc": tok_acc,
+                    f"gen_mid/K{k}/pos_abs_err_sum": abs_sum,
+                    f"gen_mid/K{k}/pos_abs_err_mean": abs_mean,
+                },
+                step=step,
+            )
+
+        # OOD bucket 2: 101..150
+        for k in range(int(cfg.eval_long_min), int(cfg.eval_long_max) + 1):
+            loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
+                model=model,
+                device=device,
+                cfg=cfg,
+                block_size=int(k),
+                use_amp=use_amp,
+                amp_dtype=amp_dtype,
+                num_samples=int(cfg.eval_samples_per_length),
+            )
+            run.log(
+                {
+                    "iter": step,
+                    f"gen_long/K{k}/loss": loss,
+                    f"gen_long/K{k}/exact_match_acc": em_acc,
+                    f"gen_long/K{k}/token_acc": tok_acc,
+                    f"gen_long/K{k}/pos_abs_err_sum": abs_sum,
+                    f"gen_long/K{k}/pos_abs_err_mean": abs_mean,
                 },
                 step=step,
             )
@@ -845,6 +980,11 @@ def main():
     p.add_argument("--vocab-n", type=int, default=128)
     p.add_argument("--n-embd", type=int, default=128)
     p.add_argument("--n-heads", type=int, default=1)
+    p.add_argument("--norm-type", type=str, default=None, choices=["layernorm", "rmsnorm", "none"])
+    p.add_argument("--use-qk-norm", action="store_true")
+    p.add_argument("--use-rms-qk-norm", action="store_true")
+    p.add_argument("--use-gated-attention", action="store_true")
+    p.add_argument("--use-elementwise-attn-output-gate", action="store_true")
 
     # Base train knobs
     p.add_argument("--max-iters", type=int, default=25000)
@@ -863,8 +1003,15 @@ def main():
     # Train/test lengths
     p.add_argument("--train-min-k", type=int, default=2)
     p.add_argument("--train-max-k", type=int, default=16)
+    p.add_argument("--train-k-choices", type=int, nargs="+", default=None, help="Optional explicit train K set, e.g. 25 50 (mix mode only)")
     p.add_argument("--test-min-k", type=int, default=2)
     p.add_argument("--test-max-k", type=int, default=32)
+    p.add_argument("--eval-id-min", type=int, default=2)
+    p.add_argument("--eval-id-max", type=int, default=50)
+    p.add_argument("--eval-mid-min", type=int, default=51)
+    p.add_argument("--eval-mid-max", type=int, default=100)
+    p.add_argument("--eval-long-min", type=int, default=101)
+    p.add_argument("--eval-long-max", type=int, default=150)
 
     # Length mode
     p.add_argument("--length-modes", type=str, nargs="+", required=True, help="mix curriculum")
@@ -898,6 +1045,12 @@ def main():
 
     if int(args.n_heads) != 1:
         raise ValueError("Plan fixes n_heads=1. Please set --n-heads 1.")
+    if bool(args.use_rms_qk_norm) and not bool(args.use_qk_norm):
+        raise ValueError("--use-rms-qk-norm requires --use-qk-norm.")
+    if bool(args.use_gated_attention) and bool(args.use_elementwise_attn_output_gate):
+        raise ValueError("Choose one gate type: --use-gated-attention OR --use-elementwise-attn-output-gate.")
+    if bool(args.use_qk_norm) and (bool(args.use_gated_attention) or bool(args.use_elementwise_attn_output_gate)):
+        print("⚠️  qk-norm and gate enabled together. Proceeding, but recommended to ablate separately.")
 
     if int(args.vocab_n) != 128 or int(args.n_embd) != 128:
         print("⚠️  Plan expects vocab_n=128 and n_embd=128. Proceeding with provided values.")
@@ -927,6 +1080,15 @@ def main():
 
     L, npos, mlp_on, ln_on, len_mode = combos[task_id]
 
+    chosen_norm_type = str(args.norm_type).strip().lower() if args.norm_type is not None else None
+    if chosen_norm_type is None:
+        chosen_norm_type = "layernorm" if bool(ln_on) else "none"
+    # Keep old flag and new norm type consistent.
+    if chosen_norm_type == "none" and bool(ln_on):
+        print("⚠️  --use-layernorm-flags true with --norm-type none; using norm-type none.")
+    if chosen_norm_type in ("layernorm", "rmsnorm") and not bool(ln_on):
+        print("⚠️  --use-layernorm-flags false with norm enabled; using requested norm-type.")
+
     # output dirs (per task)
     grid_root, wandb_dir, save_dir = setup_run_dirs(args.root, group, task_id)
 
@@ -940,7 +1102,13 @@ def main():
     print(f"  n_layers        = {L}")
     print(f"  without_pos     = {npos}")
     print(f"  use_mlp         = {mlp_on}")
-    print(f"  use_layernorm   = {ln_on}")
+    print(f"  use_layernorm   = {bool(chosen_norm_type != 'none')}")
+    print(f"  norm_type       = {chosen_norm_type}")
+    print(f"  use_qk_norm     = {bool(args.use_qk_norm)}")
+    print(f"  use_rms_qk_norm = {bool(args.use_rms_qk_norm)}")
+    print(f"  use_gate_head   = {bool(args.use_gated_attention)}")
+    print(f"  use_gate_elem   = {bool(args.use_elementwise_attn_output_gate)}")
+    print(f"  train_k_choices = {args.train_k_choices}")
     print(f"  length_mode     = {len_mode}")
     print("================================")
 
@@ -952,14 +1120,26 @@ def main():
         n_layers=int(L),
         without_pos=bool(npos),
         use_mlp=bool(mlp_on),
-        use_layernorm=bool(ln_on),
+        use_layernorm=bool(chosen_norm_type != "none"),
+        norm_type=str(chosen_norm_type),
+        use_qk_norm=bool(args.use_qk_norm),
+        use_rms_qk_norm=bool(args.use_rms_qk_norm),
+        use_gated_attention=bool(args.use_gated_attention),
+        use_elementwise_attn_output_gate=bool(args.use_elementwise_attn_output_gate),
 
         allow_duplicates=False,
 
         train_min_k=int(args.train_min_k),
         train_max_k=int(args.train_max_k),
+        train_k_choices=(list(args.train_k_choices) if args.train_k_choices is not None else None),
         test_min_k=int(args.test_min_k),
         test_max_k=int(args.test_max_k),
+        eval_id_min=int(args.eval_id_min),
+        eval_id_max=int(args.eval_id_max),
+        eval_mid_min=int(args.eval_mid_min),
+        eval_mid_max=int(args.eval_mid_max),
+        eval_long_min=int(args.eval_long_min),
+        eval_long_max=int(args.eval_long_max),
 
         length_mode=str(len_mode),
         curriculum_warmup_iters=int(args.curriculum_warmup_iters),

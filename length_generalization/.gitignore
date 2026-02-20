@@ -2,6 +2,9 @@
 # Explicitly add specific checkpoints with `git add -f <file>` if needed
 checkpoints/**/*.pt
 
+# Local SLURM/stdout dumps from experiment runs
+code/logs/
+
 # Ignore log files
 logs/*.out
 logs/*.err

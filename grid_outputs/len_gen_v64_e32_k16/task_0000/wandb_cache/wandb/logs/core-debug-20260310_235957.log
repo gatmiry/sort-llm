@@ -1,0 +1,7 @@
+{"time":"2026-03-10T23:59:57.785642183-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmpamno2zf8/port-3912520.txt","pid":3912520,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-10T23:59:57.802467243-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3912520}
+{"time":"2026-03-10T23:59:57.802455117-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-3912520-3912844-1555556217/socket","Net":"unix"}}
+{"time":"2026-03-10T23:59:57.969250962-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-10T23:59:57.985356857-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"w8ropwn8","id":"1(@)"}
+{"time":"2026-03-10T23:59:58.220832871-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"w8ropwn8","id":"1(@)"}
+{"time":"2026-03-11T00:06:41.013759838-04:00","level":"INFO","msg":"main: received shutdown signal","signal":15}

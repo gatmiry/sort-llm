@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:34:09.73303011-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:34:09.96293856-04:00","level":"INFO","msg":"stream: created new stream","id":"m78ksgro"}
+{"time":"2026-03-11T14:34:09.962998466-04:00","level":"INFO","msg":"stream: started","id":"m78ksgro"}
+{"time":"2026-03-11T14:34:09.963012765-04:00","level":"INFO","msg":"sender: started","stream_id":"m78ksgro"}
+{"time":"2026-03-11T14:34:09.963006744-04:00","level":"INFO","msg":"writer: started","stream_id":"m78ksgro"}
+{"time":"2026-03-11T14:34:09.963027318-04:00","level":"INFO","msg":"handler: started","stream_id":"m78ksgro"}
+{"time":"2026-03-11T14:39:21.531804706-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000704171}],"total_operations":1}}
+{"time":"2026-03-11T14:39:22.43496828-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:39:23.054066162-04:00","level":"INFO","msg":"stream: closing","id":"m78ksgro"}
+{"time":"2026-03-11T14:39:23.054091996-04:00","level":"INFO","msg":"handler: closed","stream_id":"m78ksgro"}
+{"time":"2026-03-11T14:39:23.054302693-04:00","level":"INFO","msg":"sender: closed","stream_id":"m78ksgro"}
+{"time":"2026-03-11T14:39:23.054337188-04:00","level":"INFO","msg":"stream: closed","id":"m78ksgro"}

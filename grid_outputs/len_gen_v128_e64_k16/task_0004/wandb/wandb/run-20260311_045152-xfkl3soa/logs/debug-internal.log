@@ -1,0 +1,12 @@
+{"time":"2026-03-11T04:51:52.397520866-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T04:51:52.632969848-04:00","level":"INFO","msg":"stream: created new stream","id":"xfkl3soa"}
+{"time":"2026-03-11T04:51:52.633005955-04:00","level":"INFO","msg":"stream: started","id":"xfkl3soa"}
+{"time":"2026-03-11T04:51:52.633014529-04:00","level":"INFO","msg":"sender: started","stream_id":"xfkl3soa"}
+{"time":"2026-03-11T04:51:52.633014585-04:00","level":"INFO","msg":"writer: started","stream_id":"xfkl3soa"}
+{"time":"2026-03-11T04:51:52.633020953-04:00","level":"INFO","msg":"handler: started","stream_id":"xfkl3soa"}
+{"time":"2026-03-11T04:59:21.832901264-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000747806}],"total_operations":1}}
+{"time":"2026-03-11T04:59:23.410856144-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T04:59:23.956978614-04:00","level":"INFO","msg":"stream: closing","id":"xfkl3soa"}
+{"time":"2026-03-11T04:59:23.956994559-04:00","level":"INFO","msg":"handler: closed","stream_id":"xfkl3soa"}
+{"time":"2026-03-11T04:59:23.957161106-04:00","level":"INFO","msg":"sender: closed","stream_id":"xfkl3soa"}
+{"time":"2026-03-11T04:59:23.957183819-04:00","level":"INFO","msg":"stream: closed","id":"xfkl3soa"}

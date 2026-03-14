@@ -1,0 +1,12 @@
+{"time":"2026-03-11T15:09:29.477056674-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T15:09:29.706932994-04:00","level":"INFO","msg":"stream: created new stream","id":"zex5lhup"}
+{"time":"2026-03-11T15:09:29.70700374-04:00","level":"INFO","msg":"stream: started","id":"zex5lhup"}
+{"time":"2026-03-11T15:09:29.707019498-04:00","level":"INFO","msg":"handler: started","stream_id":"zex5lhup"}
+{"time":"2026-03-11T15:09:29.707019325-04:00","level":"INFO","msg":"writer: started","stream_id":"zex5lhup"}
+{"time":"2026-03-11T15:09:29.707295007-04:00","level":"INFO","msg":"sender: started","stream_id":"zex5lhup"}
+{"time":"2026-03-11T15:18:19.221349417-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001088142}],"total_operations":1}}
+{"time":"2026-03-11T15:18:19.878687437-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T15:18:20.64226765-04:00","level":"INFO","msg":"stream: closing","id":"zex5lhup"}
+{"time":"2026-03-11T15:18:20.642291844-04:00","level":"INFO","msg":"handler: closed","stream_id":"zex5lhup"}
+{"time":"2026-03-11T15:18:20.642467155-04:00","level":"INFO","msg":"sender: closed","stream_id":"zex5lhup"}
+{"time":"2026-03-11T15:18:20.642490107-04:00","level":"INFO","msg":"stream: closed","id":"zex5lhup"}

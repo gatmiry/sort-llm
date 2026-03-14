@@ -1,0 +1,14 @@
+{"time":"2026-03-10T16:35:11.686033669-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:35:12.572462513-04:00","level":"INFO","msg":"stream: created new stream","id":"4na6pwlx"}
+{"time":"2026-03-10T16:35:12.572498399-04:00","level":"INFO","msg":"stream: started","id":"4na6pwlx"}
+{"time":"2026-03-10T16:35:12.57250435-04:00","level":"INFO","msg":"writer: started","stream_id":"4na6pwlx"}
+{"time":"2026-03-10T16:35:12.57250859-04:00","level":"INFO","msg":"handler: started","stream_id":"4na6pwlx"}
+{"time":"2026-03-10T16:35:12.572523104-04:00","level":"INFO","msg":"sender: started","stream_id":"4na6pwlx"}
+{"time":"2026-03-10T16:39:45.804217178-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-03-10T16:40:09.064334109-04:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/chloe0711/sortgpt/4na6pwlx/file_stream","body":"{\"error\":\"context deadline exceeded\"}"}
+{"time":"2026-03-10T16:44:24.167115651-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 155-158, summary, console lines 158-161","runtime_seconds":0.047345915},{"desc":"updating run metadata","runtime_seconds":0.007766596}],"total_operations":2}}
+{"time":"2026-03-10T16:44:25.10805961-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:44:25.938682214-04:00","level":"INFO","msg":"stream: closing","id":"4na6pwlx"}
+{"time":"2026-03-10T16:44:25.938700607-04:00","level":"INFO","msg":"handler: closed","stream_id":"4na6pwlx"}
+{"time":"2026-03-10T16:44:25.938843443-04:00","level":"INFO","msg":"sender: closed","stream_id":"4na6pwlx"}
+{"time":"2026-03-10T16:44:25.938862687-04:00","level":"INFO","msg":"stream: closed","id":"4na6pwlx"}

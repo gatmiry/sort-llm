@@ -1,0 +1,16 @@
+{"time":"2026-03-11T16:48:39.10029436-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmpuoirsp91/port-3144562.txt","pid":3144562,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-11T16:48:39.110199369-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3144562}
+{"time":"2026-03-11T16:48:39.110189196-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-3144562-3144865-803416287/socket","Net":"unix"}}
+{"time":"2026-03-11T16:48:39.2885051-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-11T16:48:39.301080802-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"co0z1d7a","id":"1(@)"}
+{"time":"2026-03-11T16:48:39.526784594-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"co0z1d7a","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.782892385-04:00","level":"INFO","msg":"handleInformFinish: finish message received","streamId":"co0z1d7a","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805510104-04:00","level":"INFO","msg":"handleInformFinish: stream closed","streamId":"co0z1d7a","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805525594-04:00","level":"INFO","msg":"handleInformTeardown: server teardown initiated","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805534625-04:00","level":"INFO","msg":"handleInformTeardown: server shutdown complete","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.80554395-04:00","level":"INFO","msg":"server is shutting down"}
+{"time":"2026-03-11T17:08:59.805540795-04:00","level":"INFO","msg":"connection: closing","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805576847-04:00","level":"INFO","msg":"connection: closed successfully","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805584157-04:00","level":"INFO","msg":"connection: ManageConnectionData: connection closed","id":"1(@)"}
+{"time":"2026-03-11T17:08:59.805614373-04:00","level":"INFO","msg":"server: listener closed","addr":{"Name":"/tmp/wandb-3144562-3144865-803416287/socket","Net":"unix"}}
+{"time":"2026-03-11T17:08:59.805641336-04:00","level":"INFO","msg":"server is closed"}

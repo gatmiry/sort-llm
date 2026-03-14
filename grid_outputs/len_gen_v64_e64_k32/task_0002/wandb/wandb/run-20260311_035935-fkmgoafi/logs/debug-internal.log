@@ -1,0 +1,12 @@
+{"time":"2026-03-11T03:59:35.799256247-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T03:59:36.025954325-04:00","level":"INFO","msg":"stream: created new stream","id":"fkmgoafi"}
+{"time":"2026-03-11T03:59:36.026013609-04:00","level":"INFO","msg":"stream: started","id":"fkmgoafi"}
+{"time":"2026-03-11T03:59:36.026021966-04:00","level":"INFO","msg":"writer: started","stream_id":"fkmgoafi"}
+{"time":"2026-03-11T03:59:36.026027876-04:00","level":"INFO","msg":"sender: started","stream_id":"fkmgoafi"}
+{"time":"2026-03-11T03:59:36.026033428-04:00","level":"INFO","msg":"handler: started","stream_id":"fkmgoafi"}
+{"time":"2026-03-11T04:11:04.429778979-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000836065}],"total_operations":1}}
+{"time":"2026-03-11T04:11:04.859411718-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T04:11:05.254488493-04:00","level":"INFO","msg":"stream: closing","id":"fkmgoafi"}
+{"time":"2026-03-11T04:11:05.254511043-04:00","level":"INFO","msg":"handler: closed","stream_id":"fkmgoafi"}
+{"time":"2026-03-11T04:11:05.254648361-04:00","level":"INFO","msg":"sender: closed","stream_id":"fkmgoafi"}
+{"time":"2026-03-11T04:11:05.254668701-04:00","level":"INFO","msg":"stream: closed","id":"fkmgoafi"}

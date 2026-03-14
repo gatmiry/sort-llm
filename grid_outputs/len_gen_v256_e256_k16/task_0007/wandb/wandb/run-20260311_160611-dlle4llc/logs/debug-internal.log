@@ -1,0 +1,12 @@
+{"time":"2026-03-11T16:06:12.05495294-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T16:06:12.277799779-04:00","level":"INFO","msg":"stream: created new stream","id":"dlle4llc"}
+{"time":"2026-03-11T16:06:12.277865183-04:00","level":"INFO","msg":"stream: started","id":"dlle4llc"}
+{"time":"2026-03-11T16:06:12.277875067-04:00","level":"INFO","msg":"sender: started","stream_id":"dlle4llc"}
+{"time":"2026-03-11T16:06:12.277872192-04:00","level":"INFO","msg":"writer: started","stream_id":"dlle4llc"}
+{"time":"2026-03-11T16:06:12.277889655-04:00","level":"INFO","msg":"handler: started","stream_id":"dlle4llc"}
+{"time":"2026-03-11T16:15:56.07177286-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.013339981}],"total_operations":1}}
+{"time":"2026-03-11T16:15:56.531016983-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T16:15:56.785980165-04:00","level":"INFO","msg":"stream: closing","id":"dlle4llc"}
+{"time":"2026-03-11T16:15:56.786000948-04:00","level":"INFO","msg":"handler: closed","stream_id":"dlle4llc"}
+{"time":"2026-03-11T16:15:56.786179056-04:00","level":"INFO","msg":"sender: closed","stream_id":"dlle4llc"}
+{"time":"2026-03-11T16:15:56.786232453-04:00","level":"INFO","msg":"stream: closed","id":"dlle4llc"}

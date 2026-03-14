@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:46:09.35538974-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:46:09.607475786-04:00","level":"INFO","msg":"stream: created new stream","id":"cyb8spfu"}
+{"time":"2026-03-11T17:46:09.60753811-04:00","level":"INFO","msg":"stream: started","id":"cyb8spfu"}
+{"time":"2026-03-11T17:46:09.607536807-04:00","level":"INFO","msg":"writer: started","stream_id":"cyb8spfu"}
+{"time":"2026-03-11T17:46:09.607541127-04:00","level":"INFO","msg":"sender: started","stream_id":"cyb8spfu"}
+{"time":"2026-03-11T17:46:09.607557816-04:00","level":"INFO","msg":"handler: started","stream_id":"cyb8spfu"}
+{"time":"2026-03-11T17:55:51.302005844-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000925783}],"total_operations":1}}
+{"time":"2026-03-11T17:55:51.998269915-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:55:52.310488893-04:00","level":"INFO","msg":"stream: closing","id":"cyb8spfu"}
+{"time":"2026-03-11T17:55:52.310511493-04:00","level":"INFO","msg":"handler: closed","stream_id":"cyb8spfu"}
+{"time":"2026-03-11T17:55:52.310707594-04:00","level":"INFO","msg":"sender: closed","stream_id":"cyb8spfu"}
+{"time":"2026-03-11T17:55:52.310731593-04:00","level":"INFO","msg":"stream: closed","id":"cyb8spfu"}

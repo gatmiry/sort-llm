@@ -1,0 +1,12 @@
+{"time":"2026-03-11T16:55:06.10485561-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T16:55:06.340505786-04:00","level":"INFO","msg":"stream: created new stream","id":"s780vdeo"}
+{"time":"2026-03-11T16:55:06.340548401-04:00","level":"INFO","msg":"stream: started","id":"s780vdeo"}
+{"time":"2026-03-11T16:55:06.340553948-04:00","level":"INFO","msg":"writer: started","stream_id":"s780vdeo"}
+{"time":"2026-03-11T16:55:06.340561701-04:00","level":"INFO","msg":"sender: started","stream_id":"s780vdeo"}
+{"time":"2026-03-11T16:55:06.340567719-04:00","level":"INFO","msg":"handler: started","stream_id":"s780vdeo"}
+{"time":"2026-03-11T17:04:22.739712325-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 155-158, summary, console lines 158-161","runtime_seconds":0.096667971},{"desc":"updating run metadata","runtime_seconds":0.000610569}],"total_operations":2}}
+{"time":"2026-03-11T17:04:23.171182358-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:04:23.443464518-04:00","level":"INFO","msg":"stream: closing","id":"s780vdeo"}
+{"time":"2026-03-11T17:04:23.443479279-04:00","level":"INFO","msg":"handler: closed","stream_id":"s780vdeo"}
+{"time":"2026-03-11T17:04:23.443649111-04:00","level":"INFO","msg":"sender: closed","stream_id":"s780vdeo"}
+{"time":"2026-03-11T17:04:23.443679543-04:00","level":"INFO","msg":"stream: closed","id":"s780vdeo"}

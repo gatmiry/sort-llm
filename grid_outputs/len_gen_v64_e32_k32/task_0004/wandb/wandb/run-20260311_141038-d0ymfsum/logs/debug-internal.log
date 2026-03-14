@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:10:39.070225272-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:10:39.298931748-04:00","level":"INFO","msg":"stream: created new stream","id":"d0ymfsum"}
+{"time":"2026-03-11T14:10:39.298986989-04:00","level":"INFO","msg":"stream: started","id":"d0ymfsum"}
+{"time":"2026-03-11T14:10:39.298993196-04:00","level":"INFO","msg":"writer: started","stream_id":"d0ymfsum"}
+{"time":"2026-03-11T14:10:39.29900287-04:00","level":"INFO","msg":"sender: started","stream_id":"d0ymfsum"}
+{"time":"2026-03-11T14:10:39.299007195-04:00","level":"INFO","msg":"handler: started","stream_id":"d0ymfsum"}
+{"time":"2026-03-11T14:20:02.347556936-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00103222}],"total_operations":1}}
+{"time":"2026-03-11T14:20:03.2731714-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:20:03.760429881-04:00","level":"INFO","msg":"stream: closing","id":"d0ymfsum"}
+{"time":"2026-03-11T14:20:03.760452042-04:00","level":"INFO","msg":"handler: closed","stream_id":"d0ymfsum"}
+{"time":"2026-03-11T14:20:03.76061973-04:00","level":"INFO","msg":"sender: closed","stream_id":"d0ymfsum"}
+{"time":"2026-03-11T14:20:03.760642667-04:00","level":"INFO","msg":"stream: closed","id":"d0ymfsum"}

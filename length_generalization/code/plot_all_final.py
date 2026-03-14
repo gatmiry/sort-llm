@@ -16,6 +16,7 @@ import csv
 import glob
 import json
 import os
+import re
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
@@ -49,6 +50,91 @@ def _val(cfg, key, default=None):
     if isinstance(v, dict) and "value" in v:
         return v["value"]
     return default
+
+
+def _parse_run_name(name: str) -> Optional[dict]:
+    """Parse config fields from a run name like
+    'bs4096_eb4096_ga1_N256_d256_H1_L1_npos1_mlp0_ln0_normnone_..._lenmix_trainK32to32_testK32to32_nodup1'
+    """
+    cfg: dict = {}
+    for part in name.split("_"):
+        m = re.fullmatch(r"L(\d+)", part)
+        if m:
+            cfg["n_layers"] = int(m.group(1))
+            continue
+        m = re.fullmatch(r"mlp(\d+)", part)
+        if m:
+            cfg["use_mlp"] = bool(int(m.group(1)))
+            continue
+        m = re.fullmatch(r"ln(\d+)", part)
+        if m:
+            cfg["use_ln"] = bool(int(m.group(1)))
+            continue
+        m = re.fullmatch(r"len(\w+)", part)
+        if m:
+            cfg["length_mode"] = m.group(1)   # mix | curriculum | fixed | …
+            continue
+        m = re.fullmatch(r"trainK(\d+)to(\d+)", part)
+        if m:
+            cfg["train_min_k"] = int(m.group(1))
+            cfg["train_max_k"] = int(m.group(2))
+            continue
+    return cfg
+
+
+def load_runs_wandb(project: str = "sortgpt", entity: Optional[str] = 'chloe0711') -> List[Run]:
+    """Load runs from the Weights & Biases API.
+
+    Each run's config is parsed from its name.  The function reads
+    'test/K{k}/tf_token_acc' from the run summary (whichever K is present)
+    and stores it as in_dist_em.
+    """
+    try:
+        import wandb
+    except ImportError:
+        raise ImportError("wandb is not installed. Run: pip install wandb")
+
+    api = wandb.Api()
+    path = f"{entity}/{project}" if entity else project
+    print(f"Fetching runs from W&B project '{path}' …")
+    wandb_runs = api.runs(path)
+
+    runs: List[Run] = []
+    for wr in wandb_runs:
+        cfg = _parse_run_name(wr.name)
+
+        L    = cfg.get("n_layers")
+        mlp  = cfg.get("use_mlp")
+        ln   = cfg.get("use_ln", True)
+        mode = cfg.get("length_mode")
+        kmin = cfg.get("train_min_k")
+        kmax = cfg.get("train_max_k")
+
+        if None in (L, mlp, mode, kmin, kmax):
+            continue
+
+        mode = str(mode).strip().lower()
+        if kmin == kmax:
+            training, lm = "fixed", "fixed"
+        else:
+            training = "dynamic"
+            lm = mode if mode in ("mix", "curriculum") else None
+            if lm is None:
+                continue
+
+        summ = dict(wr.summary)
+        acc = None
+        for k in (32, 16):
+            acc = summ.get(f"test/K{k}/tf_token_acc")
+            if acc is not None:
+                break
+        in_dist_em = float(acc) if acc is not None else None
+
+        runs.append(Run(L, mlp, bool(ln), lm, training, kmax,
+                        train_em=None, in_dist_em=in_dist_em, gen_em=None))
+
+    print(f"Loaded {len(runs)} runs from W&B")
+    return runs
 
 
 def load_runs(grid_root: str) -> List[Run]:
@@ -277,6 +363,82 @@ def fig_ln_effect(runs: List[Run], path: str):
     plt.tight_layout(); fig.savefig(path, dpi=150, bbox_inches="tight"); plt.close(fig)
 
 
+# ─── Figure 6: tf_token_acc for K16 / K32 fixed runs (W&B) ────────
+
+def fig_tf_token_acc(runs: List[Run], path: str):
+    """Bar chart of test tf_token_acc for fixed single-K runs (K16 and K32).
+
+    2×2 grid by (n_layers, use_mlp).  Within each panel, grouped bars for
+    K16 vs K32, split by LN on/off and length_mode.
+    """
+    fixed = [r for r in runs if r.training == "fixed" and r.in_dist_em is not None]
+    if not fixed:
+        print("fig_tf_token_acc: no fixed-training runs with in_dist_em, skipping")
+        return
+
+    # aggregate: (train_max_k, n_layers, use_mlp, use_ln, length_mode) → mean ± std
+    agg: Dict[Tuple, List[float]] = defaultdict(list)
+    for r in fixed:
+        agg[(r.train_max_k, r.n_layers, r.use_mlp, r.use_ln, r.length_mode)].append(r.in_dist_em)
+    agg_mean = {k: (float(np.mean(v)), float(np.std(v))) for k, v in agg.items()}
+
+    panels = [(1, False, "L1, MLP off"), (1, True, "L1, MLP on"),
+              (2, False, "L2, MLP off"), (2, True, "L2, MLP on")]
+
+    k_vals   = sorted({k[0] for k in agg_mean})          # e.g. [16, 32]
+    ln_vals  = [True, False]
+    modes    = sorted({k[4] for k in agg_mean})
+
+    # one bar group per (K, ln, mode) combination
+    group_labels = [f"K{kv} {'LN' if ln else 'no-LN'} {m}"
+                    for kv in k_vals for ln in ln_vals for m in modes]
+    group_keys   = [(kv, ln, m) for kv in k_vals for ln in ln_vals for m in modes]
+    x = np.arange(len(group_keys))
+    width = 0.6
+
+    colors = {kv: ("#1f77b4" if kv == 16 else "#ff7f0e") for kv in k_vals}
+    hatches = {True: "", False: "//"}
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 9), sharey=True)
+    fig.suptitle("Token Accuracy (tf_token_acc) for Fixed Single-K Runs", fontweight="bold")
+
+    for i, (L, mlp, title) in enumerate(panels):
+        ax = axes[i // 2][i % 2]
+        ys, ye = [], []
+        for kv, ln, m in group_keys:
+            key = (kv, L, mlp, ln, m)
+            if key in agg_mean:
+                mu, sd = agg_mean[key]
+            else:
+                mu, sd = 0.0, 0.0
+            ys.append(mu); ye.append(sd)
+
+        bars = ax.bar(x, ys, width, yerr=ye, capsize=3,
+                      color=[colors[kv] for kv, _, _ in group_keys],
+                      hatch=[hatches[ln] for _, ln, _ in group_keys],
+                      alpha=0.8, edgecolor="black", linewidth=0.5)
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(group_labels, rotation=45, ha="right", fontsize=7)
+        ax.set_title(title); ax.grid(True, axis="y", alpha=0.25)
+        ax.axhline(0.95, color="gray", ls="--", alpha=0.5)
+        ax.set_ylim(0, 1.05)
+
+    axes[0][0].set_ylabel("tf_token_acc")
+    axes[1][0].set_ylabel("tf_token_acc")
+
+    # legend patches
+    import matplotlib.patches as mpatches
+    legend_handles = [mpatches.Patch(color=colors[kv], label=f"K{kv}") for kv in k_vals]
+    legend_handles += [mpatches.Patch(facecolor="white", edgecolor="black",
+                                      hatch=hatches[ln],
+                                      label="LN on" if ln else "LN off")
+                       for ln in ln_vals]
+    fig.legend(handles=legend_handles, loc="upper right", fontsize=9, ncol=2)
+
+    plt.tight_layout(); fig.savefig(path, dpi=150, bbox_inches="tight"); plt.close(fig)
+
+
 # ─── CSV: full summary ─────────────────────────────────────────────
 
 def write_csv(runs: List[Run], path: str):
@@ -319,11 +481,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--grid-root", default="/temp_work/ch225816/sort-llm/grid_outputs")
     ap.add_argument("--output-dir", default="/temp_work/ch225816/sort-llm-repo/length_generalization/results")
+    # W&B API options
+    ap.add_argument("--wandb", action="store_true",
+                    help="Load runs from the W&B API instead of local files")
+    ap.add_argument("--wandb-project", default="sortgpt",
+                    help="W&B project name (default: sortgpt)")
+    ap.add_argument("--wandb-entity", default=None,
+                    help="W&B entity/username (omit to use the default from 'wandb login')")
     args = ap.parse_args()
 
     os.makedirs(args.output_dir, exist_ok=True)
-    runs = load_runs(args.grid_root)
-    print(f"Loaded {len(runs)} runs")
+    if args.wandb:
+        runs = load_runs_wandb(project=args.wandb_project, entity=args.wandb_entity)
+    else:
+        runs = load_runs(args.grid_root)
+        print(f"Loaded {len(runs)} runs")
 
     out = args.output_dir
     fig_main(runs,       os.path.join(out, "fig1_main_result.png"))
@@ -331,6 +503,7 @@ def main():
     fig_ln_fixed(runs,   os.path.join(out, "fig3_layernorm_fixed.png"))
     fig_scatter(runs,    os.path.join(out, "fig4_in_dist_vs_ood.png"))
     fig_ln_effect(runs,  os.path.join(out, "fig5_layernorm_effect_size.png"))
+    fig_tf_token_acc(runs, os.path.join(out, "fig6_tf_token_acc.png"))
     write_csv(runs,      os.path.join(out, "summary.csv"))
     write_thresholds(runs, os.path.join(out, "min_k_thresholds.csv"))
 

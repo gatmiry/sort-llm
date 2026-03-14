@@ -1,0 +1,12 @@
+{"time":"2026-03-10T14:57:13.138890934-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T14:57:13.371431236-04:00","level":"INFO","msg":"stream: created new stream","id":"kt60q3gr"}
+{"time":"2026-03-10T14:57:13.371475147-04:00","level":"INFO","msg":"stream: started","id":"kt60q3gr"}
+{"time":"2026-03-10T14:57:13.371481276-04:00","level":"INFO","msg":"writer: started","stream_id":"kt60q3gr"}
+{"time":"2026-03-10T14:57:13.371490159-04:00","level":"INFO","msg":"sender: started","stream_id":"kt60q3gr"}
+{"time":"2026-03-10T14:57:13.371502693-04:00","level":"INFO","msg":"handler: started","stream_id":"kt60q3gr"}
+{"time":"2026-03-10T15:03:54.830530284-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000996477}],"total_operations":1}}
+{"time":"2026-03-10T15:03:55.290861175-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T15:03:55.875098163-04:00","level":"INFO","msg":"stream: closing","id":"kt60q3gr"}
+{"time":"2026-03-10T15:03:55.875117408-04:00","level":"INFO","msg":"handler: closed","stream_id":"kt60q3gr"}
+{"time":"2026-03-10T15:03:55.875293536-04:00","level":"INFO","msg":"sender: closed","stream_id":"kt60q3gr"}
+{"time":"2026-03-10T15:03:55.87531744-04:00","level":"INFO","msg":"stream: closed","id":"kt60q3gr"}

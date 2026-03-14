@@ -1,0 +1,12 @@
+{"time":"2026-03-11T05:08:51.108772984-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T05:08:51.33481539-04:00","level":"INFO","msg":"stream: created new stream","id":"wegd6hmu"}
+{"time":"2026-03-11T05:08:51.334861901-04:00","level":"INFO","msg":"stream: started","id":"wegd6hmu"}
+{"time":"2026-03-11T05:08:51.334868569-04:00","level":"INFO","msg":"writer: started","stream_id":"wegd6hmu"}
+{"time":"2026-03-11T05:08:51.334872847-04:00","level":"INFO","msg":"handler: started","stream_id":"wegd6hmu"}
+{"time":"2026-03-11T05:08:51.334893478-04:00","level":"INFO","msg":"sender: started","stream_id":"wegd6hmu"}
+{"time":"2026-03-11T05:16:21.240450966-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000805038}],"total_operations":1}}
+{"time":"2026-03-11T05:16:24.304007132-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T05:16:27.807963986-04:00","level":"INFO","msg":"stream: closing","id":"wegd6hmu"}
+{"time":"2026-03-11T05:16:27.80798375-04:00","level":"INFO","msg":"handler: closed","stream_id":"wegd6hmu"}
+{"time":"2026-03-11T05:16:27.808128036-04:00","level":"INFO","msg":"sender: closed","stream_id":"wegd6hmu"}
+{"time":"2026-03-11T05:16:27.80814911-04:00","level":"INFO","msg":"stream: closed","id":"wegd6hmu"}

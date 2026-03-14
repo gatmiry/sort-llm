@@ -1,0 +1,12 @@
+{"time":"2026-03-11T18:56:36.451838152-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:56:36.727146517-04:00","level":"INFO","msg":"stream: created new stream","id":"2uieavel"}
+{"time":"2026-03-11T18:56:36.727228287-04:00","level":"INFO","msg":"stream: started","id":"2uieavel"}
+{"time":"2026-03-11T18:56:36.727231626-04:00","level":"INFO","msg":"writer: started","stream_id":"2uieavel"}
+{"time":"2026-03-11T18:56:36.72722844-04:00","level":"INFO","msg":"handler: started","stream_id":"2uieavel"}
+{"time":"2026-03-11T18:56:36.727257204-04:00","level":"INFO","msg":"sender: started","stream_id":"2uieavel"}
+{"time":"2026-03-11T19:05:47.335155197-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000839569}],"total_operations":1}}
+{"time":"2026-03-11T19:05:47.763322381-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T19:05:48.070399937-04:00","level":"INFO","msg":"stream: closing","id":"2uieavel"}
+{"time":"2026-03-11T19:05:48.07042824-04:00","level":"INFO","msg":"handler: closed","stream_id":"2uieavel"}
+{"time":"2026-03-11T19:05:48.070601057-04:00","level":"INFO","msg":"sender: closed","stream_id":"2uieavel"}
+{"time":"2026-03-11T19:05:48.070617345-04:00","level":"INFO","msg":"stream: closed","id":"2uieavel"}

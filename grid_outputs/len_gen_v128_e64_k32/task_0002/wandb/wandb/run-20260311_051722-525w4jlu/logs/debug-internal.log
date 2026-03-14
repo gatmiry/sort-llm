@@ -1,0 +1,13 @@
+{"time":"2026-03-11T05:17:22.702631113-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T05:17:22.921707084-04:00","level":"INFO","msg":"stream: created new stream","id":"525w4jlu"}
+{"time":"2026-03-11T05:17:22.92174404-04:00","level":"INFO","msg":"stream: started","id":"525w4jlu"}
+{"time":"2026-03-11T05:17:22.921750843-04:00","level":"INFO","msg":"writer: started","stream_id":"525w4jlu"}
+{"time":"2026-03-11T05:17:22.92175429-04:00","level":"INFO","msg":"sender: started","stream_id":"525w4jlu"}
+{"time":"2026-03-11T05:17:22.921774961-04:00","level":"INFO","msg":"handler: started","stream_id":"525w4jlu"}
+{"time":"2026-03-11T05:19:28.509028367-04:00","level":"INFO","msg":"api: retrying HTTP error","status":503,"url":"https://api.wandb.ai/graphql","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>503 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The service you requested is not available at this time.<p>Service error -27.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-11T05:29:15.674775286-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000746141}],"total_operations":1}}
+{"time":"2026-03-11T05:29:18.072421525-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T05:29:19.985405887-04:00","level":"INFO","msg":"stream: closing","id":"525w4jlu"}
+{"time":"2026-03-11T05:29:19.985421927-04:00","level":"INFO","msg":"handler: closed","stream_id":"525w4jlu"}
+{"time":"2026-03-11T05:29:19.985604051-04:00","level":"INFO","msg":"sender: closed","stream_id":"525w4jlu"}
+{"time":"2026-03-11T05:29:19.985636381-04:00","level":"INFO","msg":"stream: closed","id":"525w4jlu"}

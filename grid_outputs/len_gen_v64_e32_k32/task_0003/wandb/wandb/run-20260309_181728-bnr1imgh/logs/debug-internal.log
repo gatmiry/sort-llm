@@ -1,0 +1,6 @@
+{"time":"2026-03-09T18:17:28.922491329-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-09T18:17:29.15665759-04:00","level":"INFO","msg":"stream: created new stream","id":"bnr1imgh"}
+{"time":"2026-03-09T18:17:29.156697891-04:00","level":"INFO","msg":"stream: started","id":"bnr1imgh"}
+{"time":"2026-03-09T18:17:29.156704269-04:00","level":"INFO","msg":"writer: started","stream_id":"bnr1imgh"}
+{"time":"2026-03-09T18:17:29.156713794-04:00","level":"INFO","msg":"handler: started","stream_id":"bnr1imgh"}
+{"time":"2026-03-09T18:17:29.156957942-04:00","level":"INFO","msg":"sender: started","stream_id":"bnr1imgh"}

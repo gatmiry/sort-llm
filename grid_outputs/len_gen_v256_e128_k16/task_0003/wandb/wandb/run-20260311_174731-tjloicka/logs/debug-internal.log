@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:47:31.774341738-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:47:32.029847416-04:00","level":"INFO","msg":"stream: created new stream","id":"tjloicka"}
+{"time":"2026-03-11T17:47:32.029898905-04:00","level":"INFO","msg":"stream: started","id":"tjloicka"}
+{"time":"2026-03-11T17:47:32.029904877-04:00","level":"INFO","msg":"writer: started","stream_id":"tjloicka"}
+{"time":"2026-03-11T17:47:32.02990932-04:00","level":"INFO","msg":"sender: started","stream_id":"tjloicka"}
+{"time":"2026-03-11T17:47:32.029919839-04:00","level":"INFO","msg":"handler: started","stream_id":"tjloicka"}
+{"time":"2026-03-11T17:54:35.935205547-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000827902}],"total_operations":1}}
+{"time":"2026-03-11T17:54:36.405197564-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:54:36.649474873-04:00","level":"INFO","msg":"stream: closing","id":"tjloicka"}
+{"time":"2026-03-11T17:54:36.649497795-04:00","level":"INFO","msg":"handler: closed","stream_id":"tjloicka"}
+{"time":"2026-03-11T17:54:36.649673496-04:00","level":"INFO","msg":"sender: closed","stream_id":"tjloicka"}
+{"time":"2026-03-11T17:54:36.649697636-04:00","level":"INFO","msg":"stream: closed","id":"tjloicka"}

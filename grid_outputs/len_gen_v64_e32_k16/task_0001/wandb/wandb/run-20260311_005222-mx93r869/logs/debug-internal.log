@@ -1,0 +1,12 @@
+{"time":"2026-03-11T00:52:22.682175693-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T00:52:22.932377174-04:00","level":"INFO","msg":"stream: created new stream","id":"mx93r869"}
+{"time":"2026-03-11T00:52:22.932417368-04:00","level":"INFO","msg":"stream: started","id":"mx93r869"}
+{"time":"2026-03-11T00:52:22.932423322-04:00","level":"INFO","msg":"writer: started","stream_id":"mx93r869"}
+{"time":"2026-03-11T00:52:22.932426791-04:00","level":"INFO","msg":"handler: started","stream_id":"mx93r869"}
+{"time":"2026-03-11T00:52:22.932437065-04:00","level":"INFO","msg":"sender: started","stream_id":"mx93r869"}
+{"time":"2026-03-11T01:00:57.604427783-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00068318}],"total_operations":1}}
+{"time":"2026-03-11T01:00:58.098438784-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T01:00:58.321652364-04:00","level":"INFO","msg":"stream: closing","id":"mx93r869"}
+{"time":"2026-03-11T01:00:58.321670395-04:00","level":"INFO","msg":"handler: closed","stream_id":"mx93r869"}
+{"time":"2026-03-11T01:00:58.32181292-04:00","level":"INFO","msg":"sender: closed","stream_id":"mx93r869"}
+{"time":"2026-03-11T01:00:58.321838637-04:00","level":"INFO","msg":"stream: closed","id":"mx93r869"}

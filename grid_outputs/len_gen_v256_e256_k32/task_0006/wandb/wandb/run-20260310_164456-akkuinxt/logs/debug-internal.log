@@ -1,0 +1,12 @@
+{"time":"2026-03-10T16:44:57.102302491-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:44:57.711634212-04:00","level":"INFO","msg":"stream: created new stream","id":"akkuinxt"}
+{"time":"2026-03-10T16:44:57.711671487-04:00","level":"INFO","msg":"stream: started","id":"akkuinxt"}
+{"time":"2026-03-10T16:44:57.711678127-04:00","level":"INFO","msg":"writer: started","stream_id":"akkuinxt"}
+{"time":"2026-03-10T16:44:57.711682939-04:00","level":"INFO","msg":"sender: started","stream_id":"akkuinxt"}
+{"time":"2026-03-10T16:44:57.711694976-04:00","level":"INFO","msg":"handler: started","stream_id":"akkuinxt"}
+{"time":"2026-03-10T16:58:40.824631789-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00104773}],"total_operations":1}}
+{"time":"2026-03-10T16:58:41.239946017-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:58:41.468514789-04:00","level":"INFO","msg":"stream: closing","id":"akkuinxt"}
+{"time":"2026-03-10T16:58:41.468529776-04:00","level":"INFO","msg":"handler: closed","stream_id":"akkuinxt"}
+{"time":"2026-03-10T16:58:41.468651005-04:00","level":"INFO","msg":"sender: closed","stream_id":"akkuinxt"}
+{"time":"2026-03-10T16:58:41.468664119-04:00","level":"INFO","msg":"stream: closed","id":"akkuinxt"}

@@ -1,0 +1,12 @@
+{"time":"2026-03-10T12:51:51.280964171-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T12:51:51.512559986-04:00","level":"INFO","msg":"stream: created new stream","id":"djcks86y"}
+{"time":"2026-03-10T12:51:51.512608421-04:00","level":"INFO","msg":"stream: started","id":"djcks86y"}
+{"time":"2026-03-10T12:51:51.512615703-04:00","level":"INFO","msg":"writer: started","stream_id":"djcks86y"}
+{"time":"2026-03-10T12:51:51.51261914-04:00","level":"INFO","msg":"handler: started","stream_id":"djcks86y"}
+{"time":"2026-03-10T12:51:51.512625341-04:00","level":"INFO","msg":"sender: started","stream_id":"djcks86y"}
+{"time":"2026-03-10T12:54:35.124744179-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000733948}],"total_operations":1}}
+{"time":"2026-03-10T12:54:36.734919629-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T12:54:37.442547241-04:00","level":"INFO","msg":"stream: closing","id":"djcks86y"}
+{"time":"2026-03-10T12:54:37.442565343-04:00","level":"INFO","msg":"handler: closed","stream_id":"djcks86y"}
+{"time":"2026-03-10T12:54:37.442726899-04:00","level":"INFO","msg":"sender: closed","stream_id":"djcks86y"}
+{"time":"2026-03-10T12:54:37.442751324-04:00","level":"INFO","msg":"stream: closed","id":"djcks86y"}

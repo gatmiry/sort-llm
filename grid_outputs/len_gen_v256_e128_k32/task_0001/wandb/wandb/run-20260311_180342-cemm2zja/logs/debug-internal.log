@@ -1,0 +1,12 @@
+{"time":"2026-03-11T18:03:43.037729245-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:03:43.282535047-04:00","level":"INFO","msg":"stream: created new stream","id":"cemm2zja"}
+{"time":"2026-03-11T18:03:43.282612252-04:00","level":"INFO","msg":"stream: started","id":"cemm2zja"}
+{"time":"2026-03-11T18:03:43.282631089-04:00","level":"INFO","msg":"sender: started","stream_id":"cemm2zja"}
+{"time":"2026-03-11T18:03:43.282629464-04:00","level":"INFO","msg":"writer: started","stream_id":"cemm2zja"}
+{"time":"2026-03-11T18:03:43.282643692-04:00","level":"INFO","msg":"handler: started","stream_id":"cemm2zja"}
+{"time":"2026-03-11T18:21:49.61979651-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.03012718}],"total_operations":1}}
+{"time":"2026-03-11T18:21:50.045427454-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T18:21:50.469804675-04:00","level":"INFO","msg":"stream: closing","id":"cemm2zja"}
+{"time":"2026-03-11T18:21:50.469831927-04:00","level":"INFO","msg":"handler: closed","stream_id":"cemm2zja"}
+{"time":"2026-03-11T18:21:50.469964707-04:00","level":"INFO","msg":"sender: closed","stream_id":"cemm2zja"}
+{"time":"2026-03-11T18:21:50.469986521-04:00","level":"INFO","msg":"stream: closed","id":"cemm2zja"}

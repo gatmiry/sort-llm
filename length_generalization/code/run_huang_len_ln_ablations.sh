@@ -12,32 +12,37 @@
 #   ood-long:  K=101..150
 
 #SBATCH --job-name=huang_ln_ablate_v2
-#SBATCH --account=chip
-#SBATCH --partition=chip-gpu
-#SBATCH --gres=gpu:large:1
-#SBATCH --mem=48GB
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1  
+#SBATCH --cpus-per-task=24
+#SBATCH --mem=100G
+#SBATCH --account=kempner_grads
+#SBATCH --partition=kempner
 #SBATCH --time=72:00:00
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=shan.chen@childrens.harvard.edu
+#SBATCH --mail-user=csu@g.harvard.edu
 #SBATCH --output=logs/huang_ln_ablate-%A_%a.out
-#SBATCH --array=0-35
+#SBATCH --array=0-71
 
 set -euo pipefail
 
-source "$HOME/miniconda3/etc/profile.d/conda.sh"
-conda activate verl
+# source "$HOME/miniconda3/etc/profile.d/conda.sh"
+source ~/.bashrc
+conda deactivate
+conda activate vla
 
-export HF_HOME=/temp_work/ch225816/hf
+# export HF_HOME=/temp_work/ch225816/hf
 
-ROOT_DIR=/temp_work/ch225816/sort-llm-repo/length_generalization/code
-cd "$ROOT_DIR"
+# ROOT_DIR=/temp_work/ch225816/sort-llm-repo/length_generalization/code
+# cd "$ROOT_DIR"
 
 # fixed grid dims in this launcher
 LAYER_COUNTS=(1 2)
 MLP_FLAGS=(true false)
 SEEDS=(1337 2337 3337)
-GRID_SIZE=$(( ${#LAYER_COUNTS[@]} * ${#MLP_FLAGS[@]} ))   # 4 tasks per seed
-TASKS_PER_VARIANT=$(( GRID_SIZE * ${#SEEDS[@]} ))         # 12
+POS_FLAGS=(true false)
+GRID_SIZE=$(( ${#LAYER_COUNTS[@]} * ${#MLP_FLAGS[@]} * ${#POS_FLAGS[@]} ))   # 8 tasks per seed
+TASKS_PER_VARIANT=$(( GRID_SIZE * ${#SEEDS[@]} ))                            # 24
 
 TASK_ID=${SLURM_ARRAY_TASK_ID}
 VARIANT_INDEX=$(( TASK_ID / TASKS_PER_VARIANT ))     # 0..2
@@ -82,19 +87,19 @@ esac
 
 GROUP_NAME="huang_${VARIANT_NAME}"
 
-python -u sortGPT_len_generalization.py \
-  --project sortgpt \
-  --root /temp_work/ch225816/sort-llm/grid_outputs \
+python -u length_generalization/code/sortGPT_len_generalization.py \
+  --project sortgpt-huang-ln-ablations \
+  --root /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/grid_outputs \
   --group "$GROUP_NAME" \
   --task-id "$INNER_ID" \
   --layer-counts "${LAYER_COUNTS[@]}" \
-  --without-pos-flags true \
+  --without-pos-flags "${POS_FLAGS[@]}" \
   --use-mlp-flags "${MLP_FLAGS[@]}" \
   --use-layernorm-flags "${USE_LN_FLAGS[@]}" \
   --length-modes mix \
   --allow-duplicates-flags false \
   --vocab-n 256 \
-  --n-embd 128 \
+  --n-embd 64 \
   --n-heads 1 \
   --train-min-k "$TRAIN_MIN_K" \
   --train-max-k "$TRAIN_MAX_K" \
@@ -110,7 +115,7 @@ python -u sortGPT_len_generalization.py \
   --eval-batch-size 100 \
   --max-iters 30000 \
   --warmup-iters 400 \
-  --learning-rate 1e-4 \
+  --learning-rate 1e-3 \
   --min-lr 1e-6 \
   --micro-batch-size 4096 \
   --effective-batch-size 4096 \

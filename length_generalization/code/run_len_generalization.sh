@@ -2,75 +2,96 @@
 # SLURM batch script for length generalization experiments (SortGPT)
 
 #SBATCH --job-name=sortgpt_len_gen
-#SBATCH --account=chip
-#SBATCH --partition=chip-gpu
-#SBATCH --gres=gpu:large:1
-#SBATCH --mem=48GB
-#SBATCH --time=99:00:00
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=shan.chen@childrens.harvard.edu
+#SBATCH --nodes=1
+
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1  
+#SBATCH --cpus-per-task=24
+#SBATCH --mem=100G
+#SBATCH --time=1-23:59:00
+#SBATCH --account=kempner_grads
+#SBATCH --partition=kempner
+#SBATCH --mail-user=csu@g.harvard.edu
 #SBATCH --output=logs/len_gen-%A_%a.out
-#SBATCH --array=0-83
+#SBATCH --array=0-287
 
 set -euo pipefail
 
 # Activate environment
-source "$HOME/miniconda3/etc/profile.d/conda.sh"
-conda activate verl
+# source "$HOME/miniconda3/etc/profile.d/conda.sh"
+source ~/.bashrc
+conda deactivate
+conda activate vla
 
-export HF_HOME=/temp_work/ch225816/hf
+# export HF_HOME=/temp_work/ch225816/hf
 
-ROOT_DIR=/temp_work/ch225816/ranking
-cd "$ROOT_DIR"
+# ROOT_DIR=/temp_work/ch225816/ranking
+# cd "$ROOT_DIR"
 
 # Experiment grid:
-# - layer_counts: 1,2
-# - length_modes (data loading): mix, curriculum
-# - train_max_k: 4,6,8,10,12,14,16
-# - seeds: 3
+# - vocab_n: 64, 128, 256
+# - n_embd: N/2, N  (relative to vocab)
+# - train_max_k: 16, 32
+# - layer_counts: 1, 2
+# - length_modes: mix, curriculum
+# - use_layernorm: true, false
 # - mlp: off (we already have mlp-on results)
-# - fixed: no pos embedding, test lengths 17-32
+# - seeds: 3
+# - fixed: no pos embedding
+# Total: 3 × 2 × 2 × 3 × (2 layers × 2 modes × 1 mlp × 2 layernorm) = 288 tasks
 
-TRAIN_MAX_K_LIST=(4 6 8 10 12 14 16)
+VOCAB_LIST=(64 128 256)
+TRAIN_MAX_K_LIST=(16 32)
 LAYER_COUNTS=(1 2)
 LENGTH_MODES=(mix curriculum)
 MLP_FLAGS=(false)
+LAYERNORM_FLAGS=(true false)
 SEEDS=(1337 2337 3337)
 
-GRID_PER_K=$(( ${#LAYER_COUNTS[@]} * ${#LENGTH_MODES[@]} * ${#MLP_FLAGS[@]} ))
-GRID_PER_K_WITH_SEEDS=$(( GRID_PER_K * ${#SEEDS[@]} ))
+# Inner grid size (handled by Python's build_grid):
+# layers(2) × length_modes(2) × mlp(1) × layernorm(2) = 8
+GRID_INNER=$(( ${#LAYER_COUNTS[@]} * ${#LENGTH_MODES[@]} * ${#MLP_FLAGS[@]} * ${#LAYERNORM_FLAGS[@]} ))
+
 TASK_ID=${SLURM_ARRAY_TASK_ID}
-K_INDEX=$(( TASK_ID / GRID_PER_K_WITH_SEEDS ))
-REM=$(( TASK_ID % GRID_PER_K_WITH_SEEDS ))
-SEED_INDEX=$(( REM / GRID_PER_K ))
-INNER_ID=$(( REM % GRID_PER_K ))
+INNER_ID=$(( TASK_ID % GRID_INNER ))
+REM=$(( TASK_ID / GRID_INNER ))
+SEED_INDEX=$(( REM % ${#SEEDS[@]} ))
+REM=$(( REM / ${#SEEDS[@]} ))
+K_INDEX=$(( REM % ${#TRAIN_MAX_K_LIST[@]} ))
+REM=$(( REM / ${#TRAIN_MAX_K_LIST[@]} ))
+EMBD_INDEX=$(( REM % 2 ))
+VOCAB_INDEX=$(( REM / 2 ))
 
-if (( K_INDEX < 0 || K_INDEX >= ${#TRAIN_MAX_K_LIST[@]} )); then
-  echo "Invalid task id $TASK_ID for TRAIN_MAX_K_LIST size ${#TRAIN_MAX_K_LIST[@]}"
-  exit 1
-fi
-
+VOCAB=${VOCAB_LIST[$VOCAB_INDEX]}
 TRAIN_MAX_K=${TRAIN_MAX_K_LIST[$K_INDEX]}
-GROUP_NAME="len_gen_k${TRAIN_MAX_K}"
 SEED=${SEEDS[$SEED_INDEX]}
+if [ "$EMBD_INDEX" -eq 0 ]; then
+  N_EMBD=$(( VOCAB / 2 ))
+else
+  N_EMBD=$VOCAB
+fi
+TEST_MIN_K=$TRAIN_MAX_K
+TEST_MAX_K=$TRAIN_MAX_K
+GROUP_NAME="len_gen_v${VOCAB}_e${N_EMBD}_k${TRAIN_MAX_K}"
 
-python -u sortGPT_len_generalization.py \
+python -u length_generalization/code/sortGPT_len_generalization.py \
   --project sortgpt \
-  --root /temp_work/ch225816/sort-llm/grid_outputs \
+  --root ./grid_outputs \
   --group "$GROUP_NAME" \
   --task-id "$INNER_ID" \
   --layer-counts "${LAYER_COUNTS[@]}" \
   --without-pos-flags true \
   --use-mlp-flags "${MLP_FLAGS[@]}" \
+  --use-layernorm-flags "${LAYERNORM_FLAGS[@]}" \
   --length-modes "${LENGTH_MODES[@]}" \
   --allow-duplicates-flags false \
-  --vocab-n 128 \
-  --n-embd 128 \
+  --vocab-n "$VOCAB" \
+  --n-embd "$N_EMBD" \
   --n-heads 1 \
-  --train-min-k 2 \
+  --train-min-k "$TRAIN_MAX_K" \
   --train-max-k "$TRAIN_MAX_K" \
-  --test-min-k 17 \
-  --test-max-k 32 \
+  --test-min-k "$TEST_MIN_K" \
+  --test-max-k "$TEST_MAX_K" \
   --eval-samples-per-length 100 \
   --eval-batch-size 100 \
   --max-iters 40000 \

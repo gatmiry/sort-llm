@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:07:11.889548251-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:07:12.115966341-04:00","level":"INFO","msg":"stream: created new stream","id":"5rreik33"}
+{"time":"2026-03-11T14:07:12.116015788-04:00","level":"INFO","msg":"stream: started","id":"5rreik33"}
+{"time":"2026-03-11T14:07:12.116021387-04:00","level":"INFO","msg":"writer: started","stream_id":"5rreik33"}
+{"time":"2026-03-11T14:07:12.116028473-04:00","level":"INFO","msg":"handler: started","stream_id":"5rreik33"}
+{"time":"2026-03-11T14:07:12.116035042-04:00","level":"INFO","msg":"sender: started","stream_id":"5rreik33"}
+{"time":"2026-03-11T14:11:45.061312451-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000806936}],"total_operations":1}}
+{"time":"2026-03-11T14:11:45.540996512-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:11:45.797534693-04:00","level":"INFO","msg":"stream: closing","id":"5rreik33"}
+{"time":"2026-03-11T14:11:45.797555586-04:00","level":"INFO","msg":"handler: closed","stream_id":"5rreik33"}
+{"time":"2026-03-11T14:11:45.797701361-04:00","level":"INFO","msg":"sender: closed","stream_id":"5rreik33"}
+{"time":"2026-03-11T14:11:45.797723912-04:00","level":"INFO","msg":"stream: closed","id":"5rreik33"}

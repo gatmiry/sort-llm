@@ -1,0 +1,12 @@
+{"time":"2026-03-11T15:44:34.789621785-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T15:44:35.026129653-04:00","level":"INFO","msg":"stream: created new stream","id":"puzo7tfc"}
+{"time":"2026-03-11T15:44:35.026188967-04:00","level":"INFO","msg":"stream: started","id":"puzo7tfc"}
+{"time":"2026-03-11T15:44:35.026194221-04:00","level":"INFO","msg":"writer: started","stream_id":"puzo7tfc"}
+{"time":"2026-03-11T15:44:35.026198856-04:00","level":"INFO","msg":"handler: started","stream_id":"puzo7tfc"}
+{"time":"2026-03-11T15:44:35.026218421-04:00","level":"INFO","msg":"sender: started","stream_id":"puzo7tfc"}
+{"time":"2026-03-11T16:04:57.553695893-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000985255}],"total_operations":1}}
+{"time":"2026-03-11T16:04:58.407027622-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T16:04:58.92709976-04:00","level":"INFO","msg":"stream: closing","id":"puzo7tfc"}
+{"time":"2026-03-11T16:04:58.927123334-04:00","level":"INFO","msg":"handler: closed","stream_id":"puzo7tfc"}
+{"time":"2026-03-11T16:04:58.927324414-04:00","level":"INFO","msg":"sender: closed","stream_id":"puzo7tfc"}
+{"time":"2026-03-11T16:04:58.92734798-04:00","level":"INFO","msg":"stream: closed","id":"puzo7tfc"}

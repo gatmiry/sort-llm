@@ -1,0 +1,12 @@
+{"time":"2026-03-10T13:22:19.006331936-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T13:22:19.240584298-04:00","level":"INFO","msg":"stream: created new stream","id":"iw15nyqf"}
+{"time":"2026-03-10T13:22:19.240661113-04:00","level":"INFO","msg":"stream: started","id":"iw15nyqf"}
+{"time":"2026-03-10T13:22:19.240666739-04:00","level":"INFO","msg":"handler: started","stream_id":"iw15nyqf"}
+{"time":"2026-03-10T13:22:19.240673711-04:00","level":"INFO","msg":"sender: started","stream_id":"iw15nyqf"}
+{"time":"2026-03-10T13:22:19.240738066-04:00","level":"INFO","msg":"writer: started","stream_id":"iw15nyqf"}
+{"time":"2026-03-10T13:34:22.986034284-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000944195}],"total_operations":1}}
+{"time":"2026-03-10T13:34:23.498523931-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T13:34:23.69575494-04:00","level":"INFO","msg":"stream: closing","id":"iw15nyqf"}
+{"time":"2026-03-10T13:34:23.695774108-04:00","level":"INFO","msg":"handler: closed","stream_id":"iw15nyqf"}
+{"time":"2026-03-10T13:34:23.695924124-04:00","level":"INFO","msg":"sender: closed","stream_id":"iw15nyqf"}
+{"time":"2026-03-10T13:34:23.695947061-04:00","level":"INFO","msg":"stream: closed","id":"iw15nyqf"}

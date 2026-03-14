@@ -1,0 +1,12 @@
+{"time":"2026-03-11T00:36:21.854733214-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T00:36:22.105636779-04:00","level":"INFO","msg":"stream: created new stream","id":"u09ipidn"}
+{"time":"2026-03-11T00:36:22.105679481-04:00","level":"INFO","msg":"stream: started","id":"u09ipidn"}
+{"time":"2026-03-11T00:36:22.105689464-04:00","level":"INFO","msg":"sender: started","stream_id":"u09ipidn"}
+{"time":"2026-03-11T00:36:22.105685309-04:00","level":"INFO","msg":"writer: started","stream_id":"u09ipidn"}
+{"time":"2026-03-11T00:36:22.105701354-04:00","level":"INFO","msg":"handler: started","stream_id":"u09ipidn"}
+{"time":"2026-03-11T00:39:29.464144411-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00113808}],"total_operations":1}}
+{"time":"2026-03-11T00:39:29.910821253-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T00:39:30.267174398-04:00","level":"INFO","msg":"stream: closing","id":"u09ipidn"}
+{"time":"2026-03-11T00:39:30.267190162-04:00","level":"INFO","msg":"handler: closed","stream_id":"u09ipidn"}
+{"time":"2026-03-11T00:39:30.267311928-04:00","level":"INFO","msg":"sender: closed","stream_id":"u09ipidn"}
+{"time":"2026-03-11T00:39:30.267325623-04:00","level":"INFO","msg":"stream: closed","id":"u09ipidn"}

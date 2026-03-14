@@ -1,0 +1,12 @@
+{"time":"2026-03-11T15:09:27.66590019-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T15:09:27.89051972-04:00","level":"INFO","msg":"stream: created new stream","id":"jizdpnhd"}
+{"time":"2026-03-11T15:09:27.89056688-04:00","level":"INFO","msg":"stream: started","id":"jizdpnhd"}
+{"time":"2026-03-11T15:09:27.890577494-04:00","level":"INFO","msg":"writer: started","stream_id":"jizdpnhd"}
+{"time":"2026-03-11T15:09:27.890580493-04:00","level":"INFO","msg":"handler: started","stream_id":"jizdpnhd"}
+{"time":"2026-03-11T15:09:27.890603337-04:00","level":"INFO","msg":"sender: started","stream_id":"jizdpnhd"}
+{"time":"2026-03-11T15:19:54.791102661-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000798954}],"total_operations":1}}
+{"time":"2026-03-11T15:19:55.374944831-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T15:19:56.102573296-04:00","level":"INFO","msg":"stream: closing","id":"jizdpnhd"}
+{"time":"2026-03-11T15:19:56.10258889-04:00","level":"INFO","msg":"handler: closed","stream_id":"jizdpnhd"}
+{"time":"2026-03-11T15:19:56.102750748-04:00","level":"INFO","msg":"sender: closed","stream_id":"jizdpnhd"}
+{"time":"2026-03-11T15:19:56.102772687-04:00","level":"INFO","msg":"stream: closed","id":"jizdpnhd"}

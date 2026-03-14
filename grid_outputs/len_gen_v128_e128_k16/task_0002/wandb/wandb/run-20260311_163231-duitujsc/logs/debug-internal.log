@@ -1,0 +1,12 @@
+{"time":"2026-03-11T16:32:31.911105922-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T16:32:32.139066302-04:00","level":"INFO","msg":"stream: created new stream","id":"duitujsc"}
+{"time":"2026-03-11T16:32:32.139107856-04:00","level":"INFO","msg":"stream: started","id":"duitujsc"}
+{"time":"2026-03-11T16:32:32.139118245-04:00","level":"INFO","msg":"writer: started","stream_id":"duitujsc"}
+{"time":"2026-03-11T16:32:32.139123397-04:00","level":"INFO","msg":"sender: started","stream_id":"duitujsc"}
+{"time":"2026-03-11T16:32:32.13914596-04:00","level":"INFO","msg":"handler: started","stream_id":"duitujsc"}
+{"time":"2026-03-11T16:39:14.437251818-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000962051}],"total_operations":1}}
+{"time":"2026-03-11T16:39:15.148800193-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T16:39:15.58439907-04:00","level":"INFO","msg":"stream: closing","id":"duitujsc"}
+{"time":"2026-03-11T16:39:15.58442257-04:00","level":"INFO","msg":"handler: closed","stream_id":"duitujsc"}
+{"time":"2026-03-11T16:39:15.584603456-04:00","level":"INFO","msg":"sender: closed","stream_id":"duitujsc"}
+{"time":"2026-03-11T16:39:15.584638613-04:00","level":"INFO","msg":"stream: closed","id":"duitujsc"}

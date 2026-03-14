@@ -1,0 +1,1 @@
+n_layers,use_mlp,use_layernorm,length_mode,training,train_max_k,mean_gen_em,std_gen_em,n_runs

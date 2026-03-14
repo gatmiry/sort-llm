@@ -1,0 +1,12 @@
+{"time":"2026-03-11T18:06:17.893401027-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:06:18.149283145-04:00","level":"INFO","msg":"stream: created new stream","id":"tfiwopv6"}
+{"time":"2026-03-11T18:06:18.149321804-04:00","level":"INFO","msg":"stream: started","id":"tfiwopv6"}
+{"time":"2026-03-11T18:06:18.1493275-04:00","level":"INFO","msg":"writer: started","stream_id":"tfiwopv6"}
+{"time":"2026-03-11T18:06:18.149331887-04:00","level":"INFO","msg":"handler: started","stream_id":"tfiwopv6"}
+{"time":"2026-03-11T18:06:18.149344912-04:00","level":"INFO","msg":"sender: started","stream_id":"tfiwopv6"}
+{"time":"2026-03-11T18:24:48.083649468-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000745587}],"total_operations":1}}
+{"time":"2026-03-11T18:24:48.698684717-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T18:24:48.946614721-04:00","level":"INFO","msg":"stream: closing","id":"tfiwopv6"}
+{"time":"2026-03-11T18:24:48.946631647-04:00","level":"INFO","msg":"handler: closed","stream_id":"tfiwopv6"}
+{"time":"2026-03-11T18:24:48.94676063-04:00","level":"INFO","msg":"sender: closed","stream_id":"tfiwopv6"}
+{"time":"2026-03-11T18:24:48.946788669-04:00","level":"INFO","msg":"stream: closed","id":"tfiwopv6"}

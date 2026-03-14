@@ -1,0 +1,12 @@
+{"time":"2026-03-11T00:40:06.0666831-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T00:40:06.468946403-04:00","level":"INFO","msg":"stream: created new stream","id":"napdqukr"}
+{"time":"2026-03-11T00:40:06.468982212-04:00","level":"INFO","msg":"stream: started","id":"napdqukr"}
+{"time":"2026-03-11T00:40:06.468988815-04:00","level":"INFO","msg":"writer: started","stream_id":"napdqukr"}
+{"time":"2026-03-11T00:40:06.468992358-04:00","level":"INFO","msg":"handler: started","stream_id":"napdqukr"}
+{"time":"2026-03-11T00:40:06.469002222-04:00","level":"INFO","msg":"sender: started","stream_id":"napdqukr"}
+{"time":"2026-03-11T00:44:16.833249844-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000882853}],"total_operations":1}}
+{"time":"2026-03-11T00:44:17.55016812-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T00:44:18.035268443-04:00","level":"INFO","msg":"stream: closing","id":"napdqukr"}
+{"time":"2026-03-11T00:44:18.035285751-04:00","level":"INFO","msg":"handler: closed","stream_id":"napdqukr"}
+{"time":"2026-03-11T00:44:18.035461601-04:00","level":"INFO","msg":"sender: closed","stream_id":"napdqukr"}
+{"time":"2026-03-11T00:44:18.03549169-04:00","level":"INFO","msg":"stream: closed","id":"napdqukr"}

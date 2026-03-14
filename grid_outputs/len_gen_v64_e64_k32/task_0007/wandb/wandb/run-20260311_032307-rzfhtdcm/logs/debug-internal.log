@@ -1,0 +1,12 @@
+{"time":"2026-03-11T03:23:08.237845775-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T03:23:08.476506132-04:00","level":"INFO","msg":"stream: created new stream","id":"rzfhtdcm"}
+{"time":"2026-03-11T03:23:08.476547416-04:00","level":"INFO","msg":"stream: started","id":"rzfhtdcm"}
+{"time":"2026-03-11T03:23:08.476552514-04:00","level":"INFO","msg":"writer: started","stream_id":"rzfhtdcm"}
+{"time":"2026-03-11T03:23:08.476569953-04:00","level":"INFO","msg":"handler: started","stream_id":"rzfhtdcm"}
+{"time":"2026-03-11T03:23:08.476579049-04:00","level":"INFO","msg":"sender: started","stream_id":"rzfhtdcm"}
+{"time":"2026-03-11T03:31:28.348318149-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000712095}],"total_operations":1}}
+{"time":"2026-03-11T03:31:29.022289633-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T03:31:29.25431058-04:00","level":"INFO","msg":"stream: closing","id":"rzfhtdcm"}
+{"time":"2026-03-11T03:31:29.254326393-04:00","level":"INFO","msg":"handler: closed","stream_id":"rzfhtdcm"}
+{"time":"2026-03-11T03:31:29.25445321-04:00","level":"INFO","msg":"sender: closed","stream_id":"rzfhtdcm"}
+{"time":"2026-03-11T03:31:29.254472805-04:00","level":"INFO","msg":"stream: closed","id":"rzfhtdcm"}

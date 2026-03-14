@@ -1,0 +1,12 @@
+{"time":"2026-03-11T15:53:52.10205672-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T15:53:52.386455475-04:00","level":"INFO","msg":"stream: created new stream","id":"zpe1upyo"}
+{"time":"2026-03-11T15:53:52.386601819-04:00","level":"INFO","msg":"stream: started","id":"zpe1upyo"}
+{"time":"2026-03-11T15:53:52.386712585-04:00","level":"INFO","msg":"writer: started","stream_id":"zpe1upyo"}
+{"time":"2026-03-11T15:53:52.386818513-04:00","level":"INFO","msg":"sender: started","stream_id":"zpe1upyo"}
+{"time":"2026-03-11T15:53:52.386961744-04:00","level":"INFO","msg":"handler: started","stream_id":"zpe1upyo"}
+{"time":"2026-03-11T16:04:41.537549037-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.002218305}],"total_operations":1}}
+{"time":"2026-03-11T16:04:42.279833659-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T16:04:42.520230342-04:00","level":"INFO","msg":"stream: closing","id":"zpe1upyo"}
+{"time":"2026-03-11T16:04:42.520703655-04:00","level":"INFO","msg":"handler: closed","stream_id":"zpe1upyo"}
+{"time":"2026-03-11T16:04:42.521409147-04:00","level":"INFO","msg":"sender: closed","stream_id":"zpe1upyo"}
+{"time":"2026-03-11T16:04:42.521571398-04:00","level":"INFO","msg":"stream: closed","id":"zpe1upyo"}

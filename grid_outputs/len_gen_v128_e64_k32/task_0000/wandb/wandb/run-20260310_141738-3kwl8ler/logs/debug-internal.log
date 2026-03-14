@@ -1,0 +1,12 @@
+{"time":"2026-03-10T14:17:38.637296706-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T14:17:38.859303509-04:00","level":"INFO","msg":"stream: created new stream","id":"3kwl8ler"}
+{"time":"2026-03-10T14:17:38.859344973-04:00","level":"INFO","msg":"stream: started","id":"3kwl8ler"}
+{"time":"2026-03-10T14:17:38.859355918-04:00","level":"INFO","msg":"handler: started","stream_id":"3kwl8ler"}
+{"time":"2026-03-10T14:17:38.859352921-04:00","level":"INFO","msg":"writer: started","stream_id":"3kwl8ler"}
+{"time":"2026-03-10T14:17:38.859368345-04:00","level":"INFO","msg":"sender: started","stream_id":"3kwl8ler"}
+{"time":"2026-03-10T14:31:57.116352197-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.004505662}],"total_operations":1}}
+{"time":"2026-03-10T14:31:57.864371549-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T14:31:58.255643041-04:00","level":"INFO","msg":"stream: closing","id":"3kwl8ler"}
+{"time":"2026-03-10T14:31:58.255662892-04:00","level":"INFO","msg":"handler: closed","stream_id":"3kwl8ler"}
+{"time":"2026-03-10T14:31:58.255803235-04:00","level":"INFO","msg":"sender: closed","stream_id":"3kwl8ler"}
+{"time":"2026-03-10T14:31:58.255834957-04:00","level":"INFO","msg":"stream: closed","id":"3kwl8ler"}

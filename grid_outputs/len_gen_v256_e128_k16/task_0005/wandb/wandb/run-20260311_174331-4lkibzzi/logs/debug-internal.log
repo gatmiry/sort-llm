@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:43:31.795142873-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:43:32.02824428-04:00","level":"INFO","msg":"stream: created new stream","id":"4lkibzzi"}
+{"time":"2026-03-11T17:43:32.028297173-04:00","level":"INFO","msg":"stream: started","id":"4lkibzzi"}
+{"time":"2026-03-11T17:43:32.028305176-04:00","level":"INFO","msg":"writer: started","stream_id":"4lkibzzi"}
+{"time":"2026-03-11T17:43:32.02830949-04:00","level":"INFO","msg":"handler: started","stream_id":"4lkibzzi"}
+{"time":"2026-03-11T17:43:32.028314312-04:00","level":"INFO","msg":"sender: started","stream_id":"4lkibzzi"}
+{"time":"2026-03-11T17:50:32.618072147-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000811165}],"total_operations":1}}
+{"time":"2026-03-11T17:50:33.147790628-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:50:33.431548454-04:00","level":"INFO","msg":"stream: closing","id":"4lkibzzi"}
+{"time":"2026-03-11T17:50:33.431569337-04:00","level":"INFO","msg":"handler: closed","stream_id":"4lkibzzi"}
+{"time":"2026-03-11T17:50:33.431734079-04:00","level":"INFO","msg":"sender: closed","stream_id":"4lkibzzi"}
+{"time":"2026-03-11T17:50:33.4317549-04:00","level":"INFO","msg":"stream: closed","id":"4lkibzzi"}

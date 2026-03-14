@@ -1,0 +1,12 @@
+{"time":"2026-03-11T18:43:42.37256311-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:43:42.619064279-04:00","level":"INFO","msg":"stream: created new stream","id":"urpjboru"}
+{"time":"2026-03-11T18:43:42.619119845-04:00","level":"INFO","msg":"stream: started","id":"urpjboru"}
+{"time":"2026-03-11T18:43:42.619125922-04:00","level":"INFO","msg":"writer: started","stream_id":"urpjboru"}
+{"time":"2026-03-11T18:43:42.619140039-04:00","level":"INFO","msg":"sender: started","stream_id":"urpjboru"}
+{"time":"2026-03-11T18:43:42.619150248-04:00","level":"INFO","msg":"handler: started","stream_id":"urpjboru"}
+{"time":"2026-03-11T18:50:54.943672642-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000846102}],"total_operations":1}}
+{"time":"2026-03-11T18:50:55.392096603-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T18:50:55.948751101-04:00","level":"INFO","msg":"stream: closing","id":"urpjboru"}
+{"time":"2026-03-11T18:50:55.948772601-04:00","level":"INFO","msg":"handler: closed","stream_id":"urpjboru"}
+{"time":"2026-03-11T18:50:55.948922143-04:00","level":"INFO","msg":"sender: closed","stream_id":"urpjboru"}
+{"time":"2026-03-11T18:50:55.948947579-04:00","level":"INFO","msg":"stream: closed","id":"urpjboru"}

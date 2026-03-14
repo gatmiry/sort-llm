@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:31:07.257041497-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:31:07.486327363-04:00","level":"INFO","msg":"stream: created new stream","id":"4yvolycz"}
+{"time":"2026-03-11T14:31:07.486368263-04:00","level":"INFO","msg":"stream: started","id":"4yvolycz"}
+{"time":"2026-03-11T14:31:07.486374942-04:00","level":"INFO","msg":"writer: started","stream_id":"4yvolycz"}
+{"time":"2026-03-11T14:31:07.486381206-04:00","level":"INFO","msg":"sender: started","stream_id":"4yvolycz"}
+{"time":"2026-03-11T14:31:07.486391018-04:00","level":"INFO","msg":"handler: started","stream_id":"4yvolycz"}
+{"time":"2026-03-11T14:40:31.452343906-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000746477}],"total_operations":1}}
+{"time":"2026-03-11T14:40:32.379890767-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:40:32.847871469-04:00","level":"INFO","msg":"stream: closing","id":"4yvolycz"}
+{"time":"2026-03-11T14:40:32.847886075-04:00","level":"INFO","msg":"handler: closed","stream_id":"4yvolycz"}
+{"time":"2026-03-11T14:40:32.848007243-04:00","level":"INFO","msg":"sender: closed","stream_id":"4yvolycz"}
+{"time":"2026-03-11T14:40:32.848026663-04:00","level":"INFO","msg":"stream: closed","id":"4yvolycz"}

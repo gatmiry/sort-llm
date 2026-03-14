@@ -1,0 +1,6 @@
+{"time":"2026-03-10T23:57:24.08411221-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T23:57:24.328898939-04:00","level":"INFO","msg":"stream: created new stream","id":"yay29cnu"}
+{"time":"2026-03-10T23:57:24.32894097-04:00","level":"INFO","msg":"stream: started","id":"yay29cnu"}
+{"time":"2026-03-10T23:57:24.32894782-04:00","level":"INFO","msg":"writer: started","stream_id":"yay29cnu"}
+{"time":"2026-03-10T23:57:24.328951733-04:00","level":"INFO","msg":"sender: started","stream_id":"yay29cnu"}
+{"time":"2026-03-10T23:57:24.328973689-04:00","level":"INFO","msg":"handler: started","stream_id":"yay29cnu"}

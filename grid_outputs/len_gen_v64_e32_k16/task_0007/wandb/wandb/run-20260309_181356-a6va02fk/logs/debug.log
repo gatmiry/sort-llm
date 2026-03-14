@@ -1,0 +1,26 @@
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_setup.py:_flush():81] Current SDK version is 0.21.4
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_setup.py:_flush():81] Configure stats pid to 2773653
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_setup.py:_flush():81] Loading settings from grid_outputs/len_gen_v64_e32_k16/task_0007/wandb_config/settings
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_setup.py:_flush():81] Loading settings from /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/wandb/settings
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_init.py:setup_run_log_directory():686] Logging user logs to ./grid_outputs/len_gen_v64_e32_k16/task_0007/wandb/wandb/run-20260309_181356-a6va02fk/logs/debug.log
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_init.py:setup_run_log_directory():687] Logging internal logs to ./grid_outputs/len_gen_v64_e32_k16/task_0007/wandb/wandb/run-20260309_181356-a6va02fk/logs/debug-internal.log
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_init.py:init():813] calling init triggers
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_init.py:init():818] wandb.init called with sweep_config: {}
+config: {'vocab_n': 64, 'n_embd': 32, 'n_heads': 1, 'train_min_k': 16, 'train_max_k': 16, 'test_min_k': 16, 'test_max_k': 16, 'allow_duplicates': False, 'n_layers': 1, 'without_pos': True, 'use_mlp': False, 'use_layernorm': False, 'norm_type': 'none', 'use_qk_norm': False, 'use_rms_qk_norm': False, 'use_gated_attention': False, 'use_elementwise_attn_output_gate': False, 'length_mode': 'curriculum', 'train_k_choices': None, 'curriculum_warmup_iters': 0, 'curriculum_span_iters': 20000, 'tf_loss_weight': 0.0, 'warmup_iters': 400, 'max_iters': 40000, 'learning_rate': 0.0001, 'min_lr': 1e-06, 'weight_decay': 0.0, 'micro_batch_size': 4096, 'effective_batch_size': 4096, 'log_interval': 250, 'eval_interval': 250, 'ckpt_interval': 20000, 'save_dir': './grid_outputs/len_gen_v64_e32_k16/task_0007/saved_models', 'eval_samples_per_length': 100, 'eval_batch_size': 100, 'eval_id_min': 2, 'eval_id_max': 50, 'eval_mid_min': 51, 'eval_mid_max': 100, 'eval_long_min': 101, 'eval_long_max': 150, 'seed': 3337, 'use_compile': False, 'wandb_project': 'sortgpt', 'wandb_entity': None, 'wandb_group': 'len_gen_v64_e32_k16', 'wandb_mode': None, 'total_vocab_size': 65, 'sep_id': 64, 'max_seq_len': 33, 'grad_accum_steps': 1, 'amp_dtype': 'torch.bfloat16', 'device': 'cuda', '_wandb': {}}
+2026-03-09 18:13:56,120 INFO    MainThread:2773653 [wandb_init.py:init():854] starting backend
+2026-03-09 18:13:56,401 INFO    MainThread:2773653 [wandb_init.py:init():857] sending inform_init request
+2026-03-09 18:13:56,423 INFO    MainThread:2773653 [wandb_init.py:init():865] backend started and connected
+2026-03-09 18:13:56,424 INFO    MainThread:2773653 [wandb_init.py:init():936] updated telemetry
+2026-03-09 18:13:56,438 INFO    MainThread:2773653 [wandb_init.py:init():960] communicating run to backend with 90.0 second timeout
+2026-03-09 18:13:57,084 INFO    MainThread:2773653 [wandb_init.py:init():1011] starting run threads in backend
+2026-03-09 18:14:00,681 INFO    MainThread:2773653 [wandb_run.py:_console_start():2506] atexit reg
+2026-03-09 18:14:00,681 INFO    MainThread:2773653 [wandb_run.py:_redirect():2354] redirect: wrap_raw
+2026-03-09 18:14:00,682 INFO    MainThread:2773653 [wandb_run.py:_redirect():2423] Wrapping output streams.
+2026-03-09 18:14:00,682 INFO    MainThread:2773653 [wandb_run.py:_redirect():2446] Redirects installed.
+2026-03-09 18:14:00,707 INFO    MainThread:2773653 [wandb_init.py:init():1049] run started, returning control to user process
+2026-03-09 18:16:41,960 INFO    MainThread:2773653 [wandb_run.py:_finish():2272] finishing run chloe0711/sortgpt/a6va02fk
+2026-03-09 18:16:41,960 INFO    MainThread:2773653 [wandb_run.py:_atexit_cleanup():2471] got exitcode: 0
+2026-03-09 18:16:41,961 INFO    MainThread:2773653 [wandb_run.py:_restore():2453] restore
+2026-03-09 18:16:41,961 INFO    MainThread:2773653 [wandb_run.py:_restore():2459] restore done
+2026-03-09 18:16:42,914 INFO    MainThread:2773653 [wandb_run.py:_footer_sync_info():3867] logging synced files

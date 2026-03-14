@@ -1,0 +1,7 @@
+{"time":"2026-03-09T18:15:13.795122803-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmpjdvien86/port-1039948.txt","pid":1039948,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-09T18:15:13.799502228-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1039948}
+{"time":"2026-03-09T18:15:13.799499583-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-1039948-1039969-3188128378/socket","Net":"unix"}}
+{"time":"2026-03-09T18:15:13.982659322-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-09T18:15:13.99919116-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"uugtdh4z","id":"1(@)"}
+{"time":"2026-03-09T18:15:14.224831774-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"uugtdh4z","id":"1(@)"}
+{"time":"2026-03-09T18:18:21.448825434-04:00","level":"INFO","msg":"main: received shutdown signal","signal":15}

@@ -1,0 +1,12 @@
+{"time":"2026-03-09T18:10:51.921160309-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-09T18:10:52.15103606-04:00","level":"INFO","msg":"stream: created new stream","id":"lad6xfbl"}
+{"time":"2026-03-09T18:10:52.151082809-04:00","level":"INFO","msg":"stream: started","id":"lad6xfbl"}
+{"time":"2026-03-09T18:10:52.15108903-04:00","level":"INFO","msg":"writer: started","stream_id":"lad6xfbl"}
+{"time":"2026-03-09T18:10:52.151094756-04:00","level":"INFO","msg":"handler: started","stream_id":"lad6xfbl"}
+{"time":"2026-03-09T18:10:52.1511058-04:00","level":"INFO","msg":"sender: started","stream_id":"lad6xfbl"}
+{"time":"2026-03-09T18:16:55.190361133-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001259263}],"total_operations":1}}
+{"time":"2026-03-09T18:16:55.577919567-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-09T18:16:55.873975593-04:00","level":"INFO","msg":"stream: closing","id":"lad6xfbl"}
+{"time":"2026-03-09T18:16:55.873995458-04:00","level":"INFO","msg":"handler: closed","stream_id":"lad6xfbl"}
+{"time":"2026-03-09T18:16:55.874132066-04:00","level":"INFO","msg":"sender: closed","stream_id":"lad6xfbl"}
+{"time":"2026-03-09T18:16:55.874152552-04:00","level":"INFO","msg":"stream: closed","id":"lad6xfbl"}

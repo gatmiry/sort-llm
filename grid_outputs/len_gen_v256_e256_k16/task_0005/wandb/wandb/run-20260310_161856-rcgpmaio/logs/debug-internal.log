@@ -1,0 +1,13 @@
+{"time":"2026-03-10T16:18:57.217678759-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:18:57.428005975-04:00","level":"INFO","msg":"stream: created new stream","id":"rcgpmaio"}
+{"time":"2026-03-10T16:18:57.428042906-04:00","level":"INFO","msg":"stream: started","id":"rcgpmaio"}
+{"time":"2026-03-10T16:18:57.428050933-04:00","level":"INFO","msg":"writer: started","stream_id":"rcgpmaio"}
+{"time":"2026-03-10T16:18:57.428057935-04:00","level":"INFO","msg":"sender: started","stream_id":"rcgpmaio"}
+{"time":"2026-03-10T16:18:57.428066341-04:00","level":"INFO","msg":"handler: started","stream_id":"rcgpmaio"}
+{"time":"2026-03-10T16:27:28.02346388-04:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/chloe0711/sortgpt/rcgpmaio/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-10T16:28:06.891647587-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000907018}],"total_operations":1}}
+{"time":"2026-03-10T16:28:07.594589019-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:28:08.16972304-04:00","level":"INFO","msg":"stream: closing","id":"rcgpmaio"}
+{"time":"2026-03-10T16:28:08.169745139-04:00","level":"INFO","msg":"handler: closed","stream_id":"rcgpmaio"}
+{"time":"2026-03-10T16:28:08.169943168-04:00","level":"INFO","msg":"sender: closed","stream_id":"rcgpmaio"}
+{"time":"2026-03-10T16:28:08.169974426-04:00","level":"INFO","msg":"stream: closed","id":"rcgpmaio"}

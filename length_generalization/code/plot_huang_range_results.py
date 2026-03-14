@@ -89,6 +89,70 @@ def _detect_variant(cfg: dict) -> Optional[str]:
     return None
 
 
+def load_runs_wandb(project: str = "sortgpt", entity: Optional[str] = None) -> List[Run]:
+    """Load Huang-range runs from the Weights & Biases API."""
+    try:
+        import wandb
+    except ImportError:
+        raise ImportError("wandb is not installed. Run: pip install wandb")
+
+    api = wandb.Api()
+    path = f"{entity}/{project}" if entity else project
+    print(f"Fetching runs from W&B project '{path}' …")
+    wandb_runs = api.runs(path)
+
+    runs: List[Run] = []
+    for wr in wandb_runs:
+        cfg = wr.config  # plain dict from W&B API
+
+        variant = _detect_variant(cfg)
+        if variant is None:
+            continue
+
+        # Keep Huang-protocol-only runs.
+        e_id_min = int(_cfg_val(cfg, "eval_id_min", -1))
+        e_id_max = int(_cfg_val(cfg, "eval_id_max", -1))
+        e_mid_min = int(_cfg_val(cfg, "eval_mid_min", -1))
+        e_mid_max = int(_cfg_val(cfg, "eval_mid_max", -1))
+        e_long_min = int(_cfg_val(cfg, "eval_long_min", -1))
+        e_long_max = int(_cfg_val(cfg, "eval_long_max", -1))
+        if (e_id_min, e_id_max, e_mid_min, e_mid_max, e_long_min, e_long_max) != (2, 50, 51, 100, 101, 150):
+            continue
+
+        n_layers = int(_cfg_val(cfg, "n_layers", -1))
+        use_mlp = bool(_cfg_val(cfg, "use_mlp", False))
+        seed = int(_cfg_val(cfg, "seed", -1))
+
+        summary = dict(wr.summary)
+        iter_done = int(summary.get("iter", -1))
+
+        id_em = _mean_metric(summary, "test", 2, 50)
+        mid_em = _mean_metric(summary, "gen_mid", 51, 100)
+        long_em = _mean_metric(summary, "gen_long", 101, 150)
+        train_em = summary.get("train/exact_match_acc")
+        train_em = float(train_em) if train_em is not None else None
+
+        if id_em is None and mid_em is None and long_em is None:
+            continue
+
+        runs.append(
+            Run(
+                variant=variant,
+                n_layers=n_layers,
+                use_mlp=use_mlp,
+                seed=seed,
+                iter_done=iter_done,
+                id_em=id_em,
+                mid_em=mid_em,
+                long_em=long_em,
+                train_em=train_em,
+            )
+        )
+
+    print(f"Loaded {len(runs)} runs from W&B")
+    return runs
+
+
 def load_runs(grid_root: str) -> List[Run]:
     runs: List[Run] = []
     summary_paths = glob.glob(os.path.join(grid_root, "huang_*", "**", "wandb-summary.json"), recursive=True)
@@ -327,10 +391,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--grid-root", default="/temp_work/ch225816/sort-llm/grid_outputs")
     ap.add_argument("--output-dir", default="/temp_work/ch225816/sort-llm-repo/length_generalization/results")
+    ap.add_argument("--wandb", action="store_true",
+                    help="Load runs from the W&B API instead of local files")
+    ap.add_argument("--wandb-project", default="sortgpt",
+                    help="W&B project name (default: sortgpt)")
+    ap.add_argument("--wandb-entity", default=None,
+                    help="W&B entity/username (omit to use the default from 'wandb login')")
     args = ap.parse_args()
 
     os.makedirs(args.output_dir, exist_ok=True)
-    runs = load_runs(args.grid_root)
+    if args.wandb:
+        runs = load_runs_wandb(project=args.wandb_project, entity=args.wandb_entity)
+    else:
+        runs = load_runs(args.grid_root)
+        print(f"Loaded {len(runs)} runs")
     runs = dedupe_latest_by_seed(runs)
     summary = summarize(runs)
 

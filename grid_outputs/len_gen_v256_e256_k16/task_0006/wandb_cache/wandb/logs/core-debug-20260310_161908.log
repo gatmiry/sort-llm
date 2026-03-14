@@ -1,0 +1,16 @@
+{"time":"2026-03-10T16:19:08.283044488-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmpprkhwcqh/port-1826099.txt","pid":1826099,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-10T16:19:08.283728191-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1826099}
+{"time":"2026-03-10T16:19:08.283714792-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-1826099-1826443-3502929145/socket","Net":"unix"}}
+{"time":"2026-03-10T16:19:08.467395108-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-10T16:19:08.484533111-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"xwt48prr","id":"1(@)"}
+{"time":"2026-03-10T16:19:08.709777334-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"xwt48prr","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.291458657-04:00","level":"INFO","msg":"handleInformFinish: finish message received","streamId":"xwt48prr","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306576869-04:00","level":"INFO","msg":"handleInformFinish: stream closed","streamId":"xwt48prr","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306588083-04:00","level":"INFO","msg":"handleInformTeardown: server teardown initiated","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306597476-04:00","level":"INFO","msg":"handleInformTeardown: server shutdown complete","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306607933-04:00","level":"INFO","msg":"server is shutting down"}
+{"time":"2026-03-10T16:26:21.306606056-04:00","level":"INFO","msg":"connection: closing","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306655248-04:00","level":"INFO","msg":"server: listener closed","addr":{"Name":"/tmp/wandb-1826099-1826443-3502929145/socket","Net":"unix"}}
+{"time":"2026-03-10T16:26:21.306678239-04:00","level":"INFO","msg":"connection: closed successfully","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.306691251-04:00","level":"INFO","msg":"connection: ManageConnectionData: connection closed","id":"1(@)"}
+{"time":"2026-03-10T16:26:21.30670014-04:00","level":"INFO","msg":"server is closed"}

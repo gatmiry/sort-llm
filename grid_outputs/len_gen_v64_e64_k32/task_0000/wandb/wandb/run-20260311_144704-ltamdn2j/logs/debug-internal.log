@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:47:05.040401093-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:47:05.265682897-04:00","level":"INFO","msg":"stream: created new stream","id":"ltamdn2j"}
+{"time":"2026-03-11T14:47:05.265726507-04:00","level":"INFO","msg":"stream: started","id":"ltamdn2j"}
+{"time":"2026-03-11T14:47:05.265733481-04:00","level":"INFO","msg":"writer: started","stream_id":"ltamdn2j"}
+{"time":"2026-03-11T14:47:05.265740892-04:00","level":"INFO","msg":"handler: started","stream_id":"ltamdn2j"}
+{"time":"2026-03-11T14:47:05.265751913-04:00","level":"INFO","msg":"sender: started","stream_id":"ltamdn2j"}
+{"time":"2026-03-11T15:00:59.59819783-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00079262}],"total_operations":1}}
+{"time":"2026-03-11T15:01:00.232053907-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T15:01:01.096897759-04:00","level":"INFO","msg":"stream: closing","id":"ltamdn2j"}
+{"time":"2026-03-11T15:01:01.096921182-04:00","level":"INFO","msg":"handler: closed","stream_id":"ltamdn2j"}
+{"time":"2026-03-11T15:01:01.097065062-04:00","level":"INFO","msg":"sender: closed","stream_id":"ltamdn2j"}
+{"time":"2026-03-11T15:01:01.097094611-04:00","level":"INFO","msg":"stream: closed","id":"ltamdn2j"}

@@ -1,0 +1,310 @@
+_wandb:
+    value:
+        cli_version: 0.21.4
+        e:
+            k2ibkfwukjjxsgatzarx6r58zebkwq2u:
+                args:
+                    - --project
+                    - sortgpt
+                    - --root
+                    - ./grid_outputs
+                    - --group
+                    - len_gen_v128_e64_k32
+                    - --task-id
+                    - "6"
+                    - --layer-counts
+                    - "1"
+                    - "2"
+                    - --without-pos-flags
+                    - "true"
+                    - --use-mlp-flags
+                    - "false"
+                    - --use-layernorm-flags
+                    - "true"
+                    - "false"
+                    - --length-modes
+                    - mix
+                    - curriculum
+                    - --allow-duplicates-flags
+                    - "false"
+                    - --vocab-n
+                    - "128"
+                    - --n-embd
+                    - "64"
+                    - --n-heads
+                    - "1"
+                    - --train-min-k
+                    - "32"
+                    - --train-max-k
+                    - "32"
+                    - --test-min-k
+                    - "32"
+                    - --test-max-k
+                    - "32"
+                    - --eval-samples-per-length
+                    - "100"
+                    - --eval-batch-size
+                    - "100"
+                    - --max-iters
+                    - "40000"
+                    - --warmup-iters
+                    - "400"
+                    - --learning-rate
+                    - "1e-4"
+                    - --min-lr
+                    - "1e-6"
+                    - --micro-batch-size
+                    - "4096"
+                    - --effective-batch-size
+                    - "4096"
+                    - --log-interval
+                    - "250"
+                    - --eval-interval
+                    - "250"
+                    - --ckpt-interval
+                    - "20000"
+                    - --seed
+                    - "3337"
+                codePath: length_generalization/code/sortGPT_len_generalization.py
+                codePathLocal: length_generalization/code/sortGPT_len_generalization.py
+                cpu_count: 64
+                cpu_count_logical: 64
+                cudaVersion: "12.9"
+                disk:
+                    /:
+                        total: "53660876800"
+                        used: "21955547136"
+                email: suhither@gmail.com
+                executable: /n/home13/chloe00/miniforge3/envs/vla/bin/python
+                git:
+                    commit: 926f8eb074c7c473d4589777f8ac1b7d2b3d3f61
+                    remote: https://github.com/gatmiry/sort-llm.git
+                gpu: NVIDIA A100-SXM4-40GB
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "42949672960"
+                      name: NVIDIA A100-SXM4-40GB
+                      uuid: GPU-1844dcd0-42ba-7071-fe84-142f77171f3c
+                host: holygpu8a19206.rc.fas.harvard.edu
+                memory:
+                    total: "1081297305600"
+                os: Linux-4.18.0-553.44.1.el8_10.x86_64-x86_64-with-glibc2.28
+                program: /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm/length_generalization/code/sortGPT_len_generalization.py
+                python: CPython 3.11.14
+                root: ./grid_outputs/len_gen_v128_e64_k32/task_0006/wandb
+                slurm:
+                    array_job_id: "65467604"
+                    array_task_count: "288"
+                    array_task_id: "142"
+                    array_task_max: "287"
+                    array_task_min: "0"
+                    array_task_step: "1"
+                    cluster_name: odyssey
+                    conf: /etc/slurm/slurm.conf
+                    cpus_on_node: "24"
+                    cpus_per_task: "24"
+                    gpus_on_node: "1"
+                    gpus_per_node: "1"
+                    gtids: "0"
+                    job_account: kempner_grads
+                    job_cpus_per_node: "24"
+                    job_end_time: "1773433125"
+                    job_gid: "5142"
+                    job_gpus: "3"
+                    job_id: "65513275"
+                    job_name: sortgpt_len_gen
+                    job_nodelist: holygpu8a19206
+                    job_num_nodes: "1"
+                    job_partition: kempner
+                    job_qos: normal
+                    job_start_time: "1773260385"
+                    job_uid: "65790"
+                    job_user: chloe00
+                    jobid: "65513275"
+                    localid: "0"
+                    mem_per_node: "102400"
+                    nnodes: "1"
+                    nodeid: "0"
+                    nodelist: holygpu8a19206
+                    nprocs: "1"
+                    ntasks: "1"
+                    ntasks_per_node: "1"
+                    oom_kill_step: "0"
+                    prio_process: "0"
+                    procid: "0"
+                    script_context: prolog_task
+                    stepmgr: holygpu8a19206
+                    submit_dir: /n/holylfs06/LABS/sham_lab/Users/chloe00/sort-llm
+                    submit_host: holylogin06.rc.fas.harvard.edu
+                    task_pid: "1432414"
+                    tasks_per_node: "1"
+                    topology_addr: main.holyoke.holyhdr.holygpu8a19206
+                    topology_addr_pattern: switch.switch.switch.node
+                    tres_per_task: cpu=24
+                startedAt: "2026-03-11T20:20:16.812531Z"
+                writerId: k2ibkfwukjjxsgatzarx6r58zebkwq2u
+        m:
+            - "1": iter
+              "6":
+                - 3
+              "7": []
+            - "1": lr
+              "5": 1
+              "6":
+                - 1
+                - 3
+              "7": []
+            - "2": train/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+            - "2": test/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+            - "2": gen/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+            - "2": gen_mid/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+            - "2": gen_long/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+        python_version: 3.11.14
+        t:
+            "1":
+                - 1
+                - 105
+            "2":
+                - 1
+                - 105
+            "3":
+                - 2
+                - 7
+                - 13
+                - 16
+                - 61
+                - 62
+            "4": 3.11.14
+            "5": 0.21.4
+            "12": 0.21.4
+            "13": linux-x86_64
+allow_duplicates:
+    value: false
+amp_dtype:
+    value: torch.bfloat16
+ckpt_interval:
+    value: 20000
+curriculum_span_iters:
+    value: 20000
+curriculum_warmup_iters:
+    value: 0
+device:
+    value: cuda
+effective_batch_size:
+    value: 4096
+eval_batch_size:
+    value: 100
+eval_id_max:
+    value: 50
+eval_id_min:
+    value: 2
+eval_interval:
+    value: 250
+eval_long_max:
+    value: 150
+eval_long_min:
+    value: 101
+eval_mid_max:
+    value: 100
+eval_mid_min:
+    value: 51
+eval_samples_per_length:
+    value: 100
+grad_accum_steps:
+    value: 1
+learning_rate:
+    value: 0.0001
+length_mode:
+    value: mix
+log_interval:
+    value: 250
+max_iters:
+    value: 40000
+max_seq_len:
+    value: 65
+micro_batch_size:
+    value: 4096
+min_lr:
+    value: 1e-06
+n_embd:
+    value: 64
+n_heads:
+    value: 1
+n_layers:
+    value: 1
+norm_type:
+    value: none
+save_dir:
+    value: ./grid_outputs/len_gen_v128_e64_k32/task_0006/saved_models
+seed:
+    value: 3337
+sep_id:
+    value: 128
+test_max_k:
+    value: 32
+test_min_k:
+    value: 32
+tf_loss_weight:
+    value: 0
+total_vocab_size:
+    value: 129
+train_k_choices:
+    value: null
+train_max_k:
+    value: 32
+train_min_k:
+    value: 32
+use_compile:
+    value: false
+use_elementwise_attn_output_gate:
+    value: false
+use_gated_attention:
+    value: false
+use_layernorm:
+    value: false
+use_mlp:
+    value: false
+use_qk_norm:
+    value: false
+use_rms_qk_norm:
+    value: false
+use_xavier_init:
+    value: true
+vocab_n:
+    value: 128
+wandb_entity:
+    value: null
+wandb_group:
+    value: len_gen_v128_e64_k32
+wandb_mode:
+    value: null
+wandb_project:
+    value: sortgpt
+warmup_iters:
+    value: 400
+weight_decay:
+    value: 0
+without_pos:
+    value: true

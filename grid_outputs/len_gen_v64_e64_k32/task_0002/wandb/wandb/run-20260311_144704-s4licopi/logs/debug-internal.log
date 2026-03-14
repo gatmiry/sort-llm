@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:47:05.262167731-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:47:05.487459031-04:00","level":"INFO","msg":"stream: created new stream","id":"s4licopi"}
+{"time":"2026-03-11T14:47:05.487520709-04:00","level":"INFO","msg":"stream: started","id":"s4licopi"}
+{"time":"2026-03-11T14:47:05.487528708-04:00","level":"INFO","msg":"writer: started","stream_id":"s4licopi"}
+{"time":"2026-03-11T14:47:05.487534994-04:00","level":"INFO","msg":"handler: started","stream_id":"s4licopi"}
+{"time":"2026-03-11T14:47:05.487539442-04:00","level":"INFO","msg":"sender: started","stream_id":"s4licopi"}
+{"time":"2026-03-11T14:55:51.590405689-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00083649}],"total_operations":1}}
+{"time":"2026-03-11T14:55:52.401634738-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:55:52.736618533-04:00","level":"INFO","msg":"stream: closing","id":"s4licopi"}
+{"time":"2026-03-11T14:55:52.736639097-04:00","level":"INFO","msg":"handler: closed","stream_id":"s4licopi"}
+{"time":"2026-03-11T14:55:52.736780763-04:00","level":"INFO","msg":"sender: closed","stream_id":"s4licopi"}
+{"time":"2026-03-11T14:55:52.736797038-04:00","level":"INFO","msg":"stream: closed","id":"s4licopi"}

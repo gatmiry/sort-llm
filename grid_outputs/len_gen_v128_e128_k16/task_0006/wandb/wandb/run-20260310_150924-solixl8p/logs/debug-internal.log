@@ -1,0 +1,12 @@
+{"time":"2026-03-10T15:09:24.383001657-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T15:09:24.605834219-04:00","level":"INFO","msg":"stream: created new stream","id":"solixl8p"}
+{"time":"2026-03-10T15:09:24.605871732-04:00","level":"INFO","msg":"stream: started","id":"solixl8p"}
+{"time":"2026-03-10T15:09:24.60588253-04:00","level":"INFO","msg":"writer: started","stream_id":"solixl8p"}
+{"time":"2026-03-10T15:09:24.605885722-04:00","level":"INFO","msg":"handler: started","stream_id":"solixl8p"}
+{"time":"2026-03-10T15:09:24.605897857-04:00","level":"INFO","msg":"sender: started","stream_id":"solixl8p"}
+{"time":"2026-03-10T15:14:17.687247772-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001265145}],"total_operations":1}}
+{"time":"2026-03-10T15:14:18.107966426-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T15:14:18.376833952-04:00","level":"INFO","msg":"stream: closing","id":"solixl8p"}
+{"time":"2026-03-10T15:14:18.376846539-04:00","level":"INFO","msg":"handler: closed","stream_id":"solixl8p"}
+{"time":"2026-03-10T15:14:18.377001608-04:00","level":"INFO","msg":"sender: closed","stream_id":"solixl8p"}
+{"time":"2026-03-10T15:14:18.377025272-04:00","level":"INFO","msg":"stream: closed","id":"solixl8p"}

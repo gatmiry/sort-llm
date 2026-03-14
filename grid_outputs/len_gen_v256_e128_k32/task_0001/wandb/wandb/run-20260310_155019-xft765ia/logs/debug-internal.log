@@ -1,0 +1,12 @@
+{"time":"2026-03-10T15:50:19.737936115-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T15:50:20.028583092-04:00","level":"INFO","msg":"stream: created new stream","id":"xft765ia"}
+{"time":"2026-03-10T15:50:20.028627589-04:00","level":"INFO","msg":"stream: started","id":"xft765ia"}
+{"time":"2026-03-10T15:50:20.028637536-04:00","level":"INFO","msg":"handler: started","stream_id":"xft765ia"}
+{"time":"2026-03-10T15:50:20.02863574-04:00","level":"INFO","msg":"writer: started","stream_id":"xft765ia"}
+{"time":"2026-03-10T15:50:20.028646542-04:00","level":"INFO","msg":"sender: started","stream_id":"xft765ia"}
+{"time":"2026-03-10T16:08:26.623662036-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000719698}],"total_operations":1}}
+{"time":"2026-03-10T16:08:27.078267348-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:08:27.282193947-04:00","level":"INFO","msg":"stream: closing","id":"xft765ia"}
+{"time":"2026-03-10T16:08:27.282208515-04:00","level":"INFO","msg":"handler: closed","stream_id":"xft765ia"}
+{"time":"2026-03-10T16:08:27.282326517-04:00","level":"INFO","msg":"sender: closed","stream_id":"xft765ia"}
+{"time":"2026-03-10T16:08:27.282345895-04:00","level":"INFO","msg":"stream: closed","id":"xft765ia"}

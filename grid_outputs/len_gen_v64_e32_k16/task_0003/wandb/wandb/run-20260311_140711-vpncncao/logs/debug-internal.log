@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:07:11.951859829-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:07:12.172947991-04:00","level":"INFO","msg":"stream: created new stream","id":"vpncncao"}
+{"time":"2026-03-11T14:07:12.172992541-04:00","level":"INFO","msg":"stream: started","id":"vpncncao"}
+{"time":"2026-03-11T14:07:12.172998475-04:00","level":"INFO","msg":"writer: started","stream_id":"vpncncao"}
+{"time":"2026-03-11T14:07:12.173004704-04:00","level":"INFO","msg":"handler: started","stream_id":"vpncncao"}
+{"time":"2026-03-11T14:07:12.173009961-04:00","level":"INFO","msg":"sender: started","stream_id":"vpncncao"}
+{"time":"2026-03-11T14:10:40.515200323-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000764485}],"total_operations":1}}
+{"time":"2026-03-11T14:10:41.53723699-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:10:41.967876547-04:00","level":"INFO","msg":"stream: closing","id":"vpncncao"}
+{"time":"2026-03-11T14:10:41.967893211-04:00","level":"INFO","msg":"handler: closed","stream_id":"vpncncao"}
+{"time":"2026-03-11T14:10:41.968062502-04:00","level":"INFO","msg":"sender: closed","stream_id":"vpncncao"}
+{"time":"2026-03-11T14:10:41.968099921-04:00","level":"INFO","msg":"stream: closed","id":"vpncncao"}

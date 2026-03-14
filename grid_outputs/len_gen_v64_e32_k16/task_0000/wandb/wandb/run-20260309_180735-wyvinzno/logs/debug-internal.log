@@ -1,0 +1,12 @@
+{"time":"2026-03-09T18:07:37.107273311-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-09T18:07:37.498677607-04:00","level":"INFO","msg":"stream: created new stream","id":"wyvinzno"}
+{"time":"2026-03-09T18:07:37.498735081-04:00","level":"INFO","msg":"stream: started","id":"wyvinzno"}
+{"time":"2026-03-09T18:07:37.49874171-04:00","level":"INFO","msg":"writer: started","stream_id":"wyvinzno"}
+{"time":"2026-03-09T18:07:37.498747973-04:00","level":"INFO","msg":"handler: started","stream_id":"wyvinzno"}
+{"time":"2026-03-09T18:07:37.498754591-04:00","level":"INFO","msg":"sender: started","stream_id":"wyvinzno"}
+{"time":"2026-03-09T18:13:43.99223595-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000938831}],"total_operations":1}}
+{"time":"2026-03-09T18:13:44.437649677-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-09T18:13:44.690407891-04:00","level":"INFO","msg":"stream: closing","id":"wyvinzno"}
+{"time":"2026-03-09T18:13:44.690428926-04:00","level":"INFO","msg":"handler: closed","stream_id":"wyvinzno"}
+{"time":"2026-03-09T18:13:44.690567394-04:00","level":"INFO","msg":"sender: closed","stream_id":"wyvinzno"}
+{"time":"2026-03-09T18:13:44.690598325-04:00","level":"INFO","msg":"stream: closed","id":"wyvinzno"}

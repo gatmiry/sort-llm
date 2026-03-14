@@ -1,0 +1,12 @@
+{"time":"2026-03-10T15:04:14.091407452-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T15:04:14.330818539-04:00","level":"INFO","msg":"stream: created new stream","id":"jak712nu"}
+{"time":"2026-03-10T15:04:14.330883068-04:00","level":"INFO","msg":"stream: started","id":"jak712nu"}
+{"time":"2026-03-10T15:04:14.33088378-04:00","level":"INFO","msg":"handler: started","stream_id":"jak712nu"}
+{"time":"2026-03-10T15:04:14.330887292-04:00","level":"INFO","msg":"writer: started","stream_id":"jak712nu"}
+{"time":"2026-03-10T15:04:14.33090857-04:00","level":"INFO","msg":"sender: started","stream_id":"jak712nu"}
+{"time":"2026-03-10T15:09:10.323684077-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.019995956}],"total_operations":1}}
+{"time":"2026-03-10T15:09:10.813776828-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T15:09:11.137714999-04:00","level":"INFO","msg":"stream: closing","id":"jak712nu"}
+{"time":"2026-03-10T15:09:11.137730753-04:00","level":"INFO","msg":"handler: closed","stream_id":"jak712nu"}
+{"time":"2026-03-10T15:09:11.137877445-04:00","level":"INFO","msg":"sender: closed","stream_id":"jak712nu"}
+{"time":"2026-03-10T15:09:11.137907574-04:00","level":"INFO","msg":"stream: closed","id":"jak712nu"}

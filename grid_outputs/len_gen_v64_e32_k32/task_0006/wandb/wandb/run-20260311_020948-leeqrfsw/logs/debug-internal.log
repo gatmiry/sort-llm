@@ -1,0 +1,12 @@
+{"time":"2026-03-11T02:09:49.016694711-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T02:09:49.243445311-04:00","level":"INFO","msg":"stream: created new stream","id":"leeqrfsw"}
+{"time":"2026-03-11T02:09:49.243488204-04:00","level":"INFO","msg":"stream: started","id":"leeqrfsw"}
+{"time":"2026-03-11T02:09:49.243494566-04:00","level":"INFO","msg":"writer: started","stream_id":"leeqrfsw"}
+{"time":"2026-03-11T02:09:49.24349912-04:00","level":"INFO","msg":"handler: started","stream_id":"leeqrfsw"}
+{"time":"2026-03-11T02:09:49.243506896-04:00","level":"INFO","msg":"sender: started","stream_id":"leeqrfsw"}
+{"time":"2026-03-11T02:16:28.607753484-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000700803}],"total_operations":1}}
+{"time":"2026-03-11T02:16:29.042626421-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T02:16:29.310000535-04:00","level":"INFO","msg":"stream: closing","id":"leeqrfsw"}
+{"time":"2026-03-11T02:16:29.310014038-04:00","level":"INFO","msg":"handler: closed","stream_id":"leeqrfsw"}
+{"time":"2026-03-11T02:16:29.31017011-04:00","level":"INFO","msg":"sender: closed","stream_id":"leeqrfsw"}
+{"time":"2026-03-11T02:16:29.310183027-04:00","level":"INFO","msg":"stream: closed","id":"leeqrfsw"}

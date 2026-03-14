@@ -1,0 +1,12 @@
+{"time":"2026-03-10T14:00:25.136652466-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T14:00:25.394047886-04:00","level":"INFO","msg":"stream: created new stream","id":"gnupnlm1"}
+{"time":"2026-03-10T14:00:25.394091688-04:00","level":"INFO","msg":"stream: started","id":"gnupnlm1"}
+{"time":"2026-03-10T14:00:25.394098948-04:00","level":"INFO","msg":"writer: started","stream_id":"gnupnlm1"}
+{"time":"2026-03-10T14:00:25.394103926-04:00","level":"INFO","msg":"handler: started","stream_id":"gnupnlm1"}
+{"time":"2026-03-10T14:00:25.394108787-04:00","level":"INFO","msg":"sender: started","stream_id":"gnupnlm1"}
+{"time":"2026-03-10T14:08:19.781558532-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000719575}],"total_operations":1}}
+{"time":"2026-03-10T14:08:20.263445395-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T14:08:20.648318244-04:00","level":"INFO","msg":"stream: closing","id":"gnupnlm1"}
+{"time":"2026-03-10T14:08:20.648334371-04:00","level":"INFO","msg":"handler: closed","stream_id":"gnupnlm1"}
+{"time":"2026-03-10T14:08:20.648474442-04:00","level":"INFO","msg":"sender: closed","stream_id":"gnupnlm1"}
+{"time":"2026-03-10T14:08:20.648494389-04:00","level":"INFO","msg":"stream: closed","id":"gnupnlm1"}

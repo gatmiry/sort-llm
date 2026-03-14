@@ -1,0 +1,12 @@
+{"time":"2026-03-11T01:51:48.950240829-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T01:51:49.193510795-04:00","level":"INFO","msg":"stream: created new stream","id":"pogpzwah"}
+{"time":"2026-03-11T01:51:49.193570462-04:00","level":"INFO","msg":"stream: started","id":"pogpzwah"}
+{"time":"2026-03-11T01:51:49.193577374-04:00","level":"INFO","msg":"writer: started","stream_id":"pogpzwah"}
+{"time":"2026-03-11T01:51:49.193581564-04:00","level":"INFO","msg":"sender: started","stream_id":"pogpzwah"}
+{"time":"2026-03-11T01:51:49.193601312-04:00","level":"INFO","msg":"handler: started","stream_id":"pogpzwah"}
+{"time":"2026-03-11T02:08:38.38815635-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.028059186}],"total_operations":1}}
+{"time":"2026-03-11T02:08:38.732771516-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T02:08:38.883853168-04:00","level":"INFO","msg":"stream: closing","id":"pogpzwah"}
+{"time":"2026-03-11T02:08:38.883879733-04:00","level":"INFO","msg":"handler: closed","stream_id":"pogpzwah"}
+{"time":"2026-03-11T02:08:38.884070908-04:00","level":"INFO","msg":"sender: closed","stream_id":"pogpzwah"}
+{"time":"2026-03-11T02:08:38.884101773-04:00","level":"INFO","msg":"stream: closed","id":"pogpzwah"}

@@ -1,0 +1,12 @@
+{"time":"2026-03-11T08:21:48.600471726-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T08:21:48.833190261-04:00","level":"INFO","msg":"stream: created new stream","id":"od67ngkv"}
+{"time":"2026-03-11T08:21:48.833233126-04:00","level":"INFO","msg":"stream: started","id":"od67ngkv"}
+{"time":"2026-03-11T08:21:48.833237817-04:00","level":"INFO","msg":"handler: started","stream_id":"od67ngkv"}
+{"time":"2026-03-11T08:21:48.833242248-04:00","level":"INFO","msg":"sender: started","stream_id":"od67ngkv"}
+{"time":"2026-03-11T08:21:48.83325112-04:00","level":"INFO","msg":"writer: started","stream_id":"od67ngkv"}
+{"time":"2026-03-11T08:47:49.066908408-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001292307}],"total_operations":1}}
+{"time":"2026-03-11T08:47:49.599434871-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T08:47:49.903442456-04:00","level":"INFO","msg":"stream: closing","id":"od67ngkv"}
+{"time":"2026-03-11T08:47:49.903467091-04:00","level":"INFO","msg":"handler: closed","stream_id":"od67ngkv"}
+{"time":"2026-03-11T08:47:49.903621254-04:00","level":"INFO","msg":"sender: closed","stream_id":"od67ngkv"}
+{"time":"2026-03-11T08:47:49.903645761-04:00","level":"INFO","msg":"stream: closed","id":"od67ngkv"}

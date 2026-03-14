@@ -1,0 +1,12 @@
+{"time":"2026-03-11T01:05:24.257969029-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T01:05:24.489656741-04:00","level":"INFO","msg":"stream: created new stream","id":"lv1mawax"}
+{"time":"2026-03-11T01:05:24.489695736-04:00","level":"INFO","msg":"stream: started","id":"lv1mawax"}
+{"time":"2026-03-11T01:05:24.489702672-04:00","level":"INFO","msg":"writer: started","stream_id":"lv1mawax"}
+{"time":"2026-03-11T01:05:24.489706739-04:00","level":"INFO","msg":"handler: started","stream_id":"lv1mawax"}
+{"time":"2026-03-11T01:05:24.489716705-04:00","level":"INFO","msg":"sender: started","stream_id":"lv1mawax"}
+{"time":"2026-03-11T01:13:44.669786949-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000718913}],"total_operations":1}}
+{"time":"2026-03-11T01:13:45.411099122-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T01:13:45.97219569-04:00","level":"INFO","msg":"stream: closing","id":"lv1mawax"}
+{"time":"2026-03-11T01:13:45.972214344-04:00","level":"INFO","msg":"handler: closed","stream_id":"lv1mawax"}
+{"time":"2026-03-11T01:13:45.972384902-04:00","level":"INFO","msg":"sender: closed","stream_id":"lv1mawax"}
+{"time":"2026-03-11T01:13:45.972407804-04:00","level":"INFO","msg":"stream: closed","id":"lv1mawax"}

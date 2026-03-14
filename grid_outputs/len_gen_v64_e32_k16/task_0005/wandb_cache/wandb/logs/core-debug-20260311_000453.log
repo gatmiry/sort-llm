@@ -1,0 +1,7 @@
+{"time":"2026-03-11T00:04:53.39897807-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmp55hkw2cc/port-1591879.txt","pid":1591879,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-11T00:04:53.42819767-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1591879}
+{"time":"2026-03-11T00:04:53.428152047-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-1591879-1591958-145373210/socket","Net":"unix"}}
+{"time":"2026-03-11T00:04:53.548462865-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-11T00:04:53.564474885-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"g2qi63md","id":"1(@)"}
+{"time":"2026-03-11T00:04:53.857409677-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"g2qi63md","id":"1(@)"}
+{"time":"2026-03-11T00:06:41.01522023-04:00","level":"INFO","msg":"main: received shutdown signal","signal":15}

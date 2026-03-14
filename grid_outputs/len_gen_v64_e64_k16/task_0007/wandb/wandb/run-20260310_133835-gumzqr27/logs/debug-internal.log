@@ -1,0 +1,12 @@
+{"time":"2026-03-10T13:38:35.908711766-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T13:38:36.133617911-04:00","level":"INFO","msg":"stream: created new stream","id":"gumzqr27"}
+{"time":"2026-03-10T13:38:36.13365332-04:00","level":"INFO","msg":"stream: started","id":"gumzqr27"}
+{"time":"2026-03-10T13:38:36.133666604-04:00","level":"INFO","msg":"sender: started","stream_id":"gumzqr27"}
+{"time":"2026-03-10T13:38:36.133672483-04:00","level":"INFO","msg":"writer: started","stream_id":"gumzqr27"}
+{"time":"2026-03-10T13:38:36.133688596-04:00","level":"INFO","msg":"handler: started","stream_id":"gumzqr27"}
+{"time":"2026-03-10T13:42:02.076083149-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000752688}],"total_operations":1}}
+{"time":"2026-03-10T13:42:03.196371689-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T13:42:04.133473424-04:00","level":"INFO","msg":"stream: closing","id":"gumzqr27"}
+{"time":"2026-03-10T13:42:04.133490103-04:00","level":"INFO","msg":"handler: closed","stream_id":"gumzqr27"}
+{"time":"2026-03-10T13:42:04.133621664-04:00","level":"INFO","msg":"sender: closed","stream_id":"gumzqr27"}
+{"time":"2026-03-10T13:42:04.13365026-04:00","level":"INFO","msg":"stream: closed","id":"gumzqr27"}

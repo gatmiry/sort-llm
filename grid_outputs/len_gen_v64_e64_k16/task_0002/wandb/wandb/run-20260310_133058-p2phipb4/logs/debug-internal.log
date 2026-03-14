@@ -1,0 +1,13 @@
+{"time":"2026-03-10T13:30:58.648910729-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T13:31:03.689814938-04:00","level":"ERROR","msg":"monitor: failed to initialize GPU resource: monitor: could not get GPU binary port: timeout reading portfile /tmp/wandb-system-monitor-portfile-331277946"}
+{"time":"2026-03-10T13:31:03.810038409-04:00","level":"INFO","msg":"stream: created new stream","id":"p2phipb4"}
+{"time":"2026-03-10T13:31:03.810094935-04:00","level":"INFO","msg":"stream: started","id":"p2phipb4"}
+{"time":"2026-03-10T13:31:03.810101843-04:00","level":"INFO","msg":"writer: started","stream_id":"p2phipb4"}
+{"time":"2026-03-10T13:31:03.810106266-04:00","level":"INFO","msg":"sender: started","stream_id":"p2phipb4"}
+{"time":"2026-03-10T13:31:03.810121127-04:00","level":"INFO","msg":"handler: started","stream_id":"p2phipb4"}
+{"time":"2026-03-10T13:35:47.410697885-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000795759}],"total_operations":1}}
+{"time":"2026-03-10T13:35:48.086626515-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T13:35:48.340307131-04:00","level":"INFO","msg":"stream: closing","id":"p2phipb4"}
+{"time":"2026-03-10T13:35:48.340332334-04:00","level":"INFO","msg":"handler: closed","stream_id":"p2phipb4"}
+{"time":"2026-03-10T13:35:48.340538364-04:00","level":"INFO","msg":"sender: closed","stream_id":"p2phipb4"}
+{"time":"2026-03-10T13:35:48.340567839-04:00","level":"INFO","msg":"stream: closed","id":"p2phipb4"}

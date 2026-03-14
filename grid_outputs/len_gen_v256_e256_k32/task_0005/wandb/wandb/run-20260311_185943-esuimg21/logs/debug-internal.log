@@ -1,0 +1,14 @@
+{"time":"2026-03-11T18:59:43.454905991-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:59:43.689986065-04:00","level":"INFO","msg":"stream: created new stream","id":"esuimg21"}
+{"time":"2026-03-11T18:59:43.690024273-04:00","level":"INFO","msg":"stream: started","id":"esuimg21"}
+{"time":"2026-03-11T18:59:43.690029463-04:00","level":"INFO","msg":"writer: started","stream_id":"esuimg21"}
+{"time":"2026-03-11T18:59:43.690034769-04:00","level":"INFO","msg":"handler: started","stream_id":"esuimg21"}
+{"time":"2026-03-11T18:59:43.690040073-04:00","level":"INFO","msg":"sender: started","stream_id":"esuimg21"}
+{"time":"2026-03-11T19:11:16.863101048-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-03-11T19:13:49.114843615-04:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/chloe0711/sortgpt/esuimg21/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-11T19:24:02.925990319-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000743517}],"total_operations":1}}
+{"time":"2026-03-11T19:24:03.457884678-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T19:24:03.750388944-04:00","level":"INFO","msg":"stream: closing","id":"esuimg21"}
+{"time":"2026-03-11T19:24:03.764153766-04:00","level":"INFO","msg":"handler: closed","stream_id":"esuimg21"}
+{"time":"2026-03-11T19:24:03.764344417-04:00","level":"INFO","msg":"sender: closed","stream_id":"esuimg21"}
+{"time":"2026-03-11T19:24:03.764368898-04:00","level":"INFO","msg":"stream: closed","id":"esuimg21"}

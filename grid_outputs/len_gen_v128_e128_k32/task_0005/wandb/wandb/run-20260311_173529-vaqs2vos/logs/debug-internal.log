@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:35:29.512555395-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:35:29.777677674-04:00","level":"INFO","msg":"stream: created new stream","id":"vaqs2vos"}
+{"time":"2026-03-11T17:35:29.777745819-04:00","level":"INFO","msg":"stream: started","id":"vaqs2vos"}
+{"time":"2026-03-11T17:35:29.777753625-04:00","level":"INFO","msg":"writer: started","stream_id":"vaqs2vos"}
+{"time":"2026-03-11T17:35:29.777759612-04:00","level":"INFO","msg":"handler: started","stream_id":"vaqs2vos"}
+{"time":"2026-03-11T17:35:29.777767175-04:00","level":"INFO","msg":"sender: started","stream_id":"vaqs2vos"}
+{"time":"2026-03-11T17:48:11.77733286-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001089924}],"total_operations":1}}
+{"time":"2026-03-11T17:48:12.383124406-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:48:12.600092571-04:00","level":"INFO","msg":"stream: closing","id":"vaqs2vos"}
+{"time":"2026-03-11T17:48:12.600108496-04:00","level":"INFO","msg":"handler: closed","stream_id":"vaqs2vos"}
+{"time":"2026-03-11T17:48:12.600264602-04:00","level":"INFO","msg":"sender: closed","stream_id":"vaqs2vos"}
+{"time":"2026-03-11T17:48:12.600284227-04:00","level":"INFO","msg":"stream: closed","id":"vaqs2vos"}

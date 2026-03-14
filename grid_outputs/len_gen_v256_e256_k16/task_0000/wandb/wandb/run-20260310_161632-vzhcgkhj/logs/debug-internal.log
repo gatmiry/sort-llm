@@ -1,0 +1,14 @@
+{"time":"2026-03-10T16:16:32.363303163-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:16:32.586472514-04:00","level":"INFO","msg":"stream: created new stream","id":"vzhcgkhj"}
+{"time":"2026-03-10T16:16:32.586524469-04:00","level":"INFO","msg":"stream: started","id":"vzhcgkhj"}
+{"time":"2026-03-10T16:16:32.586530316-04:00","level":"INFO","msg":"writer: started","stream_id":"vzhcgkhj"}
+{"time":"2026-03-10T16:16:32.586537949-04:00","level":"INFO","msg":"handler: started","stream_id":"vzhcgkhj"}
+{"time":"2026-03-10T16:16:32.586550409-04:00","level":"INFO","msg":"sender: started","stream_id":"vzhcgkhj"}
+{"time":"2026-03-10T16:23:50.363253944-04:00","level":"INFO","msg":"api: retrying HTTP error","status":503,"url":"https://api.wandb.ai/graphql","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>503 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The service you requested is not available at this time.<p>Service error -27.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-10T16:28:50.135338054-04:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-03-10T16:29:51.310450931-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.018694583}],"total_operations":1}}
+{"time":"2026-03-10T16:29:51.78978076-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:29:52.254849423-04:00","level":"INFO","msg":"stream: closing","id":"vzhcgkhj"}
+{"time":"2026-03-10T16:29:52.254866366-04:00","level":"INFO","msg":"handler: closed","stream_id":"vzhcgkhj"}
+{"time":"2026-03-10T16:29:52.255015006-04:00","level":"INFO","msg":"sender: closed","stream_id":"vzhcgkhj"}
+{"time":"2026-03-10T16:29:52.255029454-04:00","level":"INFO","msg":"stream: closed","id":"vzhcgkhj"}

@@ -1,0 +1,12 @@
+{"time":"2026-03-11T02:57:54.31631192-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T02:57:54.57507535-04:00","level":"INFO","msg":"stream: created new stream","id":"kku795pd"}
+{"time":"2026-03-11T02:57:54.575120342-04:00","level":"INFO","msg":"stream: started","id":"kku795pd"}
+{"time":"2026-03-11T02:57:54.575125862-04:00","level":"INFO","msg":"writer: started","stream_id":"kku795pd"}
+{"time":"2026-03-11T02:57:54.575134256-04:00","level":"INFO","msg":"handler: started","stream_id":"kku795pd"}
+{"time":"2026-03-11T02:57:54.575140993-04:00","level":"INFO","msg":"sender: started","stream_id":"kku795pd"}
+{"time":"2026-03-11T03:02:07.281428874-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001033022}],"total_operations":1}}
+{"time":"2026-03-11T03:02:08.536041517-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T03:02:09.048646007-04:00","level":"INFO","msg":"stream: closing","id":"kku795pd"}
+{"time":"2026-03-11T03:02:09.048669234-04:00","level":"INFO","msg":"handler: closed","stream_id":"kku795pd"}
+{"time":"2026-03-11T03:02:09.048857962-04:00","level":"INFO","msg":"sender: closed","stream_id":"kku795pd"}
+{"time":"2026-03-11T03:02:09.048885493-04:00","level":"INFO","msg":"stream: closed","id":"kku795pd"}

@@ -1,0 +1,13 @@
+{"time":"2026-03-10T16:27:54.070426527-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:27:54.702641185-04:00","level":"INFO","msg":"stream: created new stream","id":"rpmoxyfw"}
+{"time":"2026-03-10T16:27:54.702699554-04:00","level":"INFO","msg":"stream: started","id":"rpmoxyfw"}
+{"time":"2026-03-10T16:27:54.702705999-04:00","level":"INFO","msg":"writer: started","stream_id":"rpmoxyfw"}
+{"time":"2026-03-10T16:27:54.702710736-04:00","level":"INFO","msg":"sender: started","stream_id":"rpmoxyfw"}
+{"time":"2026-03-10T16:27:54.702722435-04:00","level":"INFO","msg":"handler: started","stream_id":"rpmoxyfw"}
+{"time":"2026-03-10T16:28:56.269588928-04:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/chloe0711/sortgpt/rpmoxyfw/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-10T16:37:05.181225427-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.012156298}],"total_operations":1}}
+{"time":"2026-03-10T16:37:05.941161777-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T16:37:06.655313829-04:00","level":"INFO","msg":"stream: closing","id":"rpmoxyfw"}
+{"time":"2026-03-10T16:37:06.655341588-04:00","level":"INFO","msg":"handler: closed","stream_id":"rpmoxyfw"}
+{"time":"2026-03-10T16:37:06.655529793-04:00","level":"INFO","msg":"sender: closed","stream_id":"rpmoxyfw"}
+{"time":"2026-03-10T16:37:06.65554691-04:00","level":"INFO","msg":"stream: closed","id":"rpmoxyfw"}

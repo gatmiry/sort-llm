@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:30:30.768962133-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:30:31.005151838-04:00","level":"INFO","msg":"stream: created new stream","id":"sa7smofe"}
+{"time":"2026-03-11T17:30:31.005217153-04:00","level":"INFO","msg":"stream: started","id":"sa7smofe"}
+{"time":"2026-03-11T17:30:31.005227919-04:00","level":"INFO","msg":"sender: started","stream_id":"sa7smofe"}
+{"time":"2026-03-11T17:30:31.005228107-04:00","level":"INFO","msg":"writer: started","stream_id":"sa7smofe"}
+{"time":"2026-03-11T17:30:31.005243403-04:00","level":"INFO","msg":"handler: started","stream_id":"sa7smofe"}
+{"time":"2026-03-11T17:42:57.43844463-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000726977}],"total_operations":1}}
+{"time":"2026-03-11T17:42:57.852024652-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:42:58.154934652-04:00","level":"INFO","msg":"stream: closing","id":"sa7smofe"}
+{"time":"2026-03-11T17:42:58.154959737-04:00","level":"INFO","msg":"handler: closed","stream_id":"sa7smofe"}
+{"time":"2026-03-11T17:42:58.155113513-04:00","level":"INFO","msg":"sender: closed","stream_id":"sa7smofe"}
+{"time":"2026-03-11T17:42:58.155130711-04:00","level":"INFO","msg":"stream: closed","id":"sa7smofe"}

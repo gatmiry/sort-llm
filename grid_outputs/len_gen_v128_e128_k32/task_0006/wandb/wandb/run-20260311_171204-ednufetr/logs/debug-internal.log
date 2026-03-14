@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:12:05.300479151-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:12:05.604184194-04:00","level":"INFO","msg":"stream: created new stream","id":"ednufetr"}
+{"time":"2026-03-11T17:12:05.604333635-04:00","level":"INFO","msg":"stream: started","id":"ednufetr"}
+{"time":"2026-03-11T17:12:05.604464064-04:00","level":"INFO","msg":"writer: started","stream_id":"ednufetr"}
+{"time":"2026-03-11T17:12:05.604606057-04:00","level":"INFO","msg":"sender: started","stream_id":"ednufetr"}
+{"time":"2026-03-11T17:12:05.604572476-04:00","level":"INFO","msg":"handler: started","stream_id":"ednufetr"}
+{"time":"2026-03-11T17:21:24.278391128-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001346118}],"total_operations":1}}
+{"time":"2026-03-11T17:21:24.791657638-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:21:25.346962675-04:00","level":"INFO","msg":"stream: closing","id":"ednufetr"}
+{"time":"2026-03-11T17:21:25.347022877-04:00","level":"INFO","msg":"handler: closed","stream_id":"ednufetr"}
+{"time":"2026-03-11T17:21:25.347612775-04:00","level":"INFO","msg":"sender: closed","stream_id":"ednufetr"}
+{"time":"2026-03-11T17:21:25.34775138-04:00","level":"INFO","msg":"stream: closed","id":"ednufetr"}

@@ -1,0 +1,12 @@
+{"time":"2026-03-11T15:09:27.673167889-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T15:09:27.895850099-04:00","level":"INFO","msg":"stream: created new stream","id":"bjuqxtpc"}
+{"time":"2026-03-11T15:09:27.895892864-04:00","level":"INFO","msg":"stream: started","id":"bjuqxtpc"}
+{"time":"2026-03-11T15:09:27.895898504-04:00","level":"INFO","msg":"writer: started","stream_id":"bjuqxtpc"}
+{"time":"2026-03-11T15:09:27.895901802-04:00","level":"INFO","msg":"handler: started","stream_id":"bjuqxtpc"}
+{"time":"2026-03-11T15:09:27.895911939-04:00","level":"INFO","msg":"sender: started","stream_id":"bjuqxtpc"}
+{"time":"2026-03-11T15:16:28.666526151-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000445349}],"total_operations":1}}
+{"time":"2026-03-11T15:16:29.610441643-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T15:16:30.440761659-04:00","level":"INFO","msg":"stream: closing","id":"bjuqxtpc"}
+{"time":"2026-03-11T15:16:30.440778089-04:00","level":"INFO","msg":"handler: closed","stream_id":"bjuqxtpc"}
+{"time":"2026-03-11T15:16:30.440895178-04:00","level":"INFO","msg":"sender: closed","stream_id":"bjuqxtpc"}
+{"time":"2026-03-11T15:16:30.440909297-04:00","level":"INFO","msg":"stream: closed","id":"bjuqxtpc"}

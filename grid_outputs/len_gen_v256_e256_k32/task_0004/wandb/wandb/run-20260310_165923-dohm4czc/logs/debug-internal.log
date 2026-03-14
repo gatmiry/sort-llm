@@ -1,0 +1,12 @@
+{"time":"2026-03-10T16:59:24.042082578-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T16:59:24.266734594-04:00","level":"INFO","msg":"stream: created new stream","id":"dohm4czc"}
+{"time":"2026-03-10T16:59:24.26677143-04:00","level":"INFO","msg":"stream: started","id":"dohm4czc"}
+{"time":"2026-03-10T16:59:24.266776791-04:00","level":"INFO","msg":"writer: started","stream_id":"dohm4czc"}
+{"time":"2026-03-10T16:59:24.266801476-04:00","level":"INFO","msg":"handler: started","stream_id":"dohm4czc"}
+{"time":"2026-03-10T16:59:24.266781768-04:00","level":"INFO","msg":"sender: started","stream_id":"dohm4czc"}
+{"time":"2026-03-10T17:17:00.988857039-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.012086227}],"total_operations":1}}
+{"time":"2026-03-10T17:17:01.500198199-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T17:17:01.9442836-04:00","level":"INFO","msg":"stream: closing","id":"dohm4czc"}
+{"time":"2026-03-10T17:17:01.944300852-04:00","level":"INFO","msg":"handler: closed","stream_id":"dohm4czc"}
+{"time":"2026-03-10T17:17:01.944456559-04:00","level":"INFO","msg":"sender: closed","stream_id":"dohm4czc"}
+{"time":"2026-03-10T17:17:01.944476483-04:00","level":"INFO","msg":"stream: closed","id":"dohm4czc"}

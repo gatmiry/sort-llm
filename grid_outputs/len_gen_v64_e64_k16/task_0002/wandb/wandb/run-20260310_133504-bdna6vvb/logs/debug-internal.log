@@ -1,0 +1,12 @@
+{"time":"2026-03-10T13:35:04.534874442-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T13:35:04.758653574-04:00","level":"INFO","msg":"stream: created new stream","id":"bdna6vvb"}
+{"time":"2026-03-10T13:35:04.758697917-04:00","level":"INFO","msg":"stream: started","id":"bdna6vvb"}
+{"time":"2026-03-10T13:35:04.758703374-04:00","level":"INFO","msg":"writer: started","stream_id":"bdna6vvb"}
+{"time":"2026-03-10T13:35:04.758709185-04:00","level":"INFO","msg":"sender: started","stream_id":"bdna6vvb"}
+{"time":"2026-03-10T13:35:04.758720565-04:00","level":"INFO","msg":"handler: started","stream_id":"bdna6vvb"}
+{"time":"2026-03-10T13:39:45.393552361-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001127199}],"total_operations":1}}
+{"time":"2026-03-10T13:39:46.058250574-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T13:39:46.350637096-04:00","level":"INFO","msg":"stream: closing","id":"bdna6vvb"}
+{"time":"2026-03-10T13:39:46.350664556-04:00","level":"INFO","msg":"handler: closed","stream_id":"bdna6vvb"}
+{"time":"2026-03-10T13:39:46.3508237-04:00","level":"INFO","msg":"sender: closed","stream_id":"bdna6vvb"}
+{"time":"2026-03-10T13:39:46.350845351-04:00","level":"INFO","msg":"stream: closed","id":"bdna6vvb"}

@@ -1,0 +1,12 @@
+{"time":"2026-03-10T13:49:46.401421681-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T13:49:46.623149274-04:00","level":"INFO","msg":"stream: created new stream","id":"lurt5otj"}
+{"time":"2026-03-10T13:49:46.623185647-04:00","level":"INFO","msg":"stream: started","id":"lurt5otj"}
+{"time":"2026-03-10T13:49:46.623191139-04:00","level":"INFO","msg":"writer: started","stream_id":"lurt5otj"}
+{"time":"2026-03-10T13:49:46.6231955-04:00","level":"INFO","msg":"sender: started","stream_id":"lurt5otj"}
+{"time":"2026-03-10T13:49:46.623215872-04:00","level":"INFO","msg":"handler: started","stream_id":"lurt5otj"}
+{"time":"2026-03-10T14:03:42.140699174-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001129905}],"total_operations":1}}
+{"time":"2026-03-10T14:03:42.636494956-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T14:03:43.031668694-04:00","level":"INFO","msg":"stream: closing","id":"lurt5otj"}
+{"time":"2026-03-10T14:03:43.031691222-04:00","level":"INFO","msg":"handler: closed","stream_id":"lurt5otj"}
+{"time":"2026-03-10T14:03:43.03187589-04:00","level":"INFO","msg":"sender: closed","stream_id":"lurt5otj"}
+{"time":"2026-03-10T14:03:43.031914359-04:00","level":"INFO","msg":"stream: closed","id":"lurt5otj"}

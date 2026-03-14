@@ -1,0 +1,12 @@
+{"time":"2026-03-10T15:44:18.252058872-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T15:44:18.484883341-04:00","level":"INFO","msg":"stream: created new stream","id":"bfr72jeq"}
+{"time":"2026-03-10T15:44:18.484922297-04:00","level":"INFO","msg":"stream: started","id":"bfr72jeq"}
+{"time":"2026-03-10T15:44:18.484929674-04:00","level":"INFO","msg":"writer: started","stream_id":"bfr72jeq"}
+{"time":"2026-03-10T15:44:18.484935583-04:00","level":"INFO","msg":"handler: started","stream_id":"bfr72jeq"}
+{"time":"2026-03-10T15:44:18.484941735-04:00","level":"INFO","msg":"sender: started","stream_id":"bfr72jeq"}
+{"time":"2026-03-10T15:49:34.761655084-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000745938}],"total_operations":1}}
+{"time":"2026-03-10T15:49:35.279767734-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T15:49:35.536252413-04:00","level":"INFO","msg":"stream: closing","id":"bfr72jeq"}
+{"time":"2026-03-10T15:49:35.536274515-04:00","level":"INFO","msg":"handler: closed","stream_id":"bfr72jeq"}
+{"time":"2026-03-10T15:49:35.536429909-04:00","level":"INFO","msg":"sender: closed","stream_id":"bfr72jeq"}
+{"time":"2026-03-10T15:49:35.536454107-04:00","level":"INFO","msg":"stream: closed","id":"bfr72jeq"}

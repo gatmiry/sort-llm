@@ -1,0 +1,16 @@
+{"time":"2026-03-10T13:42:38.134181966-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmpve__v212/port-87190.txt","pid":87190,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-10T13:42:38.141515446-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":87190}
+{"time":"2026-03-10T13:42:38.141505023-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-87190-87873-2806585787/socket","Net":"unix"}}
+{"time":"2026-03-10T13:42:38.318308603-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-10T13:42:38.337189068-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"vpqmi6xy","id":"1(@)"}
+{"time":"2026-03-10T13:42:38.571122395-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"vpqmi6xy","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.420801064-04:00","level":"INFO","msg":"handleInformFinish: finish message received","streamId":"vpqmi6xy","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422230445-04:00","level":"INFO","msg":"handleInformFinish: stream closed","streamId":"vpqmi6xy","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422243716-04:00","level":"INFO","msg":"handleInformTeardown: server teardown initiated","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.42225293-04:00","level":"INFO","msg":"handleInformTeardown: server shutdown complete","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422264295-04:00","level":"INFO","msg":"server is shutting down"}
+{"time":"2026-03-10T13:51:25.422257843-04:00","level":"INFO","msg":"connection: closing","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422333519-04:00","level":"INFO","msg":"connection: closed successfully","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422340634-04:00","level":"INFO","msg":"connection: ManageConnectionData: connection closed","id":"1(@)"}
+{"time":"2026-03-10T13:51:25.422522457-04:00","level":"INFO","msg":"server: listener closed","addr":{"Name":"/tmp/wandb-87190-87873-2806585787/socket","Net":"unix"}}
+{"time":"2026-03-10T13:51:25.42255353-04:00","level":"INFO","msg":"server is closed"}

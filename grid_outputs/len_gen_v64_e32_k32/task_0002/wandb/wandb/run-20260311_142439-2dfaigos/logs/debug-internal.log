@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:24:39.315252563-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:24:39.538954662-04:00","level":"INFO","msg":"stream: created new stream","id":"2dfaigos"}
+{"time":"2026-03-11T14:24:39.539011848-04:00","level":"INFO","msg":"stream: started","id":"2dfaigos"}
+{"time":"2026-03-11T14:24:39.539018843-04:00","level":"INFO","msg":"writer: started","stream_id":"2dfaigos"}
+{"time":"2026-03-11T14:24:39.539026439-04:00","level":"INFO","msg":"handler: started","stream_id":"2dfaigos"}
+{"time":"2026-03-11T14:24:39.53903337-04:00","level":"INFO","msg":"sender: started","stream_id":"2dfaigos"}
+{"time":"2026-03-11T14:31:35.840848431-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.00120931}],"total_operations":1}}
+{"time":"2026-03-11T14:31:36.863295505-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:31:38.025509506-04:00","level":"INFO","msg":"stream: closing","id":"2dfaigos"}
+{"time":"2026-03-11T14:31:38.025535917-04:00","level":"INFO","msg":"handler: closed","stream_id":"2dfaigos"}
+{"time":"2026-03-11T14:31:38.025678311-04:00","level":"INFO","msg":"sender: closed","stream_id":"2dfaigos"}
+{"time":"2026-03-11T14:31:38.025695721-04:00","level":"INFO","msg":"stream: closed","id":"2dfaigos"}

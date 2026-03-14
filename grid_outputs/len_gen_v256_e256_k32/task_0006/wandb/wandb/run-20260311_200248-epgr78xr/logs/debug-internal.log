@@ -1,0 +1,12 @@
+{"time":"2026-03-11T20:02:49.078804475-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T20:02:49.330350829-04:00","level":"INFO","msg":"stream: created new stream","id":"epgr78xr"}
+{"time":"2026-03-11T20:02:49.33040382-04:00","level":"INFO","msg":"stream: started","id":"epgr78xr"}
+{"time":"2026-03-11T20:02:49.330415836-04:00","level":"INFO","msg":"sender: started","stream_id":"epgr78xr"}
+{"time":"2026-03-11T20:02:49.330410235-04:00","level":"INFO","msg":"writer: started","stream_id":"epgr78xr"}
+{"time":"2026-03-11T20:02:49.330423147-04:00","level":"INFO","msg":"handler: started","stream_id":"epgr78xr"}
+{"time":"2026-03-11T20:21:21.185623612-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000847461}],"total_operations":1}}
+{"time":"2026-03-11T20:21:21.599481853-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T20:21:21.932330746-04:00","level":"INFO","msg":"stream: closing","id":"epgr78xr"}
+{"time":"2026-03-11T20:21:21.932352972-04:00","level":"INFO","msg":"handler: closed","stream_id":"epgr78xr"}
+{"time":"2026-03-11T20:21:21.932496496-04:00","level":"INFO","msg":"sender: closed","stream_id":"epgr78xr"}
+{"time":"2026-03-11T20:21:21.932519618-04:00","level":"INFO","msg":"stream: closed","id":"epgr78xr"}

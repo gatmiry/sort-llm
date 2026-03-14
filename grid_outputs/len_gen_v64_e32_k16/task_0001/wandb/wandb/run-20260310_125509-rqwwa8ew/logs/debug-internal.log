@@ -1,0 +1,14 @@
+{"time":"2026-03-10T12:55:09.677067021-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T12:55:09.88759485-04:00","level":"INFO","msg":"stream: created new stream","id":"rqwwa8ew"}
+{"time":"2026-03-10T12:55:09.887636015-04:00","level":"INFO","msg":"stream: started","id":"rqwwa8ew"}
+{"time":"2026-03-10T12:55:09.887641413-04:00","level":"INFO","msg":"writer: started","stream_id":"rqwwa8ew"}
+{"time":"2026-03-10T12:55:09.887645942-04:00","level":"INFO","msg":"sender: started","stream_id":"rqwwa8ew"}
+{"time":"2026-03-10T12:55:09.887654979-04:00","level":"INFO","msg":"handler: started","stream_id":"rqwwa8ew"}
+{"time":"2026-03-10T13:01:13.568238058-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 152-158, console lines 155-161","runtime_seconds":2.100670039},{"desc":"updating run metadata","runtime_seconds":0.001148991}],"total_operations":2}}
+{"time":"2026-03-10T13:01:14.072727103-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T13:02:11.53580929-04:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/chloe0711/sortgpt/rqwwa8ew/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-03-10T13:02:13.649288859-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 152-158, console lines 155-161","runtime_seconds":62.181719227,"error_status":"retrying HTTP 502 Bad Gateway"}],"total_operations":1}}
+{"time":"2026-03-10T13:02:14.302805852-04:00","level":"INFO","msg":"stream: closing","id":"rqwwa8ew"}
+{"time":"2026-03-10T13:02:14.302829351-04:00","level":"INFO","msg":"handler: closed","stream_id":"rqwwa8ew"}
+{"time":"2026-03-10T13:02:14.302968024-04:00","level":"INFO","msg":"sender: closed","stream_id":"rqwwa8ew"}
+{"time":"2026-03-10T13:02:14.302992704-04:00","level":"INFO","msg":"stream: closed","id":"rqwwa8ew"}

@@ -220,6 +220,7 @@ class GPTConfig:
         use_rms_qk_norm: bool = False,
         use_gated_attention: bool = False,
         use_elementwise_attn_output_gate: bool = False,
+        use_xavier_init: bool = True,
         max_seq_len: Optional[int] = None,
     ):
         self.block_size = int(block_size)
@@ -238,6 +239,7 @@ class GPTConfig:
         self.use_rms_qk_norm = bool(use_rms_qk_norm)
         self.use_gated_attention = bool(use_gated_attention)
         self.use_elementwise_attn_output_gate = bool(use_elementwise_attn_output_gate)
+        self.use_xavier_init = bool(use_xavier_init)
         self.max_seq_len = int(max_seq_len if max_seq_len is not None else (2 * self.block_size + 1))
 
 
@@ -268,15 +270,23 @@ class GPT(nn.Module):
             self.transformer.wpe.weight.requires_grad_(False)
 
     def _init_weights(self, module):
-        std = 0.02
-        if isinstance(module, nn.Linear):
-            if hasattr(module, "NANOGPT_SCALE_INIT"):
-                std *= (2 * self.n_layers) ** -0.5
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std)
-            if module.bias is not None:
-                torch.nn.init.zeros_(module.bias)
-        elif isinstance(module, nn.Embedding):
-            torch.nn.init.normal_(module.weight, mean=0.0, std=std)
+        if self.config.use_xavier_init:
+            if isinstance(module, nn.Linear):
+                nn.init.xavier_uniform_(module.weight)
+                if module.bias is not None:
+                    nn.init.zeros_(module.bias)
+            elif isinstance(module, nn.Embedding):
+                nn.init.xavier_uniform_(module.weight)
+        else:
+            std = 0.02
+            if isinstance(module, nn.Linear):
+                if hasattr(module, "NANOGPT_SCALE_INIT"):
+                    std *= (2 * self.n_layers) ** -0.5
+                torch.nn.init.normal_(module.weight, mean=0.0, std=std)
+                if module.bias is not None:
+                    torch.nn.init.zeros_(module.bias)
+            elif isinstance(module, nn.Embedding):
+                torch.nn.init.normal_(module.weight, mean=0.0, std=std)
 
     def forward(self, idx, return_full_logits: bool = False, block_size: Optional[int] = None):
         B, T = idx.size()
@@ -377,8 +387,11 @@ def eval_length_metrics(
 ):
     """
     Returns:
-      loss_mean, exact_match_acc, token_acc, pos_abs_err_sum, pos_abs_err_mean
+      loss_mean, exact_match_acc, token_acc, pos_abs_err_sum, pos_abs_err_mean, tf_token_acc
     where pos_abs_err_sum = sum_{samples, positions} |pred - target|
+    and tf_token_acc is teacher-forcing accuracy on output positions (after SEP):
+    at each output step, the model is given the ground-truth prefix regardless of
+    whether the previous prediction was correct (error not propagated).
     """
     model.eval()
 
@@ -391,6 +404,9 @@ def eval_length_metrics(
     token_total = 0
 
     abs_err_sum = 0.0
+
+    tf_token_correct = 0
+    tf_token_total = 0
 
     while remaining > 0:
         bs = min(int(cfg.eval_batch_size), remaining)
@@ -405,13 +421,17 @@ def eval_length_metrics(
         )
 
         with (get_autocast_context(device, amp_dtype) if use_amp else nullcontext()):
-            logits, loss = model(batch, return_full_logits=False, block_size=int(block_size))
+            logits_full, loss = model(batch, return_full_logits=True, block_size=int(block_size))
 
         loss_sum += float(loss.item())
         n_batches += 1
 
-        targets = batch[:, int(block_size) + 1 :]
-        preds = logits.argmax(dim=-1)
+        K = int(block_size)
+        T = 2 * K + 1
+
+        # Output accuracy (positions K..2K-1 predicting K+1..2K)
+        targets = batch[:, K + 1:]
+        preds = logits_full[:, K:T - 1, :].argmax(dim=-1)
 
         exact_match_correct += int((preds == targets).all(dim=1).sum().item())
         token_correct += int((preds == targets).sum().item())
@@ -419,13 +439,20 @@ def eval_length_metrics(
 
         abs_err_sum += float((preds.to(torch.long) - targets.to(torch.long)).abs().sum().item())
 
+        # Teacher forcing accuracy on output positions (K..2K-1 predicting K+1..2K).
+        # The single forward pass uses ground-truth context at every step (causal mask),
+        # so errors are never propagated — this is exactly teacher forcing.
+        tf_token_correct += int((preds == targets).sum().item())
+        tf_token_total += int(targets.numel())
+
     loss_mean = loss_sum / max(n_batches, 1)
     exact_match_acc = exact_match_correct / max(num_samples, 1)
     token_acc = token_correct / max(token_total, 1)
     pos_abs_err_mean = abs_err_sum / max(token_total, 1)
+    tf_token_acc = tf_token_correct / max(tf_token_total, 1)
 
     model.train()
-    return loss_mean, exact_match_acc, token_acc, abs_err_sum, pos_abs_err_mean
+    return loss_mean, exact_match_acc, token_acc, abs_err_sum, pos_abs_err_mean, tf_token_acc
 
 
 # =========================
@@ -457,12 +484,16 @@ class TrainConfig:
     use_rms_qk_norm: bool = False
     use_gated_attention: bool = False
     use_elementwise_attn_output_gate: bool = False
+    use_xavier_init: bool = True
 
     # Length sampling
     length_mode: str = "mix"  # mix | curriculum
     train_k_choices: Optional[List[int]] = None  # if set, sample only from this explicit set
     curriculum_warmup_iters: int = 0
     curriculum_span_iters: int = 20000  # how long to go from min_k -> max_k
+
+    # Teacher forcing loss on input positions
+    tf_loss_weight: float = 0.0  # 0 disables; >0 adds weight * CE(input positions) to training loss
 
     # Training recipe
     warmup_iters: int = 200
@@ -630,7 +661,7 @@ def train_sorting_gpt(cfg: TrainConfig):
     scaler = make_grad_scaler(enabled=(use_amp and amp_dtype == torch.float16))
 
     # model must support all eval ranges
-    max_k_for_model = max(int(cfg.test_max_k), int(cfg.eval_id_max), int(cfg.eval_mid_max), int(cfg.eval_long_max))
+    max_k_for_model = max(int(cfg.train_max_k), int(cfg.test_max_k))
     max_seq_len = 2 * max_k_for_model + 1
 
     # block_size here is just a default; we always pass block_size explicitly in forward
@@ -648,6 +679,7 @@ def train_sorting_gpt(cfg: TrainConfig):
         use_rms_qk_norm=cfg.use_rms_qk_norm,
         use_gated_attention=cfg.use_gated_attention,
         use_elementwise_attn_output_gate=cfg.use_elementwise_attn_output_gate,
+        use_xavier_init=cfg.use_xavier_init,
         max_seq_len=max_seq_len,
     )
     model = GPT(model_cfg).to(device)
@@ -698,9 +730,8 @@ def train_sorting_gpt(cfg: TrainConfig):
     last_log_t = time.time()
 
     def do_full_eval(step: int):
-        # In-dist bucket
-        for k in range(int(cfg.eval_id_min), int(cfg.eval_id_max) + 1):
-            loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
+        for k in range(int(cfg.test_min_k), int(cfg.test_max_k) + 1):
+            loss, em_acc, tok_acc, abs_sum, abs_mean, tf_tok_acc = eval_length_metrics(
                 model=model,
                 device=device,
                 cfg=cfg,
@@ -717,52 +748,7 @@ def train_sorting_gpt(cfg: TrainConfig):
                     f"test/K{k}/token_acc": tok_acc,
                     f"test/K{k}/pos_abs_err_sum": abs_sum,
                     f"test/K{k}/pos_abs_err_mean": abs_mean,
-                },
-                step=step,
-            )
-
-        # OOD bucket 1: 51..100
-        for k in range(int(cfg.eval_mid_min), int(cfg.eval_mid_max) + 1):
-            loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
-                model=model,
-                device=device,
-                cfg=cfg,
-                block_size=int(k),
-                use_amp=use_amp,
-                amp_dtype=amp_dtype,
-                num_samples=int(cfg.eval_samples_per_length),
-            )
-            run.log(
-                {
-                    "iter": step,
-                    f"gen_mid/K{k}/loss": loss,
-                    f"gen_mid/K{k}/exact_match_acc": em_acc,
-                    f"gen_mid/K{k}/token_acc": tok_acc,
-                    f"gen_mid/K{k}/pos_abs_err_sum": abs_sum,
-                    f"gen_mid/K{k}/pos_abs_err_mean": abs_mean,
-                },
-                step=step,
-            )
-
-        # OOD bucket 2: 101..150
-        for k in range(int(cfg.eval_long_min), int(cfg.eval_long_max) + 1):
-            loss, em_acc, tok_acc, abs_sum, abs_mean = eval_length_metrics(
-                model=model,
-                device=device,
-                cfg=cfg,
-                block_size=int(k),
-                use_amp=use_amp,
-                amp_dtype=amp_dtype,
-                num_samples=int(cfg.eval_samples_per_length),
-            )
-            run.log(
-                {
-                    "iter": step,
-                    f"gen_long/K{k}/loss": loss,
-                    f"gen_long/K{k}/exact_match_acc": em_acc,
-                    f"gen_long/K{k}/token_acc": tok_acc,
-                    f"gen_long/K{k}/pos_abs_err_sum": abs_sum,
-                    f"gen_long/K{k}/pos_abs_err_mean": abs_mean,
+                    f"test/K{k}/tf_token_acc": tf_tok_acc,
                 },
                 step=step,
             )
@@ -985,6 +971,7 @@ def main():
     p.add_argument("--use-rms-qk-norm", action="store_true")
     p.add_argument("--use-gated-attention", action="store_true")
     p.add_argument("--use-elementwise-attn-output-gate", action="store_true")
+    p.add_argument("--no-xavier-init", action="store_true", help="Disable Xavier init and use normal init instead")
 
     # Base train knobs
     p.add_argument("--max-iters", type=int, default=25000)
@@ -1126,6 +1113,7 @@ def main():
         use_rms_qk_norm=bool(args.use_rms_qk_norm),
         use_gated_attention=bool(args.use_gated_attention),
         use_elementwise_attn_output_gate=bool(args.use_elementwise_attn_output_gate),
+        use_xavier_init=not bool(args.no_xavier_init),
 
         allow_duplicates=False,
 

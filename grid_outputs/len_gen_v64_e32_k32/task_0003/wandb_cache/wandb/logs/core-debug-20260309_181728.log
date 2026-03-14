@@ -1,0 +1,7 @@
+{"time":"2026-03-09T18:17:28.807395111-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmp_3ufgmz4/port-1460070.txt","pid":1460070,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-09T18:17:28.813268649-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":1460070}
+{"time":"2026-03-09T18:17:28.813263104-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-1460070-1460084-3428050457/socket","Net":"unix"}}
+{"time":"2026-03-09T18:17:28.905460115-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-09T18:17:28.922006697-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"bnr1imgh","id":"1(@)"}
+{"time":"2026-03-09T18:17:29.156707194-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"bnr1imgh","id":"1(@)"}
+{"time":"2026-03-09T18:18:21.444295651-04:00","level":"INFO","msg":"main: received shutdown signal","signal":15}

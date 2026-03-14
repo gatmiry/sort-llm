@@ -1,0 +1,7 @@
+{"time":"2026-03-10T23:59:57.785642844-04:00","level":"INFO","msg":"main: starting server","port-filename":"/tmp/tmp6tb6ogv4/port-3912519.txt","pid":3912519,"log-level":0,"disable-analytics":false,"shutdown-on-parent-exit":false,"enable-dcgm-profiling":false}
+{"time":"2026-03-10T23:59:57.799152607-04:00","level":"INFO","msg":"server: will exit if parent process dies","ppid":3912519}
+{"time":"2026-03-10T23:59:57.799113109-04:00","level":"INFO","msg":"server: accepting connections","addr":{"Name":"/tmp/wandb-3912519-3912845-2381123213/socket","Net":"unix"}}
+{"time":"2026-03-10T23:59:57.971040734-04:00","level":"INFO","msg":"connection: ManageConnectionData: new connection created","id":"1(@)"}
+{"time":"2026-03-10T23:59:57.986779225-04:00","level":"INFO","msg":"handleInformInit: received","streamId":"qlsyor31","id":"1(@)"}
+{"time":"2026-03-10T23:59:58.221629033-04:00","level":"INFO","msg":"handleInformInit: stream started","streamId":"qlsyor31","id":"1(@)"}
+{"time":"2026-03-11T00:06:41.012424257-04:00","level":"INFO","msg":"main: received shutdown signal","signal":15}

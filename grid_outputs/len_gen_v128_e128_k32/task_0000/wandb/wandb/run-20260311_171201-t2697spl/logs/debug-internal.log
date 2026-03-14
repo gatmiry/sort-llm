@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:12:01.866111967-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:12:02.101944843-04:00","level":"INFO","msg":"stream: created new stream","id":"t2697spl"}
+{"time":"2026-03-11T17:12:02.102009588-04:00","level":"INFO","msg":"stream: started","id":"t2697spl"}
+{"time":"2026-03-11T17:12:02.102015369-04:00","level":"INFO","msg":"writer: started","stream_id":"t2697spl"}
+{"time":"2026-03-11T17:12:02.102020678-04:00","level":"INFO","msg":"sender: started","stream_id":"t2697spl"}
+{"time":"2026-03-11T17:12:02.102040653-04:00","level":"INFO","msg":"handler: started","stream_id":"t2697spl"}
+{"time":"2026-03-11T17:29:37.544973576-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.001043358}],"total_operations":1}}
+{"time":"2026-03-11T17:29:38.159742668-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:29:38.518170001-04:00","level":"INFO","msg":"stream: closing","id":"t2697spl"}
+{"time":"2026-03-11T17:29:38.518206753-04:00","level":"INFO","msg":"handler: closed","stream_id":"t2697spl"}
+{"time":"2026-03-11T17:29:38.518456815-04:00","level":"INFO","msg":"sender: closed","stream_id":"t2697spl"}
+{"time":"2026-03-11T17:29:38.518502466-04:00","level":"INFO","msg":"stream: closed","id":"t2697spl"}

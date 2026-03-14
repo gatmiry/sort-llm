@@ -1,0 +1,12 @@
+{"time":"2026-03-11T16:48:43.89153095-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T16:48:44.151742306-04:00","level":"INFO","msg":"stream: created new stream","id":"dwd9poak"}
+{"time":"2026-03-11T16:48:44.151804398-04:00","level":"INFO","msg":"stream: started","id":"dwd9poak"}
+{"time":"2026-03-11T16:48:44.151810169-04:00","level":"INFO","msg":"writer: started","stream_id":"dwd9poak"}
+{"time":"2026-03-11T16:48:44.151812834-04:00","level":"INFO","msg":"sender: started","stream_id":"dwd9poak"}
+{"time":"2026-03-11T16:48:44.151825882-04:00","level":"INFO","msg":"handler: started","stream_id":"dwd9poak"}
+{"time":"2026-03-11T16:55:26.665337148-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.014853882}],"total_operations":1}}
+{"time":"2026-03-11T16:55:27.377972611-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T16:55:27.643821727-04:00","level":"INFO","msg":"stream: closing","id":"dwd9poak"}
+{"time":"2026-03-11T16:55:27.643856256-04:00","level":"INFO","msg":"handler: closed","stream_id":"dwd9poak"}
+{"time":"2026-03-11T16:55:27.644057482-04:00","level":"INFO","msg":"sender: closed","stream_id":"dwd9poak"}
+{"time":"2026-03-11T16:55:27.644083878-04:00","level":"INFO","msg":"stream: closed","id":"dwd9poak"}

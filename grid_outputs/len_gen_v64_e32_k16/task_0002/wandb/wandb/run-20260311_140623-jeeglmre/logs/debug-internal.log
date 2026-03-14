@@ -1,0 +1,12 @@
+{"time":"2026-03-11T14:06:24.037815306-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T14:06:24.266109737-04:00","level":"INFO","msg":"stream: created new stream","id":"jeeglmre"}
+{"time":"2026-03-11T14:06:24.266169811-04:00","level":"INFO","msg":"stream: started","id":"jeeglmre"}
+{"time":"2026-03-11T14:06:24.266177384-04:00","level":"INFO","msg":"writer: started","stream_id":"jeeglmre"}
+{"time":"2026-03-11T14:06:24.266180153-04:00","level":"INFO","msg":"handler: started","stream_id":"jeeglmre"}
+{"time":"2026-03-11T14:06:24.266189175-04:00","level":"INFO","msg":"sender: started","stream_id":"jeeglmre"}
+{"time":"2026-03-11T14:09:51.780885806-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000733675}],"total_operations":1}}
+{"time":"2026-03-11T14:09:52.207548065-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T14:09:52.583911949-04:00","level":"INFO","msg":"stream: closing","id":"jeeglmre"}
+{"time":"2026-03-11T14:09:52.583933814-04:00","level":"INFO","msg":"handler: closed","stream_id":"jeeglmre"}
+{"time":"2026-03-11T14:09:52.584084298-04:00","level":"INFO","msg":"sender: closed","stream_id":"jeeglmre"}
+{"time":"2026-03-11T14:09:52.584111516-04:00","level":"INFO","msg":"stream: closed","id":"jeeglmre"}

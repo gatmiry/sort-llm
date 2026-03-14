@@ -1,0 +1,12 @@
+{"time":"2026-03-11T17:48:58.119996396-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T17:48:58.36037392-04:00","level":"INFO","msg":"stream: created new stream","id":"witru2jp"}
+{"time":"2026-03-11T17:48:58.360422489-04:00","level":"INFO","msg":"stream: started","id":"witru2jp"}
+{"time":"2026-03-11T17:48:58.36042894-04:00","level":"INFO","msg":"handler: started","stream_id":"witru2jp"}
+{"time":"2026-03-11T17:48:58.3604347-04:00","level":"INFO","msg":"sender: started","stream_id":"witru2jp"}
+{"time":"2026-03-11T17:48:58.360441648-04:00","level":"INFO","msg":"writer: started","stream_id":"witru2jp"}
+{"time":"2026-03-11T17:55:59.52656526-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 154-158, console lines 157-161","runtime_seconds":0.174516619},{"desc":"updating run metadata","runtime_seconds":0.000721383}],"total_operations":2}}
+{"time":"2026-03-11T17:56:00.324382837-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T17:56:00.888662153-04:00","level":"INFO","msg":"stream: closing","id":"witru2jp"}
+{"time":"2026-03-11T17:56:00.888686227-04:00","level":"INFO","msg":"handler: closed","stream_id":"witru2jp"}
+{"time":"2026-03-11T17:56:00.888864235-04:00","level":"INFO","msg":"sender: closed","stream_id":"witru2jp"}
+{"time":"2026-03-11T17:56:00.8888923-04:00","level":"INFO","msg":"stream: closed","id":"witru2jp"}

@@ -1,0 +1,6 @@
+{"time":"2026-03-10T23:59:57.985887751-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T23:59:58.220764361-04:00","level":"INFO","msg":"stream: created new stream","id":"w8ropwn8"}
+{"time":"2026-03-10T23:59:58.220822973-04:00","level":"INFO","msg":"stream: started","id":"w8ropwn8"}
+{"time":"2026-03-10T23:59:58.220883469-04:00","level":"INFO","msg":"writer: started","stream_id":"w8ropwn8"}
+{"time":"2026-03-10T23:59:58.220886075-04:00","level":"INFO","msg":"handler: started","stream_id":"w8ropwn8"}
+{"time":"2026-03-10T23:59:58.220895739-04:00","level":"INFO","msg":"sender: started","stream_id":"w8ropwn8"}

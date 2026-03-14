@@ -1,0 +1,12 @@
+{"time":"2026-03-11T18:32:49.840768791-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-11T18:32:50.084774993-04:00","level":"INFO","msg":"stream: created new stream","id":"cileyxpb"}
+{"time":"2026-03-11T18:32:50.084811357-04:00","level":"INFO","msg":"stream: started","id":"cileyxpb"}
+{"time":"2026-03-11T18:32:50.084819541-04:00","level":"INFO","msg":"writer: started","stream_id":"cileyxpb"}
+{"time":"2026-03-11T18:32:50.084826027-04:00","level":"INFO","msg":"handler: started","stream_id":"cileyxpb"}
+{"time":"2026-03-11T18:32:50.084845003-04:00","level":"INFO","msg":"sender: started","stream_id":"cileyxpb"}
+{"time":"2026-03-11T18:46:09.737897038-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000839768}],"total_operations":1}}
+{"time":"2026-03-11T18:46:10.262442302-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-11T18:46:10.571121137-04:00","level":"INFO","msg":"stream: closing","id":"cileyxpb"}
+{"time":"2026-03-11T18:46:10.571151283-04:00","level":"INFO","msg":"handler: closed","stream_id":"cileyxpb"}
+{"time":"2026-03-11T18:46:10.571364014-04:00","level":"INFO","msg":"sender: closed","stream_id":"cileyxpb"}
+{"time":"2026-03-11T18:46:10.571386249-04:00","level":"INFO","msg":"stream: closed","id":"cileyxpb"}

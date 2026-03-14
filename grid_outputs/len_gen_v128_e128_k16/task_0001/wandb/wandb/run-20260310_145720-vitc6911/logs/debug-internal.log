@@ -1,0 +1,12 @@
+{"time":"2026-03-10T14:57:21.16207216-04:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2026-03-10T14:57:21.42084719-04:00","level":"INFO","msg":"stream: created new stream","id":"vitc6911"}
+{"time":"2026-03-10T14:57:21.420885499-04:00","level":"INFO","msg":"stream: started","id":"vitc6911"}
+{"time":"2026-03-10T14:57:21.420891618-04:00","level":"INFO","msg":"writer: started","stream_id":"vitc6911"}
+{"time":"2026-03-10T14:57:21.420899959-04:00","level":"INFO","msg":"handler: started","stream_id":"vitc6911"}
+{"time":"2026-03-10T14:57:21.420907208-04:00","level":"INFO","msg":"sender: started","stream_id":"vitc6911"}
+{"time":"2026-03-10T15:06:42.665977477-04:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run metadata","runtime_seconds":0.000791518}],"total_operations":1}}
+{"time":"2026-03-10T15:06:43.117410248-04:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-10T15:06:43.401052751-04:00","level":"INFO","msg":"stream: closing","id":"vitc6911"}
+{"time":"2026-03-10T15:06:43.401081014-04:00","level":"INFO","msg":"handler: closed","stream_id":"vitc6911"}
+{"time":"2026-03-10T15:06:43.401330366-04:00","level":"INFO","msg":"sender: closed","stream_id":"vitc6911"}
+{"time":"2026-03-10T15:06:43.401346077-04:00","level":"INFO","msg":"stream: closed","id":"vitc6911"}

@@ -119,7 +119,7 @@ for itr in range(max_iter):
          'model': mymodel.state_dict(),
          'optimizer': optimizer.state_dict()
       }
-      checkpoint_filename = f'n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'
+      checkpoint_filename = f'march14-withoutlayernorm-block_size:{block_size}-batch_size:{batch_size}-n_embd:{myconfig.n_embd}_head:{mymodel.config.n_heads}_layers:{mymodel.config.n_layers}_vocab_size:{vocab_size}_itr:{itr}_checkpoint.pt'
       checkpoint_path = os.path.join(checkpoint_dir, checkpoint_filename)
       torch.save(checkpoint, checkpoint_path)
       print(f'Saved checkpoint to: {checkpoint_path}')

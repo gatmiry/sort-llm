@@ -12,8 +12,12 @@ device = 'cuda'
 config = GPTConfig(block_size=block_size, vocab_size=vocab_size, without_pos=True)
 model = GPT(config)
 #model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/tbyt_1head_2_itr:{itr_num}_checkpoint_old.pt'), map_location=device)['model']
-model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt'), map_location=device)['model']
+
+#model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt'), map_location=device)['model']
+
 #model_state_dict = torch.load('./saved_models/tbyt_b64_v2048_embd16_1head_2_itr:20000_checkpoint.pt', map_location=device)['model']
+wlnorm = 'without'
+model_state_dict = torch.load(f'./saved_models/2026-03-14_18-40-26_vocab128/march14-{wlnorm}layernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:80000_checkpoint.pt', map_location=device)['model']
 model.load_state_dict(model_state_dict)
 model.to(device=device)
 
@@ -138,7 +142,7 @@ def get_statistics(thresholds, threshold_index):
     return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
-thresholds = [0.01, 0.05, 0.1, 0.15, 0.2]
+thresholds = [0.01, 0.03, 0.05, 0.07, 0.09]
 threshold_index = 0
 num_tries = 10
 ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))
@@ -170,7 +174,8 @@ ave_count_perthreshold /= num_tries
 ave_count_perlocation /= num_tries
 
 # Save data to file for later comparison
-data_file = 'plots/statistics_data.npz'
+data_file = f'plots_{wlnorm}layernorm/statistics_data.npz'
+os.makedirs(f'plots_{wlnorm}layernorm', exist_ok=True)
 np.savez(data_file,
          thresholds=np.array(thresholds),
          ave_clogit_cscore_perthreshold=ave_clogit_cscore_perthreshold,

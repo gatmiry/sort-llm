@@ -40,7 +40,7 @@ class CausalSelfAttention(nn.Module):
 
         # Manual attention computation to store weights
         # Grid training uses F.scaled_dot_product_attention which uses standard 1.0 / sqrt(head_dim)
-        scale = 1.0 / math.sqrt(self.head_dim)
+        scale = 0.1 / math.sqrt(self.head_dim)
         attn = (q @ k.transpose(-2, -1)) * scale
         
         # Causal mask

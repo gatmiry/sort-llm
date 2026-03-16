@@ -255,6 +255,8 @@ class GPT(nn.Module):
         for block in self.transformer.h:
             x = block(x, layer_n)
             layer_n += 1
+        if self.config.with_layer_norm:
+            x = self.transformer.ln_f(x)
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)
@@ -327,12 +329,14 @@ class GPTConfig():
     n_layers = 2
     n_heads = 1
     n_embd = 64
+    with_layer_norm: bool = False
 
-    def __init__(self, block_size=None, vocab_size=None):
+    def __init__(self, block_size=None, vocab_size=None, with_layer_norm=False):
         if block_size:
             self.block_size = block_size
         if vocab_size:
             self.vocab_size = vocab_size
+        self.with_layer_norm = with_layer_norm
 
     
 

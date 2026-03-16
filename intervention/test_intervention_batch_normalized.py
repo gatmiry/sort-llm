@@ -9,18 +9,30 @@ import sys
 # Add parent directory to path for checkpoint_utils
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from checkpoint_utils import load_checkpoint
-from gpt_intervention_normalized import GPTInterventionNormalized
+from model_tbyt_4 import GPTIntervention
 
 # Load model using load_checkpoint
-checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E32_r4over1_npos1_mlp1_dup0_testK16_iters60000.pt')
+#checkpoint_path = os.path.join(os.path.dirname(__file__), '../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E32_r4over1_npos1_mlp1_dup0_testK16_iters60000.pt')
 device = 'cuda'
-model, config = load_checkpoint(checkpoint_path, device=device)
+#model, config = load_checkpoint(checkpoint_path, device=device)
+#model.eval()
+from model_tbyt_4 import  GPT, GPTConfig
+block_size = 32
+vocab_size = 128
+config = GPTConfig(block_size=block_size, vocab_size=vocab_size, with_layer_norm=True)
+model = GPT(config)
+checkpoint_path_1 = os.path.join(os.path.dirname(__file__), '../saved_models/2026-03-14_19-03-50_vocab128/march14-withlayernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:60000_checkpoint.pt')
+model.load_state_dict(torch.load(checkpoint_path_1, map_location=device)['model'])
+model.to(device)
 model.eval()
 
+
+
+
 # Get config values
-block_size = config.block_size
-vocab_size = config.vocab_size
-vocab_n = vocab_size - 1  # Numbers range from 0 to vocab_n-1, separator is vocab_n
+#block_size = config.block_size
+#vocab_size = config.vocab_size
+vocab_n = vocab_size   # Numbers range from 0 to vocab_n-1, separator is vocab_n
 
 print(f"Loaded model with block_size={block_size}, vocab_size={vocab_size}, vocab_n={vocab_n}")
 
@@ -42,7 +54,7 @@ for round in range(num_rounds):
     idx = get_batch().to(device)
     
     try:
-        intervention_model = GPTInterventionNormalized(model, idx)
+        intervention_model = GPTIntervention(model, idx)
         
         # Location in the output part (block_size to 2*block_size)
         # For K=16, valid locations are 16 to 31
@@ -50,36 +62,36 @@ for round in range(num_rounds):
         
         ### unsorted up and down intervention
         new_model, _ = intervention_model.intervent_attention(
-            attention_layer_num=0, 
+            attention_layer_num=1, 
             location=location, 
             unsorted_lb=5, 
             unsorted_ub=5, 
-            unsorted_lb_num=1, 
+            unsorted_lb_num=0, 
             unsorted_ub_num=1, 
-            unsorted_intensity_inc=2.0, 
+            unsorted_intensity_inc=0.5, 
             sorted_lb=0, 
             sorted_num=0, 
             sorted_intensity_inc=0.5
         )
 
-        new_model, _ = intervention_model.intervent_attention(
-            attention_layer_num=1, 
-            location=location, 
-            unsorted_lb=5, 
-            unsorted_ub=5, 
-            unsorted_lb_num=1, 
-            unsorted_ub_num=1, 
-            unsorted_intensity_inc=2.0, 
-            sorted_lb=0, 
-            sorted_num=0, 
-            sorted_intensity_inc=0.5
-        )
+        #new_model, _ = intervention_model.intervent_attention(
+        #    attention_layer_num=1, 
+        #    location=location, 
+        #    unsorted_lb=5, 
+        #    unsorted_ub=5, 
+        #    unsorted_lb_num=1, 
+        #    unsorted_ub_num=1, 
+        #    unsorted_intensity_inc=2.0, 
+        #    sorted_lb=0, 
+        #    sorted_num=0, 
+        #    sorted_intensity_inc=0.5
+        #)
         
         new_generated_number, next_number = intervention_model.check_if_still_works()
         num_successes += (new_generated_number == next_number)
         num_tries += 1
         
-        intervention_model.revert_attention(0)
+        intervention_model.revert_attention(1)
         #intervention_model.revert_attention(1)
         
     except Exception as e:

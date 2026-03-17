@@ -1,0 +1,10 @@
+% Copy-paste this into your LaTeX document.
+% Requires: \usepackage{graphicx} in your preamble.
+% Adjust the path to the image as needed relative to your main .tex file.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{results/qk_interaction_scores/qk_interaction_scores.png}
+  \caption{Interaction between the key and queries coming from the token embeddings in a model trained with positional embedding. Each subplot shows the score profile for a different token embedding (indicated by the subplot title), where the vertical dashed red line marks the query token's own index.}
+  \label{fig:qk_interaction_scores}
+\end{figure}

@@ -208,7 +208,7 @@ class Block(nn.Module):
         #print('im here!!!', x)
         print('layer_n is ', layer_n)
         if layer_n == 1:
-            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
         else:
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
@@ -264,7 +264,7 @@ class GPT(nn.Module):
             x = block(x, layer_n)
             layer_n += 1
         # Apply final layer norm before lm_head (like training model)
-        #x = self.transformer.ln_f(x)
+        x = self.transformer.ln_f(x)
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)

@@ -81,13 +81,13 @@ def get_statistics(thresholds, threshold_index):
                         max_dist = dist
                     num_dist += 1
                     average_temp_dist += dist
-                    if score > max_score:
-                        #print('im here')
-                        max_score = score
-                        max_score_num = idx[0,k].item()
-                        #print('max_score_num is ', max_score_num)
                     candidates[j-block_size].append((k,idx[0,k].item()))
                     all_candidates.append((k,idx[0,k].item()))
+                if score > max_score:
+                    #print('im here')
+                    max_score = score
+                    max_score_num = idx[0,k].item()
+                    #print('max_score_num is ', max_score_num)
             average_max_dist += max_dist
             average_temp_dist /= num_dist
             average_dist += average_temp_dist
@@ -144,13 +144,15 @@ def get_statistics(thresholds, threshold_index):
 
 thresholds = [0.01, 0.03, 0.05, 0.07, 0.09]
 threshold_index = 0
-num_tries = 10
+num_tries = 100
 ave_clogit_cscore_perthreshold = np.zeros(len(thresholds))
 ave_iclogit_cscore_perthreshold = np.zeros(len(thresholds))
 ave_clogit_icscore_perthreshold = np.zeros(len(thresholds))
 ave_iclogit_icscore_perthreshold = np.zeros(len(thresholds))
 ave_count_perthreshold = np.zeros(len(thresholds))
 ave_count_perlocation = np.zeros(block_size)
+ave_clogit_icscore_perlocation = np.zeros(block_size)
+ave_iclogit_icscore_perlocation = np.zeros(block_size)
 for counter in range(num_tries):
     count_perlocation, count_perthreshold, lsperlocation, lsperthreshold, am_perlocation, am_perthreshold = get_statistics(thresholds, threshold_index)
     clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold = lsperthreshold
@@ -158,13 +160,14 @@ for counter in range(num_tries):
     clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation = lsperlocation
     average_dist_perlocation, max_dist_perlocation = am_perlocation
     
-    #print(f'clogit_cscore_perthreshold is {clogit_cscore_perthreshold}')
     ave_clogit_cscore_perthreshold += clogit_cscore_perthreshold
     ave_iclogit_cscore_perthreshold += iclogit_cscore_perthreshold
     ave_clogit_icscore_perthreshold += clogit_icscore_perthreshold
     ave_iclogit_icscore_perthreshold += iclogit_icscore_perthreshold
     ave_count_perthreshold += count_perthreshold
     ave_count_perlocation += count_perlocation
+    ave_clogit_icscore_perlocation += clogit_icscore_perlocation
+    ave_iclogit_icscore_perlocation += iclogit_icscore_perlocation
 
 ave_clogit_cscore_perthreshold /= num_tries
 ave_iclogit_cscore_perthreshold /= num_tries
@@ -172,6 +175,8 @@ ave_clogit_icscore_perthreshold /= num_tries
 ave_iclogit_icscore_perthreshold /= num_tries
 ave_count_perthreshold /= num_tries
 ave_count_perlocation /= num_tries
+ave_clogit_icscore_perlocation /= num_tries
+ave_iclogit_icscore_perlocation /= num_tries
 
 # Save data to file for later comparison
 data_file = f'plots_{wlnorm}layernorm/statistics_data.npz'
@@ -193,6 +198,8 @@ print(f'ave_clogit_cscore_perthreshold is {ave_clogit_cscore_perthreshold}')
 print(f'ave_iclogit_cscore_perthreshold is {ave_iclogit_cscore_perthreshold}')
 print(f'ave_clogit_icscore_perthreshold is {ave_clogit_icscore_perthreshold}')
 print(f'ave_iclogit_icscore_perthreshold is {ave_iclogit_icscore_perthreshold}')
+print(f'ave_clogit_icscore_perlocation is {ave_clogit_icscore_perlocation}')
+print(f'ave_iclogit_icscore_perlocation is {ave_iclogit_icscore_perlocation}')
 x_pos = np.arange(len(thresholds))
 width = 0.6
 
@@ -243,4 +250,28 @@ plt.title('Average Count per Location')
 plt.grid(True, alpha=0.3)
 plt.savefig('plots/count_perlocation.png', dpi=150, bbox_inches='tight')
 print('Plot saved to plots/count_perlocation.png')
+plt.close()
+
+# Fifth plot: ICScore per location — transparent total bar with solid ICLogit portion
+fig, ax = plt.subplots(figsize=(7, 4))
+location_indices = np.arange(block_size)
+total_icscore = ave_clogit_icscore_perlocation + ave_iclogit_icscore_perlocation
+bar_width = 0.8
+ax.bar(location_indices, total_icscore, bar_width,
+       color='#6a3d9a', alpha=0.22, edgecolor='#6a3d9a', linewidth=0.8,
+       label='Total incorrect scores')
+ax.bar(location_indices, ave_iclogit_icscore_perlocation, bar_width,
+       color='#d7191c', alpha=0.85,
+       label='Fraction with incorrect logits')
+ax.set_xlabel('Position in output sequence', fontsize=12)
+ax.set_ylabel('Fraction with incorrect score', fontsize=12)
+ax.set_title('Incorrect attention score (ICScore) per position', fontsize=13, fontweight='bold')
+ax.legend(fontsize=10, framealpha=0.9)
+ax.grid(True, axis='y', alpha=0.2, linestyle=':')
+ax.tick_params(labelsize=10)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+fig.tight_layout()
+fig.savefig('plots/icscore_perlocation.png', dpi=300, bbox_inches='tight')
+print('Plot saved to plots/icscore_perlocation.png')
 plt.close()

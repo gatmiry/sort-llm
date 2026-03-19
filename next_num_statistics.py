@@ -17,7 +17,8 @@ model = GPT(config)
 
 #model_state_dict = torch.load('./saved_models/tbyt_b64_v2048_embd16_1head_2_itr:20000_checkpoint.pt', map_location=device)['model']
 wlnorm = 'without'
-model_state_dict = torch.load(f'./saved_models/2026-03-14_18-40-26_vocab128/march14-{wlnorm}layernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:80000_checkpoint.pt', map_location=device)['model']
+checkpoint_dirs = {'without': '2026-03-14_18-40-26_vocab128', 'with': '2026-03-14_19-03-50_vocab128'}
+model_state_dict = torch.load(f'./saved_models/{checkpoint_dirs[wlnorm]}/march14-{wlnorm}layernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:80000_checkpoint.pt', map_location=device)['model']
 model.load_state_dict(model_state_dict)
 model.to(device=device)
 
@@ -151,6 +152,8 @@ ave_clogit_icscore_perthreshold = np.zeros(len(thresholds))
 ave_iclogit_icscore_perthreshold = np.zeros(len(thresholds))
 ave_count_perthreshold = np.zeros(len(thresholds))
 ave_count_perlocation = np.zeros(block_size)
+ave_clogit_cscore_perlocation = np.zeros(block_size)
+ave_iclogit_cscore_perlocation = np.zeros(block_size)
 ave_clogit_icscore_perlocation = np.zeros(block_size)
 ave_iclogit_icscore_perlocation = np.zeros(block_size)
 for counter in range(num_tries):
@@ -166,6 +169,8 @@ for counter in range(num_tries):
     ave_iclogit_icscore_perthreshold += iclogit_icscore_perthreshold
     ave_count_perthreshold += count_perthreshold
     ave_count_perlocation += count_perlocation
+    ave_clogit_cscore_perlocation += clogit_cscore_perlocation
+    ave_iclogit_cscore_perlocation += iclogit_cscore_perlocation
     ave_clogit_icscore_perlocation += clogit_icscore_perlocation
     ave_iclogit_icscore_perlocation += iclogit_icscore_perlocation
 
@@ -175,6 +180,8 @@ ave_clogit_icscore_perthreshold /= num_tries
 ave_iclogit_icscore_perthreshold /= num_tries
 ave_count_perthreshold /= num_tries
 ave_count_perlocation /= num_tries
+ave_clogit_cscore_perlocation /= num_tries
+ave_iclogit_cscore_perlocation /= num_tries
 ave_clogit_icscore_perlocation /= num_tries
 ave_iclogit_icscore_perlocation /= num_tries
 
@@ -188,7 +195,11 @@ np.savez(data_file,
          ave_clogit_icscore_perthreshold=ave_clogit_icscore_perthreshold,
          ave_iclogit_icscore_perthreshold=ave_iclogit_icscore_perthreshold,
          ave_count_perthreshold=ave_count_perthreshold,
-         ave_count_perlocation=ave_count_perlocation)
+         ave_count_perlocation=ave_count_perlocation,
+         ave_clogit_cscore_perlocation=ave_clogit_cscore_perlocation,
+         ave_iclogit_cscore_perlocation=ave_iclogit_cscore_perlocation,
+         ave_clogit_icscore_perlocation=ave_clogit_icscore_perlocation,
+         ave_iclogit_icscore_perlocation=ave_iclogit_icscore_perlocation)
 print(f'Data saved to {data_file}')
 
 import matplotlib
@@ -209,7 +220,7 @@ plt.bar(x_pos, ave_clogit_cscore_perthreshold, width, label='CLogit CScore', col
 plt.bar(x_pos, ave_iclogit_cscore_perthreshold, width, bottom=ave_clogit_cscore_perthreshold, label='ICLogit CScore', color='#ff7f0e')
 plt.xlabel('Threshold')
 plt.ylabel('Average Score per Threshold')
-plt.title('CScore per Threshold (Stacked)')
+plt.title(f'CScore per Threshold (Stacked) — {wlnorm} LayerNorm')
 plt.xticks(x_pos, thresholds)
 plt.legend()
 plt.savefig('plots/cscore_perthreshold.png', dpi=150, bbox_inches='tight')
@@ -222,7 +233,7 @@ plt.bar(x_pos, ave_clogit_icscore_perthreshold, width, label='CLogit ICScore', c
 plt.bar(x_pos, ave_iclogit_icscore_perthreshold, width, bottom=ave_clogit_icscore_perthreshold, label='ICLogit ICScore', color='#d62728')
 plt.xlabel('Threshold')
 plt.ylabel('Average Score per Threshold')
-plt.title('ICScore per Threshold (Stacked)')
+plt.title(f'ICScore per Threshold (Stacked) — {wlnorm} LayerNorm')
 plt.xticks(x_pos, thresholds)
 plt.legend()
 plt.savefig('plots/icscore_perthreshold.png', dpi=150, bbox_inches='tight')
@@ -234,7 +245,7 @@ plt.figure(figsize=(8, 6))
 plt.plot(thresholds, ave_count_perthreshold, marker='o', linewidth=2, markersize=8, color='#9467bd')
 plt.xlabel('Threshold')
 plt.ylabel('Average Count per Threshold')
-plt.title('Average Count per Threshold')
+plt.title(f'Average Count per Threshold — {wlnorm} LayerNorm')
 plt.grid(True, alpha=0.3)
 plt.savefig('plots/count_perthreshold.png', dpi=150, bbox_inches='tight')
 print('Plot saved to plots/count_perthreshold.png')
@@ -246,7 +257,7 @@ location_indices = np.arange(block_size)
 plt.plot(location_indices, ave_count_perlocation, marker='o', linewidth=2, markersize=8, color='#8c564b')
 plt.xlabel('Location Index (within block)')
 plt.ylabel('Average Count per Location')
-plt.title('Average Count per Location')
+plt.title(f'Average Count per Location — {wlnorm} LayerNorm')
 plt.grid(True, alpha=0.3)
 plt.savefig('plots/count_perlocation.png', dpi=150, bbox_inches='tight')
 print('Plot saved to plots/count_perlocation.png')
@@ -265,7 +276,7 @@ ax.bar(location_indices, ave_iclogit_icscore_perlocation, bar_width,
        label='Fraction with incorrect logits')
 ax.set_xlabel('Position in output sequence', fontsize=12)
 ax.set_ylabel('Fraction with incorrect score', fontsize=12)
-ax.set_title('Incorrect attention score (ICScore) per position', fontsize=13, fontweight='bold')
+ax.set_title(f'Incorrect attention score per position — {wlnorm} LayerNorm', fontsize=13, fontweight='bold')
 ax.legend(fontsize=10, framealpha=0.9)
 ax.grid(True, axis='y', alpha=0.2, linestyle=':')
 ax.tick_params(labelsize=10)

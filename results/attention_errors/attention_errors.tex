@@ -1,0 +1,23 @@
+% Requires: \usepackage{graphicx, subcaption}
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{results/attention_errors/icscore_perlocation.png}
+    \label{fig:icscore_perlocation}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{results/attention_errors/correction_fraction_withlayernorm.png}
+    \label{fig:correction_fraction_withln}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{results/attention_errors/compare_cinclogits.png}
+    \label{fig:compare_cinclogits}
+  \end{subfigure}
+  \caption{Analysis of attention score errors and logit correction. \textbf{(Left)}~Per-position fraction of incorrect first-layer attention scores for the model without layer normalization, decomposed into cases where the final logit is correct (total transparent bar) versus incorrect (solid red). \textbf{(Center)}~Per-position fraction of incorrect attention scores across both layers for the model with layer normalization, showing cases where exactly one or both layers spike on the wrong token. \textbf{(Right)}~Aggregate comparison between models: fraction of positions with incorrect attention scores (left bars) and the logit correction ratio among those positions (right bars).}
+  \label{fig:attention_errors}
+\end{figure}

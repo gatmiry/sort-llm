@@ -1,4 +1,4 @@
-from model_nathan import GPT, GPTConfig
+from model_tbyt_3 import GPT, GPTConfig
 import torch
 import os
 import numpy as np
@@ -6,12 +6,11 @@ block_size = 32
 vocab_size = 128
 device = 'cuda'
 wlnorm = 'without'
-nathan_checkpoints = {'without': 'sortgpt_k32_methfixed_mlp1_L2_N128_E64_pos0_fln0_wd0p0_seed1337__final.pt',
-                      'with': 'sortgpt_k32_methfixed_mlp1_L2_N128_E64_pos0_fln1_wd0p0_seed1337__final.pt'}
-checkpoint = torch.load(f'./saved_models/nathanmodels/{nathan_checkpoints[wlnorm]}', map_location=device, weights_only=False)
-config = GPTConfig(**checkpoint['model_config'])
+checkpoint_dirs = {'without': '2026-03-14_18-40-26_vocab128', 'with': '2026-03-14_19-03-50_vocab128'}
+config = GPTConfig(block_size=block_size, vocab_size=vocab_size, without_pos=True, with_layer_norm=(wlnorm == 'with'))
 model = GPT(config)
-model.load_state_dict(checkpoint['model_state_dict'])
+model_state_dict = torch.load(f'./saved_models/{checkpoint_dirs[wlnorm]}/march14-{wlnorm}layernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:100000_checkpoint.pt', map_location=device)['model']
+model.load_state_dict(model_state_dict)
 model.to(device=device)
 model.eval()
 
@@ -68,7 +67,7 @@ def get_statistics(thresholds, threshold_index):
             dist = 0.0
             num_dist = 0
             for k in range(0, 2*block_size + 1):
-                score = model.transformer.h[0].attn.stored_attn[j,k].item()
+                score = model.transformer.h[0].c_attn.attn[j,k].item()
                 if score >= threshold:
                     tmp_count_perlocation[j-block_size] += 1
                     dist = abs(idx[0,k] - idx[0,j + 1]).item()
@@ -118,7 +117,7 @@ def get_statistics(thresholds, threshold_index):
             print(f'candidates for position {j} with number {idx[0,j].item()} and is_correct {is_correct[j-block_size] == 1.0} are {candidates[j-block_size]} \n \
                     is_largest_score_correct is {is_largest_score_correct[j-block_size]}\n')    
             if is_largest_score_correct[j-block_size] == False:
-                print(f'scores for position {j} are {[(num, model.transformer.h[0].attn.stored_attn[j,k].item()) for k, num in candidates[j-block_size]]}\n\n\n')
+                print(f'scores for position {j} are {[(num, model.transformer.h[0].c_attn.attn[j,k].item()) for k, num in candidates[j-block_size]]}\n\n\n')
 
         count_perthreshold.append(np.mean(tmp_count_perlocation))
 

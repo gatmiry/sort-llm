@@ -211,7 +211,7 @@ class Block(nn.Module):
             x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
         else:
-            x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
+            #x = x + self.c_attn(self.ln_1(x), layer_n=layer_n)
             return x + self.c_fc(self.ln_2(x))
     
 class GPT(nn.Module):
@@ -263,8 +263,8 @@ class GPT(nn.Module):
         for block in self.transformer.h:
             x = block(x, layer_n)
             layer_n += 1
-        # Apply final layer norm before lm_head (like training model)
-        #x = self.transformer.ln_f(x)
+        if self.config.with_layer_norm:
+            x = self.transformer.ln_f(x)
         logits = self.lm_head(x)
         
         #v_loss_measure = torch.func.vmap(self.loss_measure)
@@ -338,13 +338,16 @@ class GPTConfig():
     n_heads = 1
     n_embd = 64
     without_pos: bool = False  # npos=1 means without_pos=True (no positional embeddings)
+    with_layer_norm: bool = False
 
-    def __init__(self, block_size=None, vocab_size=None, without_pos=None):
+    def __init__(self, block_size=None, vocab_size=None, without_pos=None, with_layer_norm=None):
         if block_size:
             self.block_size = block_size
         if vocab_size:
             self.vocab_size = vocab_size
         if without_pos is not None:
             self.without_pos = bool(without_pos)
+        if with_layer_norm is not None:
+            self.with_layer_norm = bool(with_layer_norm)
 
     

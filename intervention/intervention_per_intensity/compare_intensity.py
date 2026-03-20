@@ -28,8 +28,7 @@ print("=" * 50)
 
 block_size_1 = 32
 vocab_size_1 = 128
-vocab_n_1 = vocab_size_1 - 1
-location_1 = 45
+location_1 = block_size_1 + 5
 
 config_1 = GPTConfig(block_size=block_size_1, vocab_size=vocab_size_1, with_layer_norm=False)
 model_1 = GPT(config_1)
@@ -39,9 +38,9 @@ model_1.to(device)
 model_1.eval()
 
 def get_batch_1():
-    x = torch.randperm(vocab_n_1)[:block_size_1]
+    x = torch.randperm(vocab_size_1)[:block_size_1]
     vals, _ = torch.sort(x)
-    return torch.cat((x, torch.tensor([vocab_n_1]), vals), dim=0).unsqueeze(0)
+    return torch.cat((x, torch.tensor([vocab_size_1]), vals), dim=0).unsqueeze(0)
 
 results_1 = {}
 for intensity in intensity_values:
@@ -75,7 +74,6 @@ print("=" * 50)
 
 block_size_2 = 32
 vocab_size_2 = 128
-vocab_n_2 = vocab_size_2 - 1
 location_2 = block_size_2 + 5
 
 config_2 = GPTConfig(block_size=block_size_2, vocab_size=vocab_size_2, with_layer_norm=True)
@@ -86,9 +84,9 @@ model_2.to(device)
 model_2.eval()
 
 def get_batch_2():
-    x = torch.randperm(vocab_n_2)[:block_size_2]
+    x = torch.randperm(vocab_size_2)[:block_size_2]
     vals, _ = torch.sort(x)
-    return torch.cat((x, torch.tensor([vocab_n_2]), vals), dim=0).unsqueeze(0)
+    return torch.cat((x, torch.tensor([vocab_size_2]), vals), dim=0).unsqueeze(0)
 
 results_2 = {}
 for intensity in intensity_values:
@@ -136,5 +134,5 @@ plt.ylim(0, 1.05)
 plt.tight_layout()
 
 output_dir = os.path.dirname(__file__)
-plt.savefig(os.path.join(output_dir, 'compare_intensity.png'), dpi=300, bbox_inches='tight')
-print(f'\nPlot saved to {os.path.join(output_dir, "compare_intensity.png")}')
+plt.savefig(os.path.join(output_dir, 'compare_intensity_layer0.png'), dpi=300, bbox_inches='tight')
+print(f'\nPlot saved to {os.path.join(output_dir, "compare_intensity_layer0.png")}')

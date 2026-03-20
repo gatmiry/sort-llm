@@ -1,26 +1,19 @@
-from model_tbyt_3 import GPT, GPTConfig
+from model_nathan import GPT, GPTConfig
 import torch
 import os
 import numpy as np
-#block_size = 8
-#vocab_size = 128
 block_size = 32
 vocab_size = 128
-instance_num = 1
 device = 'cuda'
-# Note: checkpoint was trained without positional embeddings (without_pos=True)
-config = GPTConfig(block_size=block_size, vocab_size=vocab_size, without_pos=True)
-model = GPT(config)
-#model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/tbyt_1head_2_itr:{itr_num}_checkpoint_old.pt'), map_location=device)['model']
-
-#model_state_dict = torch.load(os.path.join(os.getcwd(), f'saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt'), map_location=device)['model']
-
-#model_state_dict = torch.load('./saved_models/tbyt_b64_v2048_embd16_1head_2_itr:20000_checkpoint.pt', map_location=device)['model']
 wlnorm = 'without'
-checkpoint_dirs = {'without': '2026-03-14_18-40-26_vocab128', 'with': '2026-03-14_19-03-50_vocab128'}
-model_state_dict = torch.load(f'./saved_models/{checkpoint_dirs[wlnorm]}/march14-{wlnorm}layernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:80000_checkpoint.pt', map_location=device)['model']
-model.load_state_dict(model_state_dict)
+nathan_checkpoints = {'without': 'sortgpt_k32_methfixed_mlp1_L2_N128_E64_pos0_fln0_wd0p0_seed1337__final.pt',
+                      'with': 'sortgpt_k32_methfixed_mlp1_L2_N128_E64_pos0_fln1_wd0p0_seed1337__final.pt'}
+checkpoint = torch.load(f'./saved_models/nathanmodels/{nathan_checkpoints[wlnorm]}', map_location=device, weights_only=False)
+config = GPTConfig(**checkpoint['model_config'])
+model = GPT(config)
+model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device=device)
+model.eval()
 
 def get_batch(batch_size=1):
    def cat_sorted_tensor(x):
@@ -46,6 +39,7 @@ def get_statistics(thresholds, threshold_index):
     
     average_dist_perlocation = np.array([0.0 for i in range(block_size)])
     max_dist_perlocation = np.array([0.0 for i in range(block_size)])
+    random_prev_dist_perlocation = np.array([0.0 for i in range(block_size)])
     max_dist_perthreshold = []
     average_dist_perthreshold = []
     for t, threshold in enumerate(thresholds):
@@ -74,7 +68,7 @@ def get_statistics(thresholds, threshold_index):
             dist = 0.0
             num_dist = 0
             for k in range(0, 2*block_size + 1):
-                score = model.transformer.h[0].c_attn.attn[j,k].item()
+                score = model.transformer.h[0].attn.stored_attn[j,k].item()
                 if score >= threshold:
                     tmp_count_perlocation[j-block_size] += 1
                     dist = abs(idx[0,k] - idx[0,j + 1]).item()
@@ -90,7 +84,8 @@ def get_statistics(thresholds, threshold_index):
                     max_score_num = idx[0,k].item()
                     #print('max_score_num is ', max_score_num)
             average_max_dist += max_dist
-            average_temp_dist /= num_dist
+            if num_dist > 0:
+                average_temp_dist /= num_dist
             average_dist += average_temp_dist
             #print('max_score_num is ', max_score_num, ' idx[0,j + 1].item() is ', idx[0,j + 1].item())
             is_largest_score_correct[j-block_size] = (max_score_num == idx[0,j + 1].item())    
@@ -99,6 +94,9 @@ def get_statistics(thresholds, threshold_index):
                 count_perlocation[j-block_size] = tmp_count_perlocation[j-block_size]
                 average_dist_perlocation[j-block_size] = average_temp_dist
                 max_dist_perlocation[j-block_size] = max_dist
+                import random
+                rand_k = random.randint(0, j - 1)
+                random_prev_dist_perlocation[j-block_size] = abs(idx[0, rand_k].item() - idx[0, j + 1].item())
 
             if is_correct[j-block_size] == 1.0 and is_largest_score_correct[j-block_size] == True:
                 if t == threshold_index:
@@ -120,7 +118,7 @@ def get_statistics(thresholds, threshold_index):
             print(f'candidates for position {j} with number {idx[0,j].item()} and is_correct {is_correct[j-block_size] == 1.0} are {candidates[j-block_size]} \n \
                     is_largest_score_correct is {is_largest_score_correct[j-block_size]}\n')    
             if is_largest_score_correct[j-block_size] == False:
-                print(f'scores for position {j} are {[(num, model.transformer.h[0].c_attn.attn[j,k].item()) for k, num in candidates[j-block_size]]}\n\n\n')
+                print(f'scores for position {j} are {[(num, model.transformer.h[0].attn.stored_attn[j,k].item()) for k, num in candidates[j-block_size]]}\n\n\n')
 
         count_perthreshold.append(np.mean(tmp_count_perlocation))
 
@@ -140,7 +138,7 @@ def get_statistics(thresholds, threshold_index):
     iclogit_icscore_perthreshold = np.array(iclogit_icscore_perthreshold)
     average_dist_perthreshold = np.array(average_dist_perthreshold)
     max_dist_perthreshold = np.array(max_dist_perthreshold)
-    return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
+    return count_perlocation, count_perthreshold, (clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation), (clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold), (average_dist_perlocation, max_dist_perlocation, random_prev_dist_perlocation), (average_dist_perthreshold, max_dist_perthreshold)
 
 
 thresholds = [0.01, 0.03, 0.05, 0.07, 0.09]
@@ -156,12 +154,15 @@ ave_clogit_cscore_perlocation = np.zeros(block_size)
 ave_iclogit_cscore_perlocation = np.zeros(block_size)
 ave_clogit_icscore_perlocation = np.zeros(block_size)
 ave_iclogit_icscore_perlocation = np.zeros(block_size)
+ave_average_dist_perlocation = np.zeros(block_size)
+ave_max_dist_perlocation = np.zeros(block_size)
+ave_random_prev_dist_perlocation = np.zeros(block_size)
 for counter in range(num_tries):
     count_perlocation, count_perthreshold, lsperlocation, lsperthreshold, am_perlocation, am_perthreshold = get_statistics(thresholds, threshold_index)
     clogit_cscore_perthreshold, clogit_icscore_perthreshold, iclogit_cscore_perthreshold, iclogit_icscore_perthreshold = lsperthreshold
     average_dist_perthreshold, max_dist_perthreshold = am_perthreshold
     clogit_cscore_perlocation, clogit_icscore_perlocation, iclogit_cscore_perlocation, iclogit_icscore_perlocation = lsperlocation
-    average_dist_perlocation, max_dist_perlocation = am_perlocation
+    average_dist_perlocation, max_dist_perlocation, random_prev_dist_perlocation = am_perlocation
     
     ave_clogit_cscore_perthreshold += clogit_cscore_perthreshold
     ave_iclogit_cscore_perthreshold += iclogit_cscore_perthreshold
@@ -173,6 +174,9 @@ for counter in range(num_tries):
     ave_iclogit_cscore_perlocation += iclogit_cscore_perlocation
     ave_clogit_icscore_perlocation += clogit_icscore_perlocation
     ave_iclogit_icscore_perlocation += iclogit_icscore_perlocation
+    ave_average_dist_perlocation += average_dist_perlocation
+    ave_max_dist_perlocation += max_dist_perlocation
+    ave_random_prev_dist_perlocation += random_prev_dist_perlocation
 
 ave_clogit_cscore_perthreshold /= num_tries
 ave_iclogit_cscore_perthreshold /= num_tries
@@ -184,6 +188,9 @@ ave_clogit_cscore_perlocation /= num_tries
 ave_iclogit_cscore_perlocation /= num_tries
 ave_clogit_icscore_perlocation /= num_tries
 ave_iclogit_icscore_perlocation /= num_tries
+ave_average_dist_perlocation /= num_tries
+ave_max_dist_perlocation /= num_tries
+ave_random_prev_dist_perlocation /= num_tries
 
 # Save data to file for later comparison
 data_file = f'plots_{wlnorm}layernorm/statistics_data.npz'
@@ -199,7 +206,10 @@ np.savez(data_file,
          ave_clogit_cscore_perlocation=ave_clogit_cscore_perlocation,
          ave_iclogit_cscore_perlocation=ave_iclogit_cscore_perlocation,
          ave_clogit_icscore_perlocation=ave_clogit_icscore_perlocation,
-         ave_iclogit_icscore_perlocation=ave_iclogit_icscore_perlocation)
+         ave_iclogit_icscore_perlocation=ave_iclogit_icscore_perlocation,
+         ave_average_dist_perlocation=ave_average_dist_perlocation,
+         ave_max_dist_perlocation=ave_max_dist_perlocation,
+         ave_random_prev_dist_perlocation=ave_random_prev_dist_perlocation)
 print(f'Data saved to {data_file}')
 
 import matplotlib

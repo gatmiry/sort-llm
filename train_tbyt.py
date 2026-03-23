@@ -20,7 +20,7 @@ def get_batch():
 import math
 warmup_iters = 100
 max_iters = 20000
-max_iter = 120000
+max_iter = 100000
 learning_rate = 1e-4
 min_lr = 1e-6
 decay_lr = True

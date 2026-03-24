@@ -106,6 +106,71 @@ Produces:
 - **Positional heatmaps** (33×33): Full attention pattern for one sample, axes reordered by token value
 - **Averaged heatmaps** (256×256): Sorted→unsorted attention averaged over 1000 samples, indexed by token value
 
+### 6. Attention interventions
+
+Surgically edit pre-softmax attention logits to study how models use attention:
+
+```bash
+# Intensity sweep: boost a wrong key and measure robustness
+python intervene.py --ckpt path/to/ckpt.pt --task intensity --layer 0 --out result.npz
+
+# Hijack: force attention to a random wrong key
+python intervene.py --ckpt path/to/ckpt.pt --task hijack --layer 0 --out result.npz
+
+# Ablation: skip attention for a layer entirely
+python intervene.py --ckpt path/to/ckpt.pt --task ablation --layer 0 --out result.npz
+
+# Baseline: intact model accuracy
+python intervene.py --ckpt path/to/ckpt.pt --task baseline --out result.npz
+
+# Cinclogits: logit vs attention argmax agreement
+python intervene.py --ckpt path/to/ckpt.pt --task cinclogits --layer 0 --out result.npz
+
+# Aggressive SEP: boost attention to SEP for all sorting positions
+python intervene.py --ckpt path/to/ckpt.pt --task aggressive_sep --layer 0 --out result.npz
+```
+
+Or as a Python library:
+
+```python
+from model import load_model_from_checkpoint
+from intervene import (
+    enable_attention_storage, GPTIntervention,
+    get_single_batch, compute_intensity, compute_hijack,
+)
+
+model = load_model_from_checkpoint("checkpoint.pt")
+block_size = model.config.block_size
+vocab_n = model.config.vocab_size - 1
+
+enable_attention_storage(model)
+
+# Single-sample intervention
+idx = get_single_batch(vocab_n, block_size, "cuda")
+im = GPTIntervention(model, idx, block_size=block_size)
+im.intervent_attention(
+    attention_layer_num=0, location=block_size + 5,
+    unsorted_lb=5, unsorted_ub=5,
+    unsorted_lb_num=0, unsorted_ub_num=1,
+    unsorted_intensity_inc=1.0,
+    sorted_lb=0, sorted_num=0, sorted_intensity_inc=0.0,
+)
+pred, target = im.check_if_still_works()
+im.revert_attention(0)
+
+# Batch analysis
+intensities, rates, counts = compute_intensity(
+    model, block_size, vocab_n, "cuda", attn_layer=0
+)
+```
+
+**Intervention types:**
+- **Intensity**: At one sorting position, set a wrong key's pre-softmax logit to `correct_key_logit + intensity`. Sweep intensity to measure robustness.
+- **Hijack**: Force attention to a random wrong unsorted key with large offset (+10). Records (current, boosted, predicted, correct) for heatmap analysis.
+- **Aggressive SEP**: For ALL sorting positions simultaneously, set attention to the SEP token = attention(correct key) + intensity.
+- **Ablation**: Skip the attention sublayer entirely (residual stream passes through MLP only).
+- **Cinclogits**: Measure how often the logit-argmax and attention-argmax disagree at each position.
+
 ## File Structure
 
 ```
@@ -113,6 +178,7 @@ sortgpt_toolkit/
 ├── README.md              ← You are here
 ├── model.py               ← Model definition, data generation, shared utilities
 ├── evaluate.py            ← Ablation analysis and length generalization
+├── intervene.py           ← Attention intervention experiments
 ├── train.py               ← Single-model training script
 ├── run_experiment.sh      ← Multi-seed launcher (edit config, then run)
 ├── monitor.py             ← Live monitoring during training

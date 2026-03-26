@@ -21,6 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import torch.nn as nn
 from tqdm.auto import trange
 
 from model import (
@@ -63,6 +64,10 @@ def main():
     parser.add_argument("--use-pos", action="store_true", help="Enable positional embeddings")
     parser.add_argument("--no-mlp", action="store_true", help="Disable MLP layers")
     parser.add_argument("--no-final-ln", action="store_true", help="Disable final LayerNorm")
+
+    # Per-layer init scaling
+    parser.add_argument("--l1-init-scale", type=float, default=1.0,
+                        help="Multiply init std of second transformer block (h[1]) by this factor")
 
     # Data
     parser.add_argument("--data-seed", type=int, default=1337, help="Seed for data generation")
@@ -113,6 +118,17 @@ def main():
 
     GPT._init_std = init_std
     model = GPT(model_cfg).to(DEVICE)
+
+    if args.l1_init_scale != 1.0 and model_cfg.n_layers >= 2:
+        scaled_std = init_std * args.l1_init_scale
+        with torch.no_grad():
+            for name, param in model.transformer.h[1].named_parameters():
+                if "ln_" not in name:
+                    nn.init.normal_(param, mean=0, std=scaled_std)
+                    if "bias" in name:
+                        nn.init.zeros_(param)
+        print(f"    Rescaled h[1] weights: std={init_std} * {args.l1_init_scale} = {scaled_std}")
+
     scaler = make_grad_scaler(enabled=(DEVICE.type == "cuda" and AMP_DTYPE == torch.float16))
     optimizer = create_optimizer(model, weight_decay=args.weight_decay, lr=args.lr)
 
@@ -165,6 +181,7 @@ def main():
                 "checkpoint_iter": int(itr + 1),
                 "init_seed": init_seed,
                 "init_std": init_std,
+                "l1_init_scale": args.l1_init_scale,
                 "model_config": asdict(model_cfg),
                 "model_state_dict": cpu_sd,
             }, ckpt_path)

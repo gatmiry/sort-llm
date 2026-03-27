@@ -21,15 +21,19 @@ count1 = data1['ave_count_perthreshold']
 count2 = data2['ave_count_perthreshold']
 
 # Plot comparison
-plt.figure(figsize=(10, 6))
-plt.plot(thresholds1, count1, marker='o', linewidth=2, markersize=8, label='model without layer normalization', color='#1f77b4')
-plt.plot(thresholds2, count2, marker='s', linewidth=2, markersize=8, label='model with layer normalization', color='#ff7f0e')
-plt.xlabel('Threshold')
-plt.ylabel('Average Count per Threshold')
-plt.title('Average Count per Threshold Comparison')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.savefig('plots_comparison/count_comparison.png', dpi=150, bbox_inches='tight')
+fig, ax = plt.subplots(figsize=(4.5, 4))
+ax.plot(thresholds1, count1, marker='o', linewidth=2.2, markersize=7, label='Without LayerNorm', color='#2c7bb6')
+ax.plot(thresholds2, count2, marker='s', linewidth=2.2, markersize=7, label='With LayerNorm', color='#d7191c')
+ax.set_xlabel('Threshold', fontsize=12)
+ax.set_ylabel('Average size of candidate set', fontsize=12)
+ax.set_title('Average size of candidate set per threshold', fontsize=13, fontweight='bold')
+ax.legend(fontsize=10, framealpha=0.9)
+ax.grid(True, alpha=0.2, linestyle=':')
+ax.tick_params(labelsize=11)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+fig.tight_layout()
+fig.savefig('plots_comparison/count_comparison.png', dpi=300, bbox_inches='tight')
 print('Plot saved to plots_comparison/count_comparison.png')
 plt.close()
 

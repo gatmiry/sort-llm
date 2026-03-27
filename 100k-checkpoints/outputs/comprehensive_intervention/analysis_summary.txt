@@ -1,0 +1,299 @@
+========================================================================
+COMPREHENSIVE INTERVENTION ANALYSIS — LAYER 0
+Data points: 4,806,292   Checkpoints: 24
+Intensities tested: [0.0, 2.0, 4.0, 6.0, 10.0]
+========================================================================
+
+Error analysis (intensity=10.0):
+  Total errors: 357596
+  Mean error delta (pred−correct): -4.39
+  Median error delta: 3.0
+  Pred too high: 189440 (53.0%)
+  Pred too low:  168156 (47.0%)
+  Pred in intervened range (>cur, ≤cur+60, ≠correct): 234970 (65.7%)
+
+--- Baseline (no intervention) ---
+Overall accuracy: 1.0000 (n=1080000)
+  Position  0: 1.0000
+  Position  1: 1.0000
+  Position  2: 1.0000
+  Position  3: 1.0000
+  Position  4: 1.0000
+  Position  5: 1.0000
+  Position  6: 1.0000
+  Position  7: 1.0000
+  Position  8: 1.0000
+  Position  9: 1.0000
+  Position 10: 1.0000
+  Position 11: 1.0000
+  Position 12: 1.0000
+  Position 13: 1.0000
+  Position 14: 1.0000
+
+--- Intensity = 2.0 ---
+Total trials: 931,573
+Overall success: 0.8796
+
+Top 20 most vulnerable numbers:
+  #  0: success=0.369  (n=4062)
+  #  1: success=0.401  (n=4105)
+  #  2: success=0.444  (n=4167)
+  #  3: success=0.483  (n=4152)
+  #  4: success=0.501  (n=4016)
+  #  5: success=0.524  (n=4084)
+  #  6: success=0.533  (n=4093)
+  #  8: success=0.553  (n=3982)
+  #  7: success=0.554  (n=3954)
+  #  9: success=0.582  (n=4086)
+  # 11: success=0.597  (n=4018)
+  # 10: success=0.604  (n=4129)
+  # 12: success=0.620  (n=4138)
+  # 15: success=0.630  (n=4120)
+  # 14: success=0.632  (n=4269)
+  # 13: success=0.654  (n=4175)
+  # 16: success=0.664  (n=4042)
+  # 17: success=0.674  (n=3989)
+  # 18: success=0.717  (n=4155)
+  # 19: success=0.718  (n=4033)
+
+Top 10 most robust numbers:
+  #233: success=0.953  (n=1697)
+  #246: success=0.959  (n=411)
+  #244: success=0.963  (n=572)
+  #245: success=0.967  (n=484)
+  #248: success=0.974  (n=269)
+  #249: success=0.974  (n=194)
+  #250: success=0.984  (n=126)
+  #251: success=0.988  (n=85)
+  #247: success=0.991  (n=339)
+  #252: success=1.000  (n=45)
+
+By position:
+  Pos  0: 0.6119  (n=66648)
+  Pos  1: 0.7675  (n=66494)
+  Pos  2: 0.8464  (n=66523)
+  Pos  3: 0.8807  (n=66584)
+  Pos  4: 0.8967  (n=66612)
+  Pos  5: 0.9009  (n=66609)
+  Pos  6: 0.9071  (n=66562)
+  Pos  7: 0.9101  (n=66513)
+  Pos  8: 0.9144  (n=66536)
+  Pos  9: 0.9174  (n=66403)
+  Pos 10: 0.9229  (n=66553)
+  Pos 11: 0.9294  (n=66490)
+  Pos 12: 0.9436  (n=66455)
+  Pos 13: 0.9662  (n=66591)
+
+By gap range:
+  Gap [  1,  5): 0.7598  (n=226313)
+  Gap [  5, 10): 0.8494  (n=212862)
+  Gap [ 10, 20): 0.9171  (n=266181)
+  Gap [ 20, 40): 0.9816  (n=195033)
+  Gap [ 40, 80): 0.9976  (n=31184)
+
+  Edge low  (num<20):     0.5728  (n=81769)
+  Edge high (num>235):    0.9419  (n=10748)
+  Middle    (80≤num≤175): 0.9169  (n=391251)
+
+--- Intensity = 4.0 ---
+Total trials: 931,573
+Overall success: 0.7191
+
+Top 20 most vulnerable numbers:
+  #  0: success=0.259  (n=4062)
+  #  1: success=0.273  (n=4105)
+  #  2: success=0.313  (n=4167)
+  #  3: success=0.344  (n=4152)
+  #  4: success=0.348  (n=4016)
+  #  5: success=0.363  (n=4084)
+  #  6: success=0.383  (n=4093)
+  #  7: success=0.400  (n=3954)
+  #  8: success=0.407  (n=3982)
+  #  9: success=0.417  (n=4086)
+  # 11: success=0.432  (n=4018)
+  # 10: success=0.437  (n=4129)
+  # 12: success=0.450  (n=4138)
+  # 14: success=0.460  (n=4269)
+  # 15: success=0.471  (n=4120)
+  # 16: success=0.479  (n=4042)
+  # 17: success=0.484  (n=3989)
+  # 13: success=0.485  (n=4175)
+  # 18: success=0.531  (n=4155)
+  # 19: success=0.531  (n=4033)
+
+Top 10 most robust numbers:
+  #241: success=0.917  (n=872)
+  #244: success=0.934  (n=572)
+  #245: success=0.936  (n=484)
+  #246: success=0.937  (n=411)
+  #248: success=0.937  (n=269)
+  #249: success=0.943  (n=194)
+  #247: success=0.973  (n=339)
+  #250: success=0.976  (n=126)
+  #251: success=0.988  (n=85)
+  #252: success=1.000  (n=45)
+
+By position:
+  Pos  0: 0.4478  (n=66648)
+  Pos  1: 0.5816  (n=66494)
+  Pos  2: 0.6610  (n=66523)
+  Pos  3: 0.7006  (n=66584)
+  Pos  4: 0.7201  (n=66612)
+  Pos  5: 0.7314  (n=66609)
+  Pos  6: 0.7399  (n=66562)
+  Pos  7: 0.7454  (n=66513)
+  Pos  8: 0.7570  (n=66536)
+  Pos  9: 0.7619  (n=66403)
+  Pos 10: 0.7699  (n=66553)
+  Pos 11: 0.7787  (n=66490)
+  Pos 12: 0.8055  (n=66455)
+  Pos 13: 0.8673  (n=66591)
+
+By gap range:
+  Gap [  1,  5): 0.6329  (n=226313)
+  Gap [  5, 10): 0.7194  (n=212862)
+  Gap [ 10, 20): 0.7308  (n=266181)
+  Gap [ 20, 40): 0.7826  (n=195033)
+  Gap [ 40, 80): 0.8465  (n=31184)
+
+  Edge low  (num<20):     0.4135  (n=81769)
+  Edge high (num>235):    0.9024  (n=10748)
+  Middle    (80≤num≤175): 0.7542  (n=391251)
+
+--- Intensity = 6.0 ---
+Total trials: 931,573
+Overall success: 0.6390
+
+Top 20 most vulnerable numbers:
+  #  0: success=0.233  (n=4062)
+  #  1: success=0.269  (n=4105)
+  #  2: success=0.290  (n=4167)
+  #  4: success=0.312  (n=4016)
+  #  3: success=0.327  (n=4152)
+  #  6: success=0.346  (n=4093)
+  #  5: success=0.346  (n=4084)
+  #  7: success=0.369  (n=3954)
+  #  8: success=0.380  (n=3982)
+  #  9: success=0.389  (n=4086)
+  # 11: success=0.395  (n=4018)
+  # 10: success=0.402  (n=4129)
+  # 15: success=0.409  (n=4120)
+  # 12: success=0.410  (n=4138)
+  # 16: success=0.411  (n=4042)
+  # 17: success=0.415  (n=3989)
+  # 14: success=0.418  (n=4269)
+  # 13: success=0.422  (n=4175)
+  # 18: success=0.441  (n=4155)
+  # 19: success=0.445  (n=4033)
+
+Top 10 most robust numbers:
+  #243: success=0.914  (n=686)
+  #244: success=0.927  (n=572)
+  #246: success=0.927  (n=411)
+  #248: success=0.929  (n=269)
+  #245: success=0.932  (n=484)
+  #249: success=0.943  (n=194)
+  #247: success=0.971  (n=339)
+  #250: success=0.976  (n=126)
+  #251: success=0.988  (n=85)
+  #252: success=1.000  (n=45)
+
+By position:
+  Pos  0: 0.3998  (n=66648)
+  Pos  1: 0.5107  (n=66494)
+  Pos  2: 0.5793  (n=66523)
+  Pos  3: 0.6199  (n=66584)
+  Pos  4: 0.6443  (n=66612)
+  Pos  5: 0.6525  (n=66609)
+  Pos  6: 0.6611  (n=66562)
+  Pos  7: 0.6716  (n=66513)
+  Pos  8: 0.6772  (n=66536)
+  Pos  9: 0.6834  (n=66403)
+  Pos 10: 0.6850  (n=66553)
+  Pos 11: 0.6867  (n=66490)
+  Pos 12: 0.7070  (n=66455)
+  Pos 13: 0.7685  (n=66591)
+
+By gap range:
+  Gap [  1,  5): 0.6141  (n=226313)
+  Gap [  5, 10): 0.6941  (n=212862)
+  Gap [ 10, 20): 0.6715  (n=266181)
+  Gap [ 20, 40): 0.5808  (n=195033)
+  Gap [ 40, 80): 0.5306  (n=31184)
+
+  Edge low  (num<20):     0.3716  (n=81769)
+  Edge high (num>235):    0.8960  (n=10748)
+  Middle    (80≤num≤175): 0.6713  (n=391251)
+
+--- Intensity = 10.0 ---
+Total trials: 931,573
+Overall success: 0.6161
+
+Top 20 most vulnerable numbers:
+  #  0: success=0.232  (n=4062)
+  #  1: success=0.256  (n=4105)
+  #  2: success=0.273  (n=4167)
+  #  4: success=0.309  (n=4016)
+  #  3: success=0.310  (n=4152)
+  #  5: success=0.330  (n=4084)
+  #  6: success=0.332  (n=4093)
+  #  7: success=0.348  (n=3954)
+  #  8: success=0.356  (n=3982)
+  # 11: success=0.375  (n=4018)
+  #  9: success=0.375  (n=4086)
+  # 10: success=0.384  (n=4129)
+  # 12: success=0.388  (n=4138)
+  # 17: success=0.388  (n=3989)
+  # 15: success=0.390  (n=4120)
+  # 14: success=0.391  (n=4269)
+  # 16: success=0.393  (n=4042)
+  # 13: success=0.406  (n=4175)
+  # 19: success=0.425  (n=4033)
+  # 18: success=0.428  (n=4155)
+
+Top 10 most robust numbers:
+  #243: success=0.911  (n=686)
+  #244: success=0.925  (n=572)
+  #248: success=0.926  (n=269)
+  #246: success=0.927  (n=411)
+  #245: success=0.930  (n=484)
+  #249: success=0.943  (n=194)
+  #247: success=0.971  (n=339)
+  #250: success=0.976  (n=126)
+  #251: success=0.976  (n=85)
+  #252: success=1.000  (n=45)
+
+By position:
+  Pos  0: 0.3810  (n=66648)
+  Pos  1: 0.4892  (n=66494)
+  Pos  2: 0.5571  (n=66523)
+  Pos  3: 0.5986  (n=66584)
+  Pos  4: 0.6226  (n=66612)
+  Pos  5: 0.6356  (n=66609)
+  Pos  6: 0.6429  (n=66562)
+  Pos  7: 0.6505  (n=66513)
+  Pos  8: 0.6592  (n=66536)
+  Pos  9: 0.6652  (n=66403)
+  Pos 10: 0.6621  (n=66553)
+  Pos 11: 0.6636  (n=66490)
+  Pos 12: 0.6754  (n=66455)
+  Pos 13: 0.7233  (n=66591)
+
+By gap range:
+  Gap [  1,  5): 0.6089  (n=226313)
+  Gap [  5, 10): 0.6901  (n=212862)
+  Gap [ 10, 20): 0.6589  (n=266181)
+  Gap [ 20, 40): 0.5251  (n=195033)
+  Gap [ 40, 80): 0.3680  (n=31184)
+
+  Edge low  (num<20):     0.3545  (n=81769)
+  Edge high (num>235):    0.8934  (n=10748)
+  Middle    (80≤num≤175): 0.6514  (n=391251)
+
+--- Training Progression (int=10.0) ---
+  ckpt60000  (60000): success=0.5746  (n=310418)
+  ckpt80000  (80000): success=0.6205  (n=310545)
+  final      (100000): success=0.6533  (n=310610)
+
+Correlation (number vs success, int=10.0): r=0.8017
+Correlation (gap vs success, int=10.0): r=-0.9484

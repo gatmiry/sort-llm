@@ -17,8 +17,8 @@ import matplotlib.pyplot as plt
 os.makedirs('plots_comparison', exist_ok=True)
 
 # Load data from both models
-data1 = np.load('plots/statistics_data.npz')  # Original model (dec28_tbyt)
-data2 = np.load('plots_N128_K16_L2_H1_E32/statistics_data.npz')  # Grid checkpoint (N128_K16_L2_H1_E32)
+data1 = np.load('plots_withoutlayernorm/statistics_data.npz')
+data2 = np.load('plots_withlayernorm/statistics_data.npz')
 
 # Use each file's own thresholds
 thresholds1 = data1['thresholds']

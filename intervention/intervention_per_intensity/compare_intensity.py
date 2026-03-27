@@ -8,8 +8,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 from model_tbyt_4 import GPTConfig, GPT, GPTIntervention
-from checkpoint_utils import load_checkpoint
-from gpt_intervention_normalized import GPTInterventionNormalized
 import torch
 import matplotlib
 matplotlib.use('Agg')
@@ -30,20 +28,19 @@ print("=" * 50)
 
 block_size_1 = 32
 vocab_size_1 = 128
-vocab_n_1 = vocab_size_1 - 1
-location_1 = 45
+location_1 = block_size_1 + 5
 
-config_1 = GPTConfig(block_size=block_size_1, vocab_size=vocab_size_1)
+config_1 = GPTConfig(block_size=block_size_1, vocab_size=vocab_size_1, with_layer_norm=False)
 model_1 = GPT(config_1)
-checkpoint_path_1 = os.path.join(os.path.dirname(__file__), '../../saved_models/dec28_tbyt_without-pos-embedding_n_embd:64_1head_layers:2_vocab_size:128_itr:60000_checkpoint.pt')
+checkpoint_path_1 = os.path.join(os.path.dirname(__file__), '../../saved_models/2026-03-14_18-40-26_vocab128/march14-withoutlayernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:60000_checkpoint.pt')
 model_1.load_state_dict(torch.load(checkpoint_path_1, map_location=device)['model'])
 model_1.to(device)
 model_1.eval()
 
 def get_batch_1():
-    x = torch.randperm(vocab_n_1)[:block_size_1]
+    x = torch.randperm(vocab_size_1)[:block_size_1]
     vals, _ = torch.sort(x)
-    return torch.cat((x, torch.tensor([vocab_n_1]), vals), dim=0).unsqueeze(0)
+    return torch.cat((x, torch.tensor([vocab_size_1]), vals), dim=0).unsqueeze(0)
 
 results_1 = {}
 for intensity in intensity_values:
@@ -75,18 +72,21 @@ print("\n" + "=" * 50)
 print("Testing model WITH layer normalization")
 print("=" * 50)
 
-checkpoint_path_2 = os.path.join(os.path.dirname(__file__), '../../Grid_training_without_duplicates/Final_N128_K16_L2_H1_E32_r4over1_npos1_mlp1_dup0_testK16_iters60000.pt')
-model_2, config_2 = load_checkpoint(checkpoint_path_2, device=device)
-model_2.eval()
-
-block_size_2 = config_2.block_size
-vocab_n_2 = config_2.vocab_size - 1
+block_size_2 = 32
+vocab_size_2 = 128
 location_2 = block_size_2 + 5
 
+config_2 = GPTConfig(block_size=block_size_2, vocab_size=vocab_size_2, with_layer_norm=True)
+model_2 = GPT(config_2)
+checkpoint_path_2 = os.path.join(os.path.dirname(__file__), '../../saved_models/2026-03-14_19-03-50_vocab128/march14-withlayernorm-block_size:32-batch_size:4096-n_embd:64_head:1_layers:2_vocab_size:128_itr:60000_checkpoint.pt')
+model_2.load_state_dict(torch.load(checkpoint_path_2, map_location=device)['model'])
+model_2.to(device)
+model_2.eval()
+
 def get_batch_2():
-    x = torch.randperm(vocab_n_2)[:block_size_2]
+    x = torch.randperm(vocab_size_2)[:block_size_2]
     vals, _ = torch.sort(x)
-    return torch.cat((x, torch.tensor([vocab_n_2]), vals), dim=0).unsqueeze(0)
+    return torch.cat((x, torch.tensor([vocab_size_2]), vals), dim=0).unsqueeze(0)
 
 results_2 = {}
 for intensity in intensity_values:
@@ -96,7 +96,7 @@ for intensity in intensity_values:
             break
         idx = get_batch_2().to(device)
         try:
-            intervention_model = GPTInterventionNormalized(model_2, idx)
+            intervention_model = GPTIntervention(model_2, idx)
             intervention_model.intervent_attention(
                 attention_layer_num=0, location=location_2,
                 unsorted_lb=5, unsorted_ub=5, unsorted_lb_num=0, unsorted_ub_num=1,
@@ -134,5 +134,5 @@ plt.ylim(0, 1.05)
 plt.tight_layout()
 
 output_dir = os.path.dirname(__file__)
-plt.savefig(os.path.join(output_dir, 'compare_intensity.png'), dpi=300, bbox_inches='tight')
-print(f'\nPlot saved to {os.path.join(output_dir, "compare_intensity.png")}')
+plt.savefig(os.path.join(output_dir, 'compare_intensity_layer0.png'), dpi=300, bbox_inches='tight')
+print(f'\nPlot saved to {os.path.join(output_dir, "compare_intensity_layer0.png")}')

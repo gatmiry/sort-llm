@@ -1,0 +1,11 @@
+Read the readme file in sortgpt_toolkit folder inside sort-llm and run the following grid of training runs using the code and instruction in sortgpt_toolkit:
+0.01 initialization scale for both layers
+0.03 learning rate
+k in [16, 32]
+embedding size chosen from [64]
+N (vocab size) chosen from [128, 256, 512, 1024]
+Use seed 1 
+run sequentially where each GPU only has one model running at a time and when one model is done we move to the next model
+and we have all 8 GPUs running at once.
+save the resulting checkpoints in new-grid folder in /mnt/task_runtime (in separate subfodlers there). save the checkpoints every 5000 number of iterations.
+after each gpu finished its training run, start plotting the same plots as in plots_V64_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000 for the last checkpoint of the config you were training on that gpu, suing the same gpu.

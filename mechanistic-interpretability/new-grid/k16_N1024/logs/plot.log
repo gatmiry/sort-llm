@@ -1,0 +1,94 @@
+Loading checkpoint: /mnt/task_runtime/new-grid/k16_N1024/checkpoints/std0p01_iseed1__ckpt100000.pt
+  block_size=16, vocab_n=1024, device=cuda
+Computing baseline...
+  full_seq_acc=1.0000
+  Saved baseline plots
+Computing ablation...
+  skip_layer=0: full_seq_acc=0.0000
+  skip_layer=1: full_seq_acc=0.0000
+  Saved ablation plots
+Computing cinclogits...
+  Layer 0: done
+  Layer 1: done
+  Saved cinclogits plots
+Computing intensity layer=0 ub=5...
+  WARNING: intensity=-0.50 got 3/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 3/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 6/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 3/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 2/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 3/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 9/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 5/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 5/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 6/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 8/200 valid after 2000 rounds
+  Done
+Computing intensity layer=0 ub=10...
+  WARNING: intensity=-0.50 got 19/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 28/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 16/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 15/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 21/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 18/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 20/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 19/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 13/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 21/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 18/200 valid after 2000 rounds
+  Done
+Computing intensity layer=0 ub=15...
+  WARNING: intensity=-0.50 got 49/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 53/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 41/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 48/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 43/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 38/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 42/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 49/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 46/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 40/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 34/200 valid after 2000 rounds
+  Done
+Computing intensity layer=1 ub=5...
+  WARNING: intensity=-0.50 got 4/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 1/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 3/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 4/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 4/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 4/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 5/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 5/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 6/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 1/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 7/200 valid after 2000 rounds
+  Done
+Computing intensity layer=1 ub=10...
+  WARNING: intensity=-0.50 got 26/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 20/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 16/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 15/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 26/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 10/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 19/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 15/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 19/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 25/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 13/200 valid after 2000 rounds
+  Done
+Computing intensity layer=1 ub=15...
+  WARNING: intensity=-0.50 got 35/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 40/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 43/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 48/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 41/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 40/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 49/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 41/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 50/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 42/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 33/200 valid after 2000 rounds
+  Done
+  Saved intensity plots
+
+All plots saved to /mnt/task_runtime/new-grid/k16_N1024/plots

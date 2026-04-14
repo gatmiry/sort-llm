@@ -1,0 +1,136 @@
+Found 106 completed config pairs
+Mode: ablation (skip attention+LN per layer)
+Total tasks: 424, cached: 0, to run: 424
+[PROGRESS] 20/424 done, 0 fail, 335 queued (67s)
+[PROGRESS] 40/424 done, 0 fail, 335 queued (67s)
+[PROGRESS] 60/424 done, 0 fail, 335 queued (67s)
+[PROGRESS] 80/424 done, 0 fail, 335 queued (67s)
+[PROGRESS] 100/424 done, 0 fail, 246 queued (130s)
+[PROGRESS] 120/424 done, 0 fail, 246 queued (130s)
+[PROGRESS] 140/424 done, 0 fail, 246 queued (130s)
+[PROGRESS] 160/424 done, 0 fail, 246 queued (130s)
+[PROGRESS] 180/424 done, 0 fail, 166 queued (179s)
+[PROGRESS] 200/424 done, 0 fail, 153 queued (193s)
+[PROGRESS] 220/424 done, 0 fail, 153 queued (193s)
+[PROGRESS] 240/424 done, 0 fail, 153 queued (193s)
+[PROGRESS] 260/424 done, 0 fail, 88 queued (227s)
+[PROGRESS] 280/424 done, 0 fail, 77 queued (242s)
+[PROGRESS] 300/424 done, 0 fail, 60 queued (254s)
+[PROGRESS] 320/424 done, 0 fail, 60 queued (254s)
+[PROGRESS] 340/424 done, 0 fail, 6 queued (289s)
+[PROGRESS] 360/424 done, 0 fail, 0 queued (306s)
+[PROGRESS] 380/424 done, 0 fail, 0 queued (306s)
+[PROGRESS] 400/424 done, 0 fail, 0 queued (314s)
+[PROGRESS] 420/424 done, 0 fail, 0 queued (325s)
+
+All workers done! completed=424, failed=0, elapsed=325s
+
+Assembling ablation plots...
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V128_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V128_B32_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V128_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V256_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V256_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V256_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V256_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V512_B16_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V512_B16_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling ablation for V512_B16_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling ablation for V512_B32_LR1e-04_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling ablation for V512_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling ablation for V512_B32_LR1e-03_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-03_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling ablation for V512_B32_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling ablation for V512_B32_LR1e-02_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-02_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling ablation for V512_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling ablation for V8192_B16_LR1e-04_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-04_MI20000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling ablation for V8192_B16_LR1e-03_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-03_MI20000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling ablation for V8192_B16_LR1e-02_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-02_MI20000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling ablation for V8192_B32_LR1e-04_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B32_LR1e-04_MI20000/cinclogits_LN0_layer0.npz'
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Ablation plot saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+
+Done!

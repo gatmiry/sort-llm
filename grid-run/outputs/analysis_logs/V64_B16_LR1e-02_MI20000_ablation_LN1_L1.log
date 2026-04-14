@@ -1,0 +1,2 @@
+  skip_layer=1: full_seq_acc=0.9920, mean_pos_acc=0.9995, mean_cond_acc=0.9995
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V64_B16_LR1e-02_MI20000/ablation_LN1_layer1.npz

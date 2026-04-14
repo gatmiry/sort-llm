@@ -1,0 +1,2 @@
+  baseline: full_seq_acc=0.9560, mean_pos_acc=0.9986, mean_cond_acc=0.9986
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI60000/baseline_LN1.npz

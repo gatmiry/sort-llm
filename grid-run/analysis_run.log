@@ -1,0 +1,58 @@
+Found 88 completed config pairs
+Already fully analyzed: 52, remaining: 36
+Total worker tasks: 288, already cached: 12, to run: 276
+[PROGRESS] 20/276 done, 0 fail, 190 queued (72s)
+[PROGRESS] 40/276 done, 0 fail, 190 queued (72s)
+[PROGRESS] 60/276 done, 0 fail, 190 queued (72s)
+[PROGRESS] 80/276 done, 0 fail, 118 queued (77s)
+[PROGRESS] 100/276 done, 0 fail, 107 queued (138s)
+[PROGRESS] 120/276 done, 0 fail, 107 queued (138s)
+[PROGRESS] 140/276 done, 0 fail, 58 queued (283s)
+[PROGRESS] 160/276 done, 0 fail, 39 queued (348s)
+[PROGRESS] 180/276 done, 0 fail, 18 queued (443s)
+[PROGRESS] 200/276 done, 0 fail, 0 queued (610s)
+[PROGRESS] 220/276 done, 0 fail, 0 queued (688s)
+[PROGRESS] 240/276 done, 0 fail, 0 queued (735s)
+[PROGRESS] 260/276 done, 0 fail, 0 queued (1003s)
+
+All workers done! completed=276, failed=0, elapsed=1211s
+
+Assembling plots...
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+
+Done!

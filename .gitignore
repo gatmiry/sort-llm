@@ -1,2 +1,7 @@
 saved_models/itr_0_checkpoint.pt
 saved_models/itr_5000_checkpoint.pt
+__pycache__/
+*.pyc
+*.pt
+*.pth
+*.bin

@@ -1,0 +1,2 @@
+  Intensity counts per value: {-0.5: 81, -0.25: 77, 0.0: 84, 0.25: 96, 0.5: 82, 0.75: 83, 1.0: 74, 1.25: 88, 1.5: 103, 1.75: 94, 2.0: 85}
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-02_MI10000/intensity_LN1_layer1.npz

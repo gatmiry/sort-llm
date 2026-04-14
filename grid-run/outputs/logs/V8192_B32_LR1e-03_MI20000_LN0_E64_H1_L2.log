@@ -1,0 +1,52 @@
+[GPU 0] Starting: V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 0/20000 | train_loss 9.0110 | test_loss 9.0111 | lr 9.90e-06 | 2s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 500/20000 | train_loss 6.4509 | test_loss 6.4491 | lr 9.99e-04 | 565s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 1000/20000 | train_loss 3.3498 | test_loss 3.4305 | lr 9.95e-04 | 946s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 1500/20000 | train_loss 2.1323 | test_loss 2.2131 | lr 9.88e-04 | 1308s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr2000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 2000/20000 | train_loss 1.6085 | test_loss 1.6163 | lr 9.78e-04 | 1634s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 2500/20000 | train_loss 1.2710 | test_loss 1.3165 | lr 9.65e-04 | 1942s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 3000/20000 | train_loss 1.0548 | test_loss 1.0704 | lr 9.49e-04 | 2249s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 3500/20000 | train_loss 0.9499 | test_loss 0.9020 | lr 9.30e-04 | 2547s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr4000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 4000/20000 | train_loss 0.8222 | test_loss 0.8414 | lr 9.08e-04 | 2771s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 4500/20000 | train_loss 0.7480 | test_loss 0.7041 | lr 8.84e-04 | 2975s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 5000/20000 | train_loss 0.6261 | test_loss 0.6600 | lr 8.58e-04 | 3168s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 5500/20000 | train_loss 0.5981 | test_loss 0.5751 | lr 8.29e-04 | 3369s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr6000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 6000/20000 | train_loss 0.5111 | test_loss 0.5133 | lr 7.99e-04 | 3573s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 6500/20000 | train_loss 0.4836 | test_loss 0.4892 | lr 7.66e-04 | 3769s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 7000/20000 | train_loss 0.4320 | test_loss 0.4677 | lr 7.32e-04 | 3958s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 7500/20000 | train_loss 0.4468 | test_loss 0.4423 | lr 6.96e-04 | 4140s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr8000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 8000/20000 | train_loss 0.3822 | test_loss 0.3827 | lr 6.59e-04 | 4323s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 8500/20000 | train_loss 0.3457 | test_loss 0.3829 | lr 6.22e-04 | 4503s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 9000/20000 | train_loss 0.3651 | test_loss 0.3778 | lr 5.83e-04 | 4696s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 9500/20000 | train_loss 0.3549 | test_loss 0.3191 | lr 5.44e-04 | 4938s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr10000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 10000/20000 | train_loss 0.3018 | test_loss 0.3204 | lr 5.04e-04 | 5194s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 10500/20000 | train_loss 0.2897 | test_loss 0.3130 | lr 4.65e-04 | 5392s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 11000/20000 | train_loss 0.2836 | test_loss 0.3114 | lr 4.26e-04 | 5590s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 11500/20000 | train_loss 0.2763 | test_loss 0.3123 | lr 3.87e-04 | 5775s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr12000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 12000/20000 | train_loss 0.2567 | test_loss 0.2889 | lr 3.49e-04 | 5957s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 12500/20000 | train_loss 0.2971 | test_loss 0.2993 | lr 3.12e-04 | 6169s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 13000/20000 | train_loss 0.2808 | test_loss 0.2697 | lr 2.76e-04 | 6397s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 13500/20000 | train_loss 0.2611 | test_loss 0.2752 | lr 2.42e-04 | 6630s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr14000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 14000/20000 | train_loss 0.2553 | test_loss 0.2603 | lr 2.09e-04 | 6854s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 14500/20000 | train_loss 0.2463 | test_loss 0.2403 | lr 1.78e-04 | 7083s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 15000/20000 | train_loss 0.2420 | test_loss 0.2386 | lr 1.49e-04 | 7330s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 15500/20000 | train_loss 0.2512 | test_loss 0.2650 | lr 1.22e-04 | 7553s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr16000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 16000/20000 | train_loss 0.2210 | test_loss 0.2425 | lr 9.73e-05 | 7777s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 16500/20000 | train_loss 0.2344 | test_loss 0.2427 | lr 7.53e-05 | 7993s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 17000/20000 | train_loss 0.2319 | test_loss 0.2398 | lr 5.60e-05 | 8181s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 17500/20000 | train_loss 0.2575 | test_loss 0.2418 | lr 3.94e-05 | 8358s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr18000.pt
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 18000/20000 | train_loss 0.2186 | test_loss 0.2479 | lr 2.57e-05 | 8533s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 18500/20000 | train_loss 0.2208 | test_loss 0.2218 | lr 1.49e-05 | 8710s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 19000/20000 | train_loss 0.2221 | test_loss 0.2219 | lr 7.21e-06 | 8887s
+[GPU 0] V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 | itr 19500/20000 | train_loss 0.2049 | test_loss 0.2200 | lr 2.56e-06 | 9067s
+[GPU 0] Saved /mnt/task_runtime/sort-llm/grid-run/outputs/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2/V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2_itr20000.pt
+[GPU 0] Finished: V8192_B32_LR1e-03_MI20000_LN0_E64_H1_L2 in 9250s

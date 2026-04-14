@@ -1,0 +1,144 @@
+Found 97 completed config pairs
+Mode: intensity-only for ub=[10, 15]
+Total tasks: 776, cached: 0, to run: 776
+[PROGRESS] 20/776 done, 0 fail, 681 queued (135s)
+[PROGRESS] 40/776 done, 0 fail, 665 queued (150s)
+[PROGRESS] 60/776 done, 0 fail, 644 queued (169s)
+[PROGRESS] 80/776 done, 0 fail, 617 queued (201s)
+[PROGRESS] 100/776 done, 0 fail, 602 queued (217s)
+[PROGRESS] 120/776 done, 0 fail, 586 queued (258s)
+[PROGRESS] 140/776 done, 0 fail, 557 queued (280s)
+[PROGRESS] 160/776 done, 0 fail, 539 queued (294s)
+[PROGRESS] 180/776 done, 0 fail, 519 queued (341s)
+[PROGRESS] 200/776 done, 0 fail, 497 queued (380s)
+[PROGRESS] 220/776 done, 0 fail, 478 queued (421s)
+[PROGRESS] 240/776 done, 0 fail, 457 queued (455s)
+[PROGRESS] 260/776 done, 0 fail, 438 queued (485s)
+[PROGRESS] 280/776 done, 0 fail, 420 queued (509s)
+[PROGRESS] 300/776 done, 0 fail, 398 queued (530s)
+[PROGRESS] 320/776 done, 0 fail, 377 queued (560s)
+[PROGRESS] 340/776 done, 0 fail, 358 queued (581s)
+[PROGRESS] 360/776 done, 0 fail, 337 queued (611s)
+[PROGRESS] 380/776 done, 0 fail, 317 queued (650s)
+[PROGRESS] 400/776 done, 0 fail, 297 queued (789s)
+[PROGRESS] 420/776 done, 0 fail, 277 queued (850s)
+[PROGRESS] 440/776 done, 0 fail, 257 queued (916s)
+[PROGRESS] 460/776 done, 0 fail, 237 queued (946s)
+[PROGRESS] 480/776 done, 0 fail, 218 queued (975s)
+[PROGRESS] 500/776 done, 0 fail, 198 queued (1013s)
+[PROGRESS] 520/776 done, 0 fail, 177 queued (1046s)
+[PROGRESS] 540/776 done, 0 fail, 159 queued (1077s)
+[PROGRESS] 560/776 done, 0 fail, 137 queued (1139s)
+[PROGRESS] 580/776 done, 0 fail, 117 queued (1396s)
+[PROGRESS] 600/776 done, 0 fail, 97 queued (1457s)
+[PROGRESS] 620/776 done, 0 fail, 77 queued (1494s)
+[PROGRESS] 640/776 done, 0 fail, 58 queued (1553s)
+[PROGRESS] 660/776 done, 0 fail, 37 queued (1621s)
+[PROGRESS] 680/776 done, 0 fail, 18 queued (1691s)
+[PROGRESS] 700/776 done, 0 fail, 0 queued (1833s)
+[PROGRESS] 720/776 done, 0 fail, 0 queued (1880s)
+[PROGRESS] 740/776 done, 0 fail, 0 queued (1927s)
+[PROGRESS] 760/776 done, 0 fail, 0 queued (1987s)
+
+All workers done! completed=776, failed=0, elapsed=2109s
+
+Assembling UB plots...
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling UB plots for V128_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling UB plots for V128_B32_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling UB plots for V128_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling UB plots for V512_B16_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling UB plots for V512_B32_LR1e-04_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI40000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling UB plots for V512_B32_LR1e-03_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-03_MI40000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling UB plots for V512_B32_LR1e-02_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-02_MI40000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling UB plots for V8192_B16_LR1e-04_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-04_MI20000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling UB plots for V8192_B16_LR1e-03_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-03_MI20000/cinclogits_LN0_layer0.npz'
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  UB plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+
+Done!

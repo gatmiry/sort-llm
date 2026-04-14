@@ -1,0 +1,26 @@
+
+============================================================
+Analyzing: vocab=512 block=16 lr=1e-02 iters=20000 ckpt=20000
+  LN0: /mnt/task_runtime/sort-llm/grid-run/outputs/V512_B16_LR1e-02_MI20000_LN0_E64_H1_L2/V512_B16_LR1e-02_MI20000_LN0_E64_H1_L2_itr20000.pt
+  LN1: /mnt/task_runtime/sort-llm/grid-run/outputs/V512_B16_LR1e-02_MI20000_LN1_E64_H1_L2/V512_B16_LR1e-02_MI20000_LN1_E64_H1_L2_itr20000.pt
+  Output: /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+============================================================
+
+Computing cinclogits layer 0 (LN0)...
+Computing cinclogits layer 0 (LN1)...
+Computing intensity layer 0 (LN0)...
+Computing intensity layer 0 (LN1)...
+Computing cinclogits layer 1 (LN0)...
+Computing cinclogits layer 1 (LN1)...
+Computing intensity layer 1 (LN0)...
+Computing intensity layer 1 (LN1)...
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000/compare_cinclogits_layer0.png
+  Frac IC — LN0: 0.5163, LN1: 0.5850
+  Corr    — LN0: 1.0000, LN1: 1.0000
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000/compare_intensity_layer0.png
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000/compare_cinclogits_layer1.png
+  Frac IC — LN0: 0.0950, LN1: 0.0950
+  Corr    — LN0: 1.0000, LN1: 1.0000
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000/compare_intensity_layer1.png
+
+All plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000

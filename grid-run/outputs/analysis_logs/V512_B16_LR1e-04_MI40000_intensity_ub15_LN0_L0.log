@@ -1,0 +1,13 @@
+  WARNING: intensity=-0.50 got 157/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 169/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 170/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 156/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 160/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 159/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 149/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 134/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 152/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 166/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 133/200 valid after 2000 rounds
+  Intensity counts per value: {-0.5: 157, -0.25: 169, 0.0: 170, 0.25: 156, 0.5: 160, 0.75: 159, 1.0: 149, 1.25: 134, 1.5: 152, 1.75: 166, 2.0: 133}
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-04_MI40000/intensity_LN0_layer0_ub15.npz

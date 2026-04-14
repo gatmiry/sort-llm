@@ -1,0 +1,127 @@
+Found 108 completed config pairs
+Mode: baseline accuracy (intact model)
+Total tasks: 216, cached: 0, to run: 216
+[PROGRESS] 20/216 done, 0 fail, 129 queued (66s)
+[PROGRESS] 40/216 done, 0 fail, 129 queued (66s)
+[PROGRESS] 60/216 done, 0 fail, 129 queued (66s)
+[PROGRESS] 80/216 done, 0 fail, 129 queued (66s)
+[PROGRESS] 100/216 done, 0 fail, 41 queued (128s)
+[PROGRESS] 120/216 done, 0 fail, 41 queued (128s)
+[PROGRESS] 140/216 done, 0 fail, 41 queued (128s)
+[PROGRESS] 160/216 done, 0 fail, 41 queued (128s)
+[PROGRESS] 180/216 done, 0 fail, 0 queued (161s)
+[PROGRESS] 200/216 done, 0 fail, 0 queued (168s)
+
+All workers done! completed=216, failed=0, elapsed=168s
+
+Assembling baseline plots...
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V64_B32_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V128_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V128_B32_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V128_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V128_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V128_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-04_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B16_LR1e-02_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V256_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V256_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-03_MI60000_E64_H1_L2_ckpt60000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V256_B32_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V256_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V256_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-04_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V512_B16_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-03_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V512_B16_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B16_LR1e-02_MI40000_E64_H1_L2_ckpt40000
+  ERROR assembling baseline for V512_B16_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-04_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling baseline for V512_B32_LR1e-04_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling baseline for V512_B32_LR1e-04_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-04_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-03_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling baseline for V512_B32_LR1e-03_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-03_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling baseline for V512_B32_LR1e-03_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-03_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V512_B32_LR1e-02_MI20000_E64_H1_L2_ckpt20000
+  ERROR assembling baseline for V512_B32_LR1e-02_MI40000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-02_MI40000/cinclogits_LN0_layer0.npz'
+  ERROR assembling baseline for V512_B32_LR1e-02_MI60000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B32_LR1e-02_MI60000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B16_LR1e-04_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-04_MI20000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B16_LR1e-03_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-03_MI20000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B16_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B16_LR1e-02_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B16_LR1e-02_MI20000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-04_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B32_LR1e-04_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B32_LR1e-04_MI20000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-03_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B32_LR1e-03_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B32_LR1e-03_MI20000/cinclogits_LN0_layer0.npz'
+  Baseline plots saved to /mnt/task_runtime/sort-llm/grid-run/outputs/plots_V8192_B32_LR1e-02_MI10000_E64_H1_L2_ckpt10000
+  ERROR assembling baseline for V8192_B32_LR1e-02_MI20000: [Errno 2] No such file or directory: '/mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V8192_B32_LR1e-02_MI20000/cinclogits_LN0_layer0.npz'
+
+Done!

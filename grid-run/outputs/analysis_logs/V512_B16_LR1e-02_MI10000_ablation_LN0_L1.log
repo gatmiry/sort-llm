@@ -1,0 +1,4 @@
+/mnt/task_runtime/sort-llm/grid-run/analyze_worker.py:165: RuntimeWarning: invalid value encountered in divide
+  cond_acc = np.where(cond_eligible > 0, cond_correct / cond_eligible, 0.0)
+  skip_layer=1: full_seq_acc=0.0000, mean_pos_acc=0.3019, mean_cond_acc=0.3949
+Saved /mnt/task_runtime/sort-llm/grid-run/outputs/tmp_results/V512_B16_LR1e-02_MI10000/ablation_LN0_layer1.npz

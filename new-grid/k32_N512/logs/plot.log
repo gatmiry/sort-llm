@@ -1,0 +1,50 @@
+Loading checkpoint: /mnt/task_runtime/new-grid/k32_N512/checkpoints/std0p01_iseed1__ckpt100000.pt
+  block_size=32, vocab_n=512, device=cuda
+Computing baseline...
+  full_seq_acc=1.0000
+  Saved baseline plots
+Computing ablation...
+  skip_layer=0: full_seq_acc=0.0000
+  skip_layer=1: full_seq_acc=0.0000
+  Saved ablation plots
+Computing cinclogits...
+  Layer 0: done
+  Layer 1: done
+  Saved cinclogits plots
+Computing intensity layer=0 ub=5...
+  WARNING: intensity=-0.50 got 64/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 63/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 69/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 80/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 72/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 54/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 81/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 47/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 74/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 61/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 57/200 valid after 2000 rounds
+  Done
+Computing intensity layer=0 ub=10...
+  Done
+Computing intensity layer=0 ub=15...
+  Done
+Computing intensity layer=1 ub=5...
+  WARNING: intensity=-0.50 got 81/200 valid after 2000 rounds
+  WARNING: intensity=-0.25 got 59/200 valid after 2000 rounds
+  WARNING: intensity=0.00 got 60/200 valid after 2000 rounds
+  WARNING: intensity=0.25 got 65/200 valid after 2000 rounds
+  WARNING: intensity=0.50 got 60/200 valid after 2000 rounds
+  WARNING: intensity=0.75 got 59/200 valid after 2000 rounds
+  WARNING: intensity=1.00 got 69/200 valid after 2000 rounds
+  WARNING: intensity=1.25 got 57/200 valid after 2000 rounds
+  WARNING: intensity=1.50 got 67/200 valid after 2000 rounds
+  WARNING: intensity=1.75 got 77/200 valid after 2000 rounds
+  WARNING: intensity=2.00 got 62/200 valid after 2000 rounds
+  Done
+Computing intensity layer=1 ub=10...
+  Done
+Computing intensity layer=1 ub=15...
+  Done
+  Saved intensity plots
+
+All plots saved to /mnt/task_runtime/new-grid/k32_N512/plots

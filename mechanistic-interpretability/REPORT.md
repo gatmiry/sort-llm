@@ -1,5 +1,7 @@
 # SortGPT Mechanistic Interpretability Report
 
+*Last updated: April 15, 2026*
+
 ## Model & Setup
 
 - **Architecture**: 2-layer transformer (1 attention head, 64-dim embeddings) with MLP, pre-norm (LayerNorm before attention and MLP)
@@ -13,7 +15,7 @@ The model implements a clean, interpretable sorting circuit across its two layer
 
 ---
 
-## 1. Layer 2 Attention Mechanism
+## 1. Layer 2 Attention Mechanism (April 10, 2026)
 
 ### 1.1 Consecutive Attention Patterns
 **Scripts**: `plot_consecutive_attention.py`, `plot_consecutive_attention_grid.py`
@@ -34,7 +36,7 @@ Pre-softmax logit interventions on Layer 1 attention:
 
 ---
 
-## 2. QK Score Structure
+## 2. QK Score Structure (April 10, 2026)
 
 ### 2.1 QK Neighbor & Cross Scores
 **Scripts**: `plot_qk_neighbor_cross.py`, `plot_qk_cross_local.py`, `plot_qk_cross_overlay.py`, `plot_qk_cross_mean.py`
@@ -54,7 +56,7 @@ For processed token representations (through Layer 1 ± MLP):
 
 ---
 
-## 3. Residual Stream Decomposition (Key Finding)
+## 3. Residual Stream Decomposition — Key Finding (April 10, 2026)
 
 ### 3.1 Which Residual Components Matter for L2 Attention?
 **Script**: `plot_qk_interaction_decomp.py`
@@ -113,7 +115,7 @@ Same experiments but modifying sorted-output positions (queries) instead of keys
 
 ---
 
-## 4. When Does L1 Attention Matter?
+## 4. When Does L1 Attention Matter? (April 10, 2026)
 
 ### 4.1 Detailed Analysis of the 30% Key-Side Gap
 **Script**: `plot_attn1_importance_analysis.py`
@@ -141,7 +143,7 @@ For the ~30% of predictions where embed-only MLP fails at keys but normal succee
 
 ---
 
-## 5. QK Value Vector Heatmaps
+## 5. QK Value Vector Heatmaps (April 10, 2026)
 
 ### 5.1 Pure L1 Value Vectors (No Base Embedding)
 **Script**: `plot_qk_value_heatmap.py`
@@ -177,7 +179,7 @@ The (x, t) heatmap is the most interesting: the query-side L1 target (x) and the
 
 ---
 
-## 6. Summary: The Sorting Circuit
+## 6. Summary: The Sorting Circuit (April 10, 2026)
 
 ```
 Layer 1 Attention
@@ -223,7 +225,7 @@ The raw embeddings and Layer 1 attention outputs, despite being present in the r
 
 ---
 
-## 7. Attn2 Dependence on Token Value: The Small-i Puzzle
+## 7. Attn2 Dependence on Token Value: The Small-i Puzzle (April 14–15, 2026)
 
 **Model**: k32_N512, seed 1, 100k checkpoint (two-mode model where L2 attention is critical)
 

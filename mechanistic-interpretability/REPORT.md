@@ -220,3 +220,133 @@ The raw embeddings and Layer 1 attention outputs, despite being present in the r
 ### Training
 - `run_grid.py` — Training orchestrator for grid of models across 8 GPUs
 - `plot_checkpoint_analysis.py` — Standard checkpoint analysis plots
+
+---
+
+## 7. Attn2 Dependence on Token Value: The Small-i Puzzle
+
+**Model**: k32_N512, seed 1, 100k checkpoint (two-mode model where L2 attention is critical)
+
+### 7.1 Core Observation
+
+Removing attn2 (while keeping MLP2, LayerNorm, etc.) causes per-token accuracy to depend dramatically on the **numerical value** `i` of the current sorted token, not its position in the sequence:
+
+| Value range | Accuracy without attn2 (gap=1) |
+|---|---|
+| i ∈ [0, 80) | ~6% |
+| i ∈ [80, 180) | ~40–80% (transition zone) |
+| i ∈ [180, 350) | ~95% |
+| i ∈ [350, 512) | ~99% |
+
+**Plots**: `no_a2_acc_by_i_gap1.png`, `no_a2_acc_by_i_multigap.png`, `no_a2_acc_by_i_largegap.png`
+
+This pattern holds across all gaps, not just gap=1. Larger gaps shift the transition zone rightward — the model needs larger `i` before attn2 becomes dispensable.
+
+**Plot**: `no_a2_acc_and_a1_weight_by_i_multigap.png`
+
+### 7.2 The Puzzle: L1 Is Better for Small i
+
+The natural hypothesis — that L1 attention fails more often for small `i`, making attn2 necessary — is **wrong**. Measuring L1 attention accuracy (whether the top-attended unsorted key is the correct target):
+
+| Value range | L1 error rate | Avg attn on target |
+|---|---|---|
+| i ∈ [0, 50) | **2.1%** | 0.887 |
+| i ∈ [50, 100) | 3.9% | 0.839 |
+| i ∈ [100, 200) | 3.5% | 0.823 |
+| i ∈ [200, 300) | 4.9% | 0.802 |
+| i ∈ [300, 400) | **6.7%** | 0.772 |
+| i ∈ [400, 512) | 4.0% | 0.803 |
+
+L1 attention is **more accurate and sharper** for small `i` than for large `i`. Yet removing attn2 is catastrophic for small `i` and harmless for large `i`. The information entering the residual stream from L1 is at least as good for small `i` — the problem is downstream.
+
+When L1 does make errors (in either range), the mistakes are nearly identical in character: it picks a value off by +1 or +2 from the correct target.
+
+**Plot**: `no_a2_acc_and_a1_weight_by_i_gap1.png`
+
+### 7.3 Hypotheses Tested and Ruled Out
+
+**Hypothesis 1: Embedding space geometry.** Consecutive embeddings `wte(i)` and `wte(i+1)` have lower cosine similarity for small `i` (~0.50) than large `i` (~0.85), and small numbers have more "impostors" (numerically distant tokens that are embedding-close). This could explain why the tied `lm_head = wte` readout is harder for small numbers.
+
+**Counter-argument (from observation):** The model can learn arbitrary projections through its value weights `W_V`, output projection `W_O`, and MLP weights. The same way it learns `W_Q`/`W_K` that create clean geometry for attention lookup despite messy raw embeddings, it could learn OV-circuit and MLP weights that align well with the `lm_head` readout for all `i` values. The embedding geometry is not a fundamental constraint.
+
+**Hypothesis 2: SEP token attention.** Perhaps L1 attention "wastes" probability mass on the SEP token for small `i`.
+
+**Ruled out:** SEP attention is negligible across all `i` values (mean 0.0006, max 0.007). It shows no dependence on `i`.
+
+**Hypothesis 3: L1 attention strength on target correlates with attn2 dependence.**
+
+**Partially ruled out:** L1 attention on the correct target is ~0.89 for small `i` and ~0.80 for large `i` — actually higher for small `i`. The correlation between L1 attention weight and no-attn2 accuracy, when controlling for `i`, shows a non-monotonic pattern confounded by `i` value.
+
+**Plot**: `a1_strength_vs_no_a2_acc_ci.png`
+
+### 7.4 What We Do Know
+
+**Attn2 changes MLP2's operating mode.** The cosine similarity between MLP2's input (`ln_2(residual)`) with vs. without attn2 is:
+- Small `i`: **0.36** — MLP2 sees a completely different vector
+- Large `i`: **0.75** — MLP2 sees a similar vector
+
+MLP2 produces fundamentally different output depending on whether attn2 is present, and this difference is much more dramatic for small `i`.
+
+**The effect is gradual, not binary.** Scaling attn2's output by a factor α:
+- Small `i`: needs α ≥ 0.7 for 100% accuracy (6% at α=0, 48% at α=0.2, 76% at α=0.3)
+- Transition `i`: needs α ≥ 0.3 for ~100%
+- Large `i`: 99%+ at α=0
+
+**Plot**: `attn2_scaling_by_i_range.png`
+
+**Attn2's output doesn't encode the answer directly.** The cosine similarity between attn2's output vector and `wte(target)` is ~0.00 for both small and large `i`. Attn2 is not simply "writing the target embedding into the residual stream."
+
+**When the model fails at small `i` without attn2**, it predicts numbers that are off by a moderate amount (median offset +9 from target) — it's in the right neighborhood but lacks precision.
+
+**Logit lens shows no stage before MLP2 resolves the answer.** The correct token rank at each residual stream stage (for small `i`):
+- After embed: rank ~13
+- After attn1: rank ~83
+- After MLP1: rank ~207 (worse!)
+- After attn2: rank ~122
+- After MLP2: rank 0
+
+For large `i`, the progression is similar but MLP2 can resolve from rank ~123 (without attn2) to rank 0.
+
+**Embedding geometry**:
+- `wte(5)`'s nearest neighbors: [6, **437**, 4, **35**, **36**] — chaotic
+- `wte(500)`'s nearest neighbors: [501, 499, 502, 498, 511] — perfectly organized
+
+**Plot**: `embedding_geometry_vs_a2_dependence.png`
+
+### 7.5 What Remains Unknown
+
+The central puzzle is: **why does the model's MLP pathway (MLP1 → MLP2) fail to produce the correct output for small `i` without attn2, even though L1 provides better information for small `i` than for large `i`?**
+
+The model has sufficient capacity (64-dim embeddings, learnable projections at every stage) to potentially route information correctly for all `i` values. The fact that it distributes computation such that attn2 is needed only for small `i` is a **training outcome** — the gradient descent optimization found this division of labor, but we have not established whether it is a necessary consequence of the architecture or merely a convenient local minimum.
+
+Possible directions:
+1. The MLP's finite width may create capacity trade-offs where optimizing for the large-`i` majority (more common in training) leaves small-`i` cases under-served by the L1+MLP1 path alone.
+2. The interaction between the specific nonlinearities in MLP1/MLP2 and the tied lm_head readout may create representational bottlenecks that are harder to satisfy for small numbers.
+3. Training dynamics: early in training, the model may learn a general attn2-dependent strategy, and then later develop the L1-sufficient shortcut only for the "easier" large-`i` cases.
+
+### 7.6 Summary
+
+| Property | Small i (0–80) | Large i (300+) |
+|---|---|---|
+| L1 attention error rate | 2.1% (better) | 6.7% (worse) |
+| L1 attention on target | 0.89 (higher) | 0.77 (lower) |
+| Accuracy without attn2 | ~6% (fails) | ~99% (works) |
+| MLP2 input change from attn2 | cos=0.36 (massive) | cos=0.75 (modest) |
+| Attn2 output norm | 25,400 (large) | 13,500 (smaller) |
+| Embedding organization | chaotic | well-organized |
+
+The model receives better first-layer information for small numbers but is more dependent on second-layer attention — an apparent paradox whose resolution likely lies in the interaction between MLP capacity allocation, training dynamics, and the readout through tied embeddings.
+
+### 7.7 Plots
+
+All plots are in `sort-llm/new-grid/k32_N512/plots/`:
+
+- `no_a2_acc_by_i_gap1.png` — Accuracy without attn2 vs i (gap=1)
+- `no_a2_acc_by_i_multigap.png` — Same for gaps 1, 2, 3, 5, 10
+- `no_a2_acc_by_i_largegap.png` — Same for gaps 16, 20, 30, 50
+- `no_a2_acc_and_a1_weight_by_i_gap1.png` — Dual-axis: accuracy + L1 attention weight vs i (gap=1)
+- `no_a2_acc_and_a1_weight_by_i_multigap.png` — Same for multiple gaps
+- `a1_strength_vs_no_a2_acc_ci.png` — Accuracy vs L1 attention strength with confidence intervals
+- `attn2_scaling_by_i_range.png` — Effect of scaling attn2 output by α for small/transition/large i
+- `embedding_geometry_vs_a2_dependence.png` — Embedding organization metrics vs attn2 dependence
+- `attn2_mechanism_summary.png` — Multi-panel summary figure

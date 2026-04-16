@@ -1,0 +1,9 @@
+things that are so far in the paper + minor chnage to make to the currnet draft:
+the paper describes two types of sorting mechanism that transformer learns, namely one that removing the second layer attention does not 
+hurt the full sequence accurarcy at all, while the other is removing the second layer attention makes the accurrcy zero (this is probably already defined so no need to redefine if so(. 
+it is important to distinguish the difference between full sequence accurarcy and per token accuarcy: full sequence accuarcy is 1 if the whole sequence is sorted correctly, otherwise is zero. per token accuarcy is percetage of tokens in the sorted sequence (with context having the unsorted sequence, sep token, and sorted sequence so far) were the prediction of the next number is correct. you need to add this definitions if it doesnt exist in the current draft.
+
+and leave the name of thsee two to be chosen. let's cal
+
+
+so overall it turns out the attention of in the two attnetion

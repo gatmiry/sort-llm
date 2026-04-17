@@ -1,0 +1,189 @@
+\subsection{How Attn1 Assists Attn2: The Windowed Monotonicity Mechanism}
+\label{sec:attn2-qk-mechanism}
+
+Having established that attn2's query--key scores depend almost exclusively on
+MLP1 output (\S\ref{sec:attn2-mlp1-dependence}), we now ask \emph{how} the
+contextual information processed by attn1 shapes the score landscape of attn2.
+Throughout this subsection we analyze the \texttt{k32\_N512} (seed~1) leap-former
+checkpoint; the phenomena described are representative of all non-outlier
+leap-formers in our grid.
+
+\paragraph{Attn2 is far more accurate than attn1.}
+We begin with a basic observation: attn2's top-1 attention target matches the
+correct next token ${\approx}99.5\%$ of the time, whereas attn1 matches only
+${\approx}86\%$ of the time (Figure~\ref{fig:attn-error-rates}). Since attn2
+receives its contextual information \emph{via} attn1 (through MLP1), this
+raises the question of how a downstream layer can be dramatically more accurate
+than its source.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.45\linewidth]{newpics/attn_error_rates.png}
+  \caption{Top-1 error rate of attn1 versus attn2, measured over
+    $3{,}000$ random sequences ($k = 32$, $N = 512$). Attn2 achieves
+    ${\approx}28\times$ lower error than attn1.}
+  \label{fig:attn-error-rates}
+\end{figure}
+
+\paragraph{Asymmetric role of attn1 context in attn2 scores.}
+To dissect the score function of attn2, we exploit the fact that attn2 depends
+only on MLP1 output. We can therefore construct the attn2 QK score for an
+arbitrary configuration by specifying four quantities: the query token~$z$,
+the key token~$t$, the attn1 target on the query side~$x$, and the attn1
+target on the key side~$y$. The score is
+\[
+  s(z, x, t, y)
+  \;=\;
+  \mathbf{q}(z, x)^\top \mathbf{k}(t, y),
+\]
+where $\mathbf{q}(z,x) = W_Q^{(2)} \operatorname{LN}\!\bigl(
+\operatorname{MLP}_1\!\bigl(\operatorname{LN}(e_z + V^{(1)}_x)\bigr)\bigr)$
+and $\mathbf{k}(t,y)$ is defined analogously. Here $V^{(1)}_x$ denotes the
+attn1 value vector for token~$x$ (projected through $W_O^{(1)}$).
+
+Figure~\ref{fig:qk-heatmap-asymmetry} plots the score as a heatmap while
+varying either the key-side target~$y$ (left) or the query-side target~$x$
+(right), with the other variables held fixed at $z = 250$. The left panel
+shows nearly uniform horizontal bands---the score depends on the key
+\emph{token}~$t$ but is essentially invariant to which token attn1 attended on
+the key side. In contrast, the right panel exhibits rich structure: as the
+query-side target~$x$ increases, a high-score band emerges in the interval
+$[z, x]$, and the argmax shifts to track~$x$. This demonstrates that
+\textbf{attn2 uses contextual information from attn1 exclusively on the query
+side}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_heatmap_asymmetry.png}
+  \caption{Attn2 QK score heatmaps for query token $z = 250$.
+    \textbf{Left:} varying the key-side attn1 target~$y$ ($x$-axis: key
+    token~$t$). The score is nearly invariant to~$y$.
+    \textbf{Right:} varying the query-side attn1 target~$x$. A high-score
+    band appears in the interval $[z, x]$, showing that attn1's contextual
+    information modulates attn2 only on the query side.}
+  \label{fig:qk-heatmap-asymmetry}
+\end{figure}
+
+\paragraph{Windowed monotonicity.}
+Figure~\ref{fig:qk-slices-band} shows horizontal slices of the right panel at
+$x \in \{260, 270, 280, 290, 300\}$, plotting the attn2 score as a function
+of key token~$t$ for each fixed query-side target~$x$. Two properties stand
+out:
+\begin{enumerate}[nosep]
+  \item \textbf{Band formation.} The score is elevated in a window
+    $[z, x]$ and suppressed outside it. As $x$ increases, the window widens.
+  \item \textbf{Monotonicity near the argmax.} Within the window, the
+    score profile is approximately monotonically decreasing from the argmax
+    toward both edges, ensuring that the token closest to~$z$ (among those
+    in the window) receives the highest score.
+\end{enumerate}
+The argmax for each slice lies slightly below~$x$: for example, $x = 260
+\Rightarrow \arg\max_t = 255$; $x = 300 \Rightarrow \arg\max_t = 297$. This
+means attn2 targets a key token near---but not exceeding---the upper bound
+provided by attn1. Crucially, the monotonicity only needs to hold within the
+narrow window, not across the entire vocabulary. This is the key insight
+explaining why attn2 can achieve much higher accuracy than attn1 despite
+inheriting its information. The analysis above assumes attn1 is fully
+concentrated on a single token; when attn1 splits its weight equally between
+two tokens separated by~$\delta$, the same band structure persists with a
+slight shift of the argmax toward larger key values as $\delta$ grows
+(Appendix~\ref{app:split-attn1}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_score_slices_band.png}
+  \caption{Attn2 QK score as a function of key token~$t$ for five query-side
+    attn1 targets $x \in \{260, 270, 280, 290, 300\}$ (query token $z=250$,
+    key-side $y=250$). The argmax of each curve is annotated. As $x$ increases,
+    the window of high scores widens and the argmax shifts rightward.}
+  \label{fig:qk-slices-band}
+\end{figure}
+
+\paragraph{Bounded trust in attn1.}
+A natural question is whether the window expands without limit as $x$ grows.
+Figure~\ref{fig:argmax-saturation} shows the argmax key token as a function
+of~$x$ for three query tokens $z \in \{100, 250, 400\}$. In each case the
+argmax initially tracks~$x$, but \textbf{saturates} at a value moderately
+above~$z$---for $z = 250$, the argmax caps at roughly $300$ regardless of how
+large $x$ becomes. The model has learned to bound its trust in the upper-bound
+signal: if attn1 reports a target far above the query token (an
+out-of-distribution signal), attn2 ignores it and falls back on the local
+neighborhood.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/argmax_saturation.png}
+  \caption{Argmax key token $\arg\max_t s(z, x, t, y)$ as a function of the
+    query-side attn1 target~$x$ for three query tokens
+    $z \in \{100, 250, 400\}$ ($y = 250$). The dashed diagonal is $t = x$.
+    In each panel the argmax initially tracks~$x$ but saturates, showing that
+    attn2 ignores implausibly large attn1 targets.}
+  \label{fig:argmax-saturation}
+\end{figure}
+
+\paragraph{Smoothness advantage of attn2 over attn1.}
+Figure~\ref{fig:l1-l2-smoothness} overlays the attn1 QK score (for query token
+$250$ vs.\ all keys) with the attn2 QK scores at three query-side targets.
+The attn1 curve is noisy across the full vocabulary range, reflecting the
+difficulty of maintaining monotonicity over $N = 512$ tokens. The attn2 curves,
+by contrast, are visibly smoother in their respective windows---the narrower the
+window, the easier it is for the learned embeddings to maintain a clean
+monotonic profile.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/l1_vs_l2_qk_smoothness.png}
+  \caption{Attn1 QK score (black, left axis) versus attn2 QK score slices
+    (colored, right axis) as a function of key token value. Attn2's scores are
+    smoother within their respective windows, reflecting the benefit of the
+    narrower search range.}
+  \label{fig:l1-l2-smoothness}
+\end{figure}
+
+\paragraph{Empirical consequences: smaller candidate sets.}
+The windowed monotonicity mechanism has a direct empirical signature in the
+attention distributions. Figure~\ref{fig:attn-spread} shows that, across all
+output positions, attn2 attends to fewer keys and to numerically closer tokens
+than attn1. At an attention threshold of $0.04$, attn1 attends to $1.5$--$3$
+keys with an average numerical distance of $2$--$14$, while attn2 attends to
+$1.2$--$2.2$ keys with distance $0.3$--$3$. This tighter focus is a direct
+consequence of the band mechanism: attn2 searches a narrow window and can
+therefore afford a sharper distribution.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/attn_spread_comparison.png}
+  \caption{\textbf{Left:} average numerical distance between the query value
+    and attended key values ($\text{attn} > 0.04$). \textbf{Right:} average
+    number of keys exceeding the threshold. Attn2 attends to fewer, closer
+    tokens than attn1 at every output position.}
+  \label{fig:attn-spread}
+\end{figure}
+
+\subsection{Summary of the Leap-Former Sorting Circuit}
+\label{sec:leapformer-summary}
+
+Combining the observations above, we can describe the full sorting circuit of
+the leap-former as follows:
+\begin{enumerate}[nosep]
+  \item \textbf{Attn1} produces a coarse estimate of the next sorted value by
+    attending to a small set of unsorted keys near the target. Its error rate
+    is ${\approx}14\%$.
+  \item \textbf{MLP1} transforms the combined embedding and attn1 output into
+    a representation consumed by attn2. On the query side, MLP1 encodes both
+    the query identity~$z$ and the upper-bound hint~$x$ from attn1. On the
+    key side, MLP1 depends primarily on the key token embedding.
+  \item \textbf{Attn2} uses the MLP1 representation to compute QK scores
+    exhibiting \emph{windowed monotonicity}: the score is elevated in a narrow
+    band $[z, x]$ and approximately monotonic within it, ensuring the closest
+    token to~$z$ in the window receives the highest attention. This mechanism
+    amplifies attn1's coarse signal into a precise selection (error rate
+    ${\approx}0.5\%$).
+  \item \textbf{Bounded trust} prevents out-of-distribution attn1 signals from
+    corrupting attn2: if $x$ is implausibly large, attn2's argmax saturates at
+    a moderate distance above~$z$.
+  \item \textbf{MLP2 and readout} combine the attn2 output with the residual
+    stream to produce the final prediction. The precise role of MLP2 depends on
+    the token value range, as described in the hijack experiments
+    (\S\ref{sec:hijack-experiments}).
+\end{enumerate}

@@ -337,7 +337,7 @@ Possible directions:
 | Attn2 output norm | 25,400 (large) | 13,500 (smaller) |
 | Embedding organization | chaotic | well-organized |
 
-The model receives better first-layer information for small numbers but is more dependent on second-layer attention — an apparent paradox whose resolution likely lies in the interaction between MLP capacity allocation, training dynamics, and the readout through tied embeddings.
+The model receives better first-layer information for small numbers but is more dependent on second-layer attention — an apparent paradox whose resolution is detailed in Section 8.
 
 ### 7.7 Plots
 
@@ -352,3 +352,259 @@ All plots are in `sort-llm/new-grid/k32_N512/plots/`:
 - `attn2_scaling_by_i_range.png` — Effect of scaling attn2 output by α for small/transition/large i
 - `embedding_geometry_vs_a2_dependence.png` — Embedding organization metrics vs attn2 dependence
 - `attn2_mechanism_summary.png` — Multi-panel summary figure
+
+---
+
+## 8. Information Flow and Dual-Role Architecture (April 15–16, 2026)
+
+**Model**: k32_N512, seed 1, 100k checkpoint (`std0p01_iseed1__ckpt100000.pt`)
+**All experiments below use gap=1 cases** (current number `i`, correct next = `i+1`) **unless stated otherwise.**
+
+### 8.1 Which Residual Stream Components Reach the Output?
+
+We tested which components of the residual stream are actually needed at the final readout (`ln_f → lm_head`) and as input to MLP2. The full residual stream is: `embed + attn1_out + mlp1_out + attn2_out + mlp2_out`.
+
+| Ablation | Small i (0–80) | Transition (150–250) | Large i (350–512) |
+|---|---|---|---|
+| Normal (no ablation) | 100% | 100% | 100% |
+| Remove `attn1_out` from final readout only | 100% | 100% | 100% |
+| Remove `attn1_out` from MLP2 input + final readout | 100% | 100% | 100% |
+| Remove `mlp1_out` from final readout only | 100% | 100% | ~100% |
+| **Remove `mlp1_out` from MLP2 input + final readout** | **0.0%** | **0.1%** | **0.6%** |
+
+**Key conclusions:**
+- **`attn1_out` is invisible** to both MLP2 and the final readout. It can be removed from anywhere downstream without effect. Its sole purpose is as input to MLP1.
+- **`mlp1_out` is invisible to the final readout** but **critically needed by MLP2**. Without `mlp1_out` in its input, MLP2 is completely non-functional (0% accuracy).
+- The effective final readout depends only on: `embed + attn2_out + mlp2_out`. The first layer's direct contributions (`attn1_out`, `mlp1_out`) flow entirely through downstream components.
+
+**Information flow summary:**
+```
+attn1 → [message to MLP1] → mlp1 → [message to MLP2 and attn2] → attn2 + mlp2 → readout
+                                                                         ↓
+                                                              embed + attn2_out + mlp2_out → ln_f → lm_head
+```
+
+### 8.2 Scaling MLP1's Contribution to MLP2
+
+Instead of binary removal, we scaled `mlp1_out` in MLP2's input by α ∈ [0, 1] (MLP2 input: `ln_2(embed + α·mlp1_out + attn2_out)`). This reveals how sensitive MLP2 is to the magnitude of `mlp1_out`.
+
+All `i` ranges show a **sharp sigmoid-like transition** from 0% to 100% accuracy, but with different thresholds:
+- **Mid-high i (250–350)**: recovers fastest (starts at α≈0.15, saturates by α≈0.55)
+- **Transition i (150–250)**: next (saturates by α≈0.55)
+- **Large i (350–512)**: slower (needs α≈0.8 for full recovery)
+- **Small i (0–80)**: slowest (near 0% until α≈0.4, needs α≈0.75)
+
+**Plot**: `mlp1_scaling_in_mlp2_gap1.png`
+
+MLP2 has learned to expect a specific magnitude/structure from `mlp1_out`. Below a threshold α, MLP2 cannot extract the number information.
+
+### 8.3 Hijack Experiments: Which Channel Controls the Output?
+
+We designed three hijack interventions to determine whether `mlp1` or `attn2` controls MLP2's output at different `i` values. In each, we force one channel to point to a wrong number (`i + offset`) while leaving the other channel normal, and measure whether the output follows the hijacked signal.
+
+**MLP1 hijack**: Force attn1 to attend to `i+offset`, recompute `mlp1` from that forced attn1, feed the fake `mlp1` to MLP2 (attn2 computed normally from the real residual).
+
+**ATTN2 hijack**: Force attn2 to attend to `i+offset` in the unsorted sequence (mlp1 stays normal).
+
+**ATTN1 hijack**: Force attn1 to attend to `i+offset`, let everything flow naturally (both mlp1 and attn2 see the hijacked info).
+
+#### Results at offset +5 (gap=1):
+
+| i range | MLP1 hijack | ATTN2 hijack | ATTN1 hijack |
+|---|---|---|---|
+| 0–20 | **100%** | 1.1% | 95.9% |
+| 20–80 | 63.8% | 21.3% | 61.3% |
+| 80–200 | 64.1% | 37.0% | 71.4% |
+| 200–350 | 67.6% | 48.8% | 67.4% |
+| 350–512 | 82.4% | **67.2%** | 79.5% |
+
+**MLP1 hijack and ATTN2 hijack are mirror images:**
+
+- **Small i (0–20)**: MLP1 hijack succeeds at ~100%, ATTN2 hijack at ~1%. → **mlp1 controls the output; attn2 cannot override it.**
+- **Large i (350–512)**: ATTN2 hijack succeeds at 67–99% (offset-dependent), MLP1 hijack at 68–82%. → **Both channels carry number info; attn2 has strong influence.**
+
+This pattern holds across all tested offsets (+2, +3, +5, +10, +20):
+
+For small i (0–20):
+| Offset | MLP1 hijack | ATTN2 hijack |
+|---|---|---|
+| +2 | 82.5% | 36.7% |
+| +3 | 96.1% | 11.0% |
+| +5 | 100% | 1.1% |
+| +10 | 95.1% | 0.0% |
+| +20 | 78.7% | 0.0% |
+
+For large i (350–512):
+| Offset | MLP1 hijack | ATTN2 hijack |
+|---|---|---|
+| +2 | 68.4% | 99.4% |
+| +3 | 73.0% | 94.6% |
+| +5 | 82.4% | 67.2% |
+| +10 | 67.1% | 35.1% |
+| +20 | 25.1% | 26.7% |
+
+**ATTN1 hijack** produces results similar to MLP1 hijack but slightly weaker. This is because in ATTN1 hijack, attn2's query is computed from the modified (out-of-distribution) residual, causing attn2 to produce noisy output that interferes with the hijack. When the ATTN1 hijack fails, the model predicts a third number (neither the target nor the original), confirming attn2 produces noise rather than a meaningful correction.
+
+**Plot**: `hijack_comparison_3way.png`
+
+### 8.4 Resolving the Paradox: Enabler vs. Specifier
+
+The hijack results resolve the apparent contradiction between "removing attn2 hurts small i" and "mlp1 controls the output for small i":
+
+**For small i, attn2 is an "enabler," not a "specifier."**
+- Its role is to put MLP2 into its operating regime (like a bias term), not to specify which number to output.
+- Removing attn2 → 0% accuracy (MLP2 loses the enabling signal and cannot function)
+- Keeping attn2 + correct mlp1 → 100% (MLP2 enabled, follows mlp1)
+- Keeping attn2 + hijacked mlp1 → ~100% hijacked (MLP2 enabled, still follows mlp1)
+- Hijacking attn2 → ~0% success (mlp1 overrides attn2's number signal)
+
+**For large i, attn2 is a "specifier" with authoritative override.**
+- When present, MLP2 trusts attn2 and follows it (hijacking attn2 works at 67–99%).
+- When absent (removed), MLP2 falls back on mlp1 alone and still works (99.5% accuracy).
+- Both mlp1 and attn2 independently carry the correct number information — there is **redundancy**.
+
+**Distinguishing removal from hijacking** is critical: removing attn2 eliminates a signal (MLP2 adapts to its absence for large i). Hijacking attn2 injects a *wrong* signal that actively competes with mlp1 and can win.
+
+Evidence from L2 norms:
+
+| i range | ‖attn2‖ | ‖mlp1‖ | Ratio |
+|---|---|---|---|
+| 0–20 | 25,438 | 42,773 | 0.595 |
+| 350–512 | 12,672 | 42,770 | 0.296 |
+
+Despite attn2 having a *larger* norm for small i, it cannot hijack the output — confirming its role is directionally generic (enabling), not number-specific.
+
+### 8.5 Gap Dependence: The MLP1-Dominance Is Gap-1 Specific
+
+The dual-role picture changes dramatically with gap size:
+
+| Gap | MLP1 hijack (small i) | ATTN2 hijack (small i) | Dominant channel |
+|---|---|---|---|
+| 1 | **80.2%** | 14.4% | mlp1 |
+| 3 | 50.8% | 35.2% | transitioning |
+| 5 | 12.2% | **57.5%** | attn2 |
+| 10 | 3.0% | **89.8%** | attn2 |
+| 20 | 0.6% | **100%** | attn2 |
+
+For gap ≥ 5, **attn2 dominates the output for ALL i ranges**, including small i. By gap=20, MLP1 hijack is 0% and ATTN2 hijack is 100% everywhere.
+
+Correspondingly, accuracy without attn2 drops for large i as gap increases:
+
+| Gap | Large i (250–512) no-attn2 accuracy |
+|---|---|
+| 1 | 98.9% |
+| 3 | 95.4% |
+| 5 | 88.9% |
+| 10 | 70.3% |
+| 20 | 47.3% |
+
+**Interpretation**: For gap=1, mlp1 can learn the simple "i → i+1" increment function directly in MLP1's weights. For larger gaps, the correct next number depends on which specific numbers are in the sequence — information that requires looking at the keys via attn2. The MLP pathway alone cannot determine the answer.
+
+### 8.6 Summary: Two Operating Regimes
+
+The model operates in two regimes determined by **gap size** and **i value**:
+
+| Regime | When | mlp1 role | attn2 role | No-attn2 accuracy |
+|---|---|---|---|---|
+| **MLP1-driven** | Gap=1, large i | Number specifier | Authoritative override (redundant) | ~99% |
+| **MLP1-driven + enabled** | Gap=1, small i | Number specifier | Enabler (needed but doesn't specify) | ~0% |
+| **ATTN2-driven** | Gap ≥ 5, all i | Infrastructure | Number specifier | Decreasing with gap |
+
+The transition from MLP1-driven to ATTN2-driven is continuous, occurring around gap=3–5.
+
+### 8.7 Plots
+
+All plots in `sort-llm/new-grid/k32_N512/plots/`:
+
+- `mlp1_scaling_in_mlp2_gap1.png` — Accuracy vs α (scaling mlp1 in MLP2 input), by i range
+- `hijack_comparison_3way.png` — Side-by-side: MLP1 hijack vs ATTN1 hijack vs ATTN2 hijack success rates
+
+---
+
+## 9. Attn2 QK Mechanism: Windowed Monotonicity (April 15–16, 2026)
+
+**Model**: k32_N512, seed 1, 100k checkpoint. Representative of all non-outlier leap-formers.
+
+### 9.1 Attn2 Scores Depend Only on MLP1 Output
+
+Verified across 13 leap-former checkpoints (grid of k∈{16,32} × N∈{128,256,512,1024}, 5 seeds each; 2 N=1024 outliers excluded):
+
+- **Distributional similarity**: ℓ₁ distance between full-residual and MLP1-only attn2 distributions is <0.03 for all 13 checkpoints. For k32_N512 seeds, d ≈ 0.005.
+- **Accuracy preservation**: Replacing attn2's input with MLP1-only gives 0% accuracy drop in 12/13 checkpoints (max 0.05%).
+- **Outliers**: 2 N=1024 leap-formers deviate (d=0.133, 0.299), seed-dependent.
+
+**Scripts**: `attn2-mlp1-dependence/compute_probl1distance.py`
+**LaTeX**: `attn2-mlp1-dependence/paper-addon.tex`, `attn2-mlp1-dependence/report.tex`
+
+### 9.2 Asymmetric Role of Attn1 Context
+
+The synthetic score `s(z, x, t, y) = q(z,x) · k(t,y)` reveals:
+- **Key-side (y)**: Score nearly invariant to y.
+- **Query-side (x)**: Rich structure — high-score band in [z, x].
+
+Attn2 uses attn1 context exclusively on the query side.
+
+### 9.3 Windowed Monotonicity
+
+Slices at x ∈ {260, 270, 280, 290, 300} (z=250):
+1. **Band formation**: Score elevated in [z, x], suppressed outside.
+2. **Monotonicity**: Approximately monotonic within band; argmax slightly below x.
+
+Explains the 28× error rate improvement of attn2 over attn1.
+
+### 9.4 Bounded Trust (Argmax Saturation)
+
+Argmax tracks x but saturates at moderate distance above z (≈300 for z=250). The model ignores implausibly large attn1 targets.
+
+### 9.5 Smoothness and Tighter Attention
+
+At threshold 0.04: attn1 attends to 1.5–3 keys (distance 2–14); attn2 to 1.2–2.2 keys (distance 0.3–3).
+
+### 9.6 Scripts and Plots
+
+- `attn2-qk-mechanism/generate_all_plots.py` — Generates all 6 mechanism figures
+- `attn2-qk-mechanism/REPRODUCTION.md` — Reproduction guide
+- `attn2-qk-mechanism/paper-addon.tex` — LaTeX for Overleaf
+
+Figures (in Overleaf `newpics/`): `qk_heatmap_asymmetry.png`, `qk_score_slices_band.png`, `argmax_saturation.png`, `l1_vs_l2_qk_smoothness.png`, `attn_spread_comparison.png`, `attn_error_rates.png`
+
+---
+
+## 10. Split Attn1 Attention and Argmax Bias (April 16–17, 2026)
+
+### 10.1 Robustness to Split Attention
+
+Replacing single-token attn1 output with uniform split: `V_split(x, n, δ) = (1/n) Σ V^(1)_{x+iδ}`. Tested n∈{2,3,4}, δ∈{1,5,20}:
+
+- **Heatmaps**: Band structure preserved for all n.
+- **Score slices**: Windowed monotonicity persists. Argmax shifts slightly rightward with larger δ.
+
+### 10.2 Argmax Bias Toward x_min
+
+The argmax t* tracks x_min (smallest token in the attended set), not x_mean or x_max. |t* − x_min| ≪ |t* − x_mean| for n > 1. Functionally advantageous: correct next output depends on smallest candidate above z.
+
+### 10.3 Scripts and Plots
+
+- `attn2-qk-appendix/generate_plots.py` — Heatmaps and slice plots for n=2,3,4
+- `attn2-qk-appendix/plot_argmax_bias.py` — Argmax bias figure
+- `attn2-qk-appendix/appendix.tex` — LaTeX appendix content
+
+Figures (in `attn2-qk-appendix/plots/`): `qk_heatmap_split_comparison.png`, `qk_slices_split_{2,3,4}tokens.png`, `argmax_bias_analysis.png`
+
+---
+
+## 11. Overleaf Paper Status (April 17, 2026)
+
+Repository: `/mnt/task_runtime/69c9a928b8ca815361b30519/`
+
+### Mechanistic Analysis Sections Pushed (§4)
+1. §4.1 Attn2 depends only on MLP1 output (across 13 leap-formers)
+2. §4.2 Windowed monotonicity mechanism (asymmetry, band, saturation, smoothness, spread)
+3. §4.3 Leap-former sorting circuit summary
+
+### Appendix Sections Pushed
+- Appendix A: Initialization scale sweep
+- Appendix B: Split attn1 attention
+  - B.1 Heatmaps (n=1..4, δ=5)
+  - B.2 Score Slices (n=2,3,4 at δ=1,5,20)
+  - B.3 Argmax Bias Toward x_min

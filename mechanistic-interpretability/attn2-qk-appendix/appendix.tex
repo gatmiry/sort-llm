@@ -1,0 +1,114 @@
+\section{Windowed Monotonicity Under Split Attn1 Attention}
+\label{app:split-attn1}
+
+The windowed monotonicity analysis in \S\ref{sec:attn2-qk-mechanism} assumes
+attn1 places its full weight on a single token~$x$. In practice, attn1
+distributes weight over a small candidate set (typically 2--3 tokens above an
+attention threshold of $0.04$). To test the robustness of the mechanism, we
+replace the single-token value output with a uniform split among $n$ tokens
+spaced by~$\delta$:
+\[
+  V_{\text{split}}(x, n, \delta)
+  = \frac{1}{n}\sum_{i=0}^{n-1} V^{(1)}_{x + i\delta},
+\]
+where $x$ denotes the smallest token in the set ($x_{\min}$). We evaluate
+$n \in \{2, 3, 4\}$ and $\delta \in \{1, 5, 20\}$ for the same query token
+$z = 250$ and key-side configuration used in the main text.
+
+\subsection{Heatmaps}
+
+Figure~\ref{fig:heatmap-split-comparison} compares the attn2 QK score heatmap
+(query-side target on the $y$-axis, key token on the $x$-axis) for $n = 1$
+(single focus) through $n = 4$ (four-way split, $\delta = 5$). The band
+structure---elevated scores in a window above the diagonal---is preserved in
+all cases. As the number of attended tokens increases, the heatmap becomes
+slightly smoother but the overall geometry is unchanged.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_heatmap_split_comparison.png}
+  \caption{Attn2 QK score heatmaps for $n \in \{1, 2, 3, 4\}$ equally
+    attended tokens ($\delta = 5$, $z = 250$). The band structure is
+    preserved across all cases.}
+  \label{fig:heatmap-split-comparison}
+\end{figure}
+
+\subsection{Score Slices}
+
+Figures~\ref{fig:slices-2tok}--\ref{fig:slices-4tok} show QK score slices for
+$n = 2$, $3$, and $4$ tokens at $\delta \in \{1, 5, 20\}$. In each panel, the
+five curves correspond to $x_{\min} \in \{260, 270, 280, 290, 300\}$ and the
+argmax is annotated. The windowed monotonicity structure persists across all
+configurations: the score is elevated in a band above~$z$, approximately
+monotonic within the band, and the argmax lies below $x_{\min}$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_slices_split_2tokens.png}
+  \caption{Attn2 QK score slices with $n = 2$ equally attended tokens for
+    $\delta \in \{1, 5, 20\}$.}
+  \label{fig:slices-2tok}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_slices_split_3tokens.png}
+  \caption{Attn2 QK score slices with $n = 3$ equally attended tokens for
+    $\delta \in \{1, 5, 20\}$.}
+  \label{fig:slices-3tok}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/qk_slices_split_4tokens.png}
+  \caption{Attn2 QK score slices with $n = 4$ equally attended tokens for
+    $\delta \in \{1, 5, 20\}$.}
+  \label{fig:slices-4tok}
+\end{figure}
+
+As $\delta$ increases, the argmax shifts slightly toward larger key values,
+consistent with the larger tokens in the split exerting a secondary upward pull.
+The effect remains modest: even at $n = 4$, $\delta = 20$ (spanning a range of
+60 tokens), the band structure and monotonicity are clearly preserved.
+
+\subsection{Argmax Bias Toward $x_{\min}$}
+\label{app:argmax-bias}
+
+When attn1 splits its weight across $n$ tokens $\{x_{\min}, x_{\min}+\delta,
+\ldots, x_{\min}+(n-1)\delta\}$, the effective query-side signal is a blend of
+their value vectors. A natural question is whether the argmax of the attn2 QK
+score, $t^* = \arg\max_t s(z, t)$, tracks the minimum token $x_{\min}$, the
+mean $x_{\mathrm{mean}}$, or the maximum $x_{\max}$ of the attended set.
+
+Figure~\ref{fig:argmax-bias} provides three complementary views. The left panel
+fixes $\delta = 5$ and varies $n \in \{1,2,3,4\}$: all curves track close to
+$x_{\min}$ and remain well below the $t^* = x_{\min}$ diagonal (reflecting the
+argmax saturation from the main text), with only minor differences between
+$n$~values. The middle panel fixes $n = 3$ and varies $\delta \in \{1,5,10,20\}$:
+the argmax is largely insensitive to $\delta$, confirming that the additional
+higher-valued tokens in the split exert minimal upward pull on $t^*$. The right
+panel aggregates all $(n, \delta, x_{\min})$ configurations in a scatter of
+$(t^* - x_{\min})$ versus $(t^* - x_{\mathrm{mean}})$. The mean offsets
+(diamonds) show that $|t^* - x_{\min}|$ is consistently much smaller than
+$|t^* - x_{\mathrm{mean}}|$ for $n > 1$, indicating that the argmax is biased
+toward the smallest token in the attended set rather than its average.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/argmax_bias_analysis.png}
+  \caption{Argmax bias analysis ($z = 250$). \textbf{Left:} Argmax $t^*$ vs
+    $x_{\min}$ for $n \in \{1,2,3,4\}$ at $\delta = 5$. \textbf{Middle:}
+    Same for $n = 3$ at varying $\delta$. \textbf{Right:} Scatter of
+    $(t^* - x_{\min})$ vs $(t^* - x_{\mathrm{mean}})$ across all
+    configurations; diamonds mark per-$n$ means. The argmax consistently
+    tracks $x_{\min}$, not $x_{\mathrm{mean}}$.}
+  \label{fig:argmax-bias}
+\end{figure}
+
+This $x_{\min}$ bias is functionally advantageous for sorting. Since attn1
+identifies the next-smallest candidates above the current position's
+value~$z$, the key token that attn2 should attend to is determined primarily by
+the \emph{smallest} candidate, not by an average over all candidates. By
+anchoring $t^*$ near $x_{\min}$, the attn2 QK mechanism effectively ignores
+the distractors that attn1 also partially attends to, preserving the
+conservative ``look just above $z$'' strategy described in the main text.

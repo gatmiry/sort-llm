@@ -1,0 +1,60 @@
+\subsection{Attn2 Scores Are Predominantly Determined by MLP1 Output}
+\label{sec:attn2-mlp1-dependence}
+
+We observe that in the majority of leap-former checkpoints, the second-layer
+attention scores are predominantly determined by the first-layer MLP output
+alone. We verify this across a grid of $k \in \{16, 32\}$ and
+$N \in \{128, 256, 512, 1024\}$ with 5~random seeds each (40~checkpoints
+total), of which 15 are classified as leap-formers (i.e., full-sequence
+accuracy drops to near zero when attn2 is ablated). We exclude two outlier
+checkpoints at $N{=}1024$ discussed below, leaving 13 for detailed analysis.
+For each checkpoint we evaluate on 5{,}000 randomly sampled sequences,
+measuring over all output positions. We perform two complementary measurements.
+
+\paragraph{Distributional similarity.}
+We compare the attn2 probability distribution computed from the full residual
+stream ($\mathbf{e} + \mathbf{a}_1 + \mathbf{m}_1$) against the distribution
+computed from only the MLP1 output ($\mathbf{m}_1$), with embeddings and attn1
+output zeroed out. We report the per-position $\ell_1$ distance
+$d = \sum_j |p_{\text{normal}}(j) - p_{\text{mlp1-only}}(j)|$, which ranges
+from~$0$ (identical) to~$2$ (disjoint). All 13 checkpoints exhibit mean
+$\ell_1$ distances below $0.03$, with all five \texttt{k32\_N512} seeds
+yielding $d \approx 0.005$ (Figure~\ref{fig:probl1distance}).
+
+\paragraph{Full-model accuracy.}
+As a functional test, we also measure the model's full-sequence sorting
+accuracy when attn2's input is restricted to MLP1 output only (while all other
+components, including MLP2 and the final readout, receive the normal residual
+stream augmented with this modified attn2 output).
+Figure~\ref{fig:attn2-acc-mlp1only} shows that the accuracy drop is zero or
+negligible across all 13 checkpoints (maximum drop $0.05\%$), confirming that
+the embedding and attn1 components of the residual stream carry no information
+that attn2 functionally relies on.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/probl1distance_all_leapformers.png}
+  \caption{Mean $\ell_1$ distance between normal and MLP1-only attn2
+    distributions for 13 leap-former checkpoints (outliers excluded).}
+  \label{fig:probl1distance}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/attn2_accuracy_normal_vs_mlp1only.png}
+  \caption{Full-sequence sorting accuracy under normal versus MLP1-only attn2
+    input. The accuracy drop is zero for 12 of 13 checkpoints and $0.05\%$ for
+    the remaining one.}
+  \label{fig:attn2-acc-mlp1only}
+\end{figure}
+
+\paragraph{Outliers.}
+Two of the 15 leap-former checkpoints at $N = 1024$
+(\texttt{k16\_N1024\_s3}, $d = 0.133$; \texttt{k32\_N1024\_s5}, $d = 0.299$)
+deviate from this pattern, showing that attn2 can also learn to exploit other
+residual stream components. Since other seeds at $N = 1024$ do not exhibit this
+behavior, it appears to be seed-dependent rather than determined by vocabulary
+size. We note that the MLP1-only dependence is a common empirical feature of
+leap-formers in our setting, not a necessary architectural property. The
+mechanistic analysis that follows focuses on checkpoints exhibiting this common
+pattern.

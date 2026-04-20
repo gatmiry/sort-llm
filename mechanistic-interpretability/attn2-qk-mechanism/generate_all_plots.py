@@ -481,12 +481,56 @@ def fig_combined_error_and_heatmaps():
     print(f"  Saved error_and_heatmaps_combined.png")
 
 
+def fig_heatmaps_only():
+    """Two-panel figure: key-side and query-side QK heatmaps (no error bar chart)."""
+    print("Heatmaps-only fig ...")
+    z_ref = 250
+    Q_fixed = compute_Q_all(z_ref)
+    q_vec = Q_fixed[z_ref + 1]
+    hm_key = np.zeros((vocab_n, vocab_n))
+    for y_val in range(vocab_n):
+        K = compute_K_all(y_val)
+        scores = (q_vec.unsqueeze(0) @ K.T).squeeze(0).cpu().numpy()
+        hm_key[y_val, :] = scores
+    hm_query = compute_heatmap_xt(z_ref, z_ref)
+
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+    for ax, hm, ylabel, title_suffix in [
+        (axes[0], hm_key,
+         'Key-side attn1 target ($y$)',
+         'Varying key-side target $y$'),
+        (axes[1], hm_query,
+         'Query-side attn1 target ($x$)',
+         'Varying query-side target $x$'),
+    ]:
+        vmax = np.percentile(np.abs(hm), 99)
+        im = ax.imshow(hm, aspect='auto', origin='lower', cmap='RdBu_r',
+                       vmin=-vmax, vmax=vmax, interpolation='nearest',
+                       extent=[0, vocab_n, 0, vocab_n])
+        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label='QK score')
+        ax.set_xlabel('Key token value ($t$)')
+        ax.set_ylabel(ylabel)
+        ax.set_title(title_suffix)
+
+    fig.tight_layout()
+    outpath = os.path.join(OUTDIR, 'qk_heatmaps_asymmetry.png')
+    fig.savefig(outpath, dpi=200, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved qk_heatmaps_asymmetry.png")
+
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--combined-only', action='store_true')
+    parser.add_argument('--error-only', action='store_true')
+    parser.add_argument('--heatmaps-only', action='store_true')
     args = parser.parse_args()
-    if args.combined_only:
+    if args.error_only:
+        fig1_attn_error_rates()
+    elif args.heatmaps_only:
+        fig_heatmaps_only()
+    elif args.combined_only:
         fig_combined_error_and_heatmaps()
     else:
         fig1_attn_error_rates()

@@ -276,11 +276,12 @@ Attn2 QK scores are smoother than attn1 within their windows. At threshold 0.04:
 
 ### 8.1 Experimental Design
 
-Four hijack conditions measured per (current_value i, offset) pair:
-1. **MLP1 hijack**: Force attn1 to attend to i+offset, recompute mlp1, feed modified mlp1 to normal attn2/mlp2
+Five hijack conditions measured per (current_value i, offset) pair:
+1. **MLP1 hijack**: Force attn1 to attend to i+offset, recompute mlp1, replace only mlp1 in residual (attn1 direct path stays real, attn2 uses pre-computed real output)
 2. **ATTN2 hijack**: Force attn2 to attend to i+offset, mlp1 stays normal
-3. **Both simultaneously**: Apply both MLP1 and ATTN2 hijacks to the same wrong target
-4. **Both individually succeed**: Fraction where independent MLP1 AND ATTN2 hijacks each predict the hijacked value
+3. **First-layer hijack**: Force attn1 to attend to i+offset, recompute mlp1, replace BOTH attn1 and mlp1 in residual (attn2 still uses pre-computed real output). Tests whether forcing the entire L1 output — including the attn1 direct residual path — changes behavior vs MLP1 hijack alone.
+4. **Both simultaneously**: Apply both MLP1 and ATTN2 hijacks to the same wrong target
+5. **Both individually succeed**: Fraction where independent MLP1 AND ATTN2 hijacks each predict the hijacked value
 
 ### 8.2 Gap=1: Two Distinct Learned Strategies
 

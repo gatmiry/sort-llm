@@ -507,12 +507,13 @@ Note: git push sometimes shows "Everything up-to-date" erroneously; verify with 
 
 **Script**: `mechanistic-interpretability/role-of-position/plot_hijack_per_i.py`
 
-A comprehensive hijack experiment framework that measures four signals for each (i, offset) pair:
+A comprehensive hijack experiment framework that measures five signals for each (i, offset) pair:
 
-1. **MLP1 hijack** — Force attn1→wrong key (i+offset), recompute mlp1, feed to attn2/mlp2 naturally
+1. **MLP1 hijack** — Force attn1→wrong key, recompute mlp1, replace only mlp1 in residual (attn1 direct path stays real, attn2 pre-computed/unchanged)
 2. **ATTN2 hijack** — Force attn2→wrong key (i+offset), mlp1 stays normal
-3. **Both simultaneously** — Force attn1→wrong key AND force attn2→same wrong key
-4. **Both individually succeed** — Fraction where MLP1 hijack AND ATTN2 hijack independently predict the hijacked value (logical AND of independent runs)
+3. **First-layer hijack** — Force attn1→wrong key, recompute mlp1, replace BOTH attn1 direct path AND mlp1 in residual (attn2 pre-computed/unchanged). Differs from MLP1 hijack only in that attn1 direct path is also forced.
+4. **Both simultaneously** — Force attn1→wrong key AND force attn2→same wrong key
+5. **Both individually succeed** — Fraction where MLP1 hijack AND ATTN2 hijack independently predict the hijacked value (logical AND of independent runs)
 
 ### CLI Interface
 

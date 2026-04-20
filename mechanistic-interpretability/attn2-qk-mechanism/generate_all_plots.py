@@ -221,6 +221,16 @@ def fig3_qk_score_slices_band():
 
     ax.axvline(z_ref, color='gray', linewidth=1, linestyle='--', alpha=0.5,
                label=f'$z = {z_ref}$')
+
+    ymin, ymax = ax.get_ylim()
+    for x_val, color in zip(x_slices, colors):
+        scores = hm[x_val, :]
+        amax = int(np.argmax(scores))
+        ax.annotate(f'{amax}', xy=(amax, scores[amax]),
+                    xytext=(0, 8), textcoords='offset points',
+                    fontsize=9, fontweight='bold', color=color,
+                    ha='center', va='bottom')
+
     ax.set_xlabel('Key token value ($t$)')
     ax.set_ylabel('Attn2 QK Score (pre-softmax)')
     ax.set_title(f'Attn2 QK Score vs Key Token for Different Attn1 Targets\n'
@@ -387,11 +397,102 @@ def fig6_attn_spread():
     print(f"  Saved attn_spread_comparison.png")
 
 
+def fig_combined_error_and_heatmaps():
+    """Combined 3-panel figure: (a) error rates, (b) key-side heatmap, (c) query-side heatmap."""
+    print("Combined fig: error rates + heatmap asymmetry ...")
+    enable_attention_storage(model)
+    N_TRIALS = 3000
+    l1_errors, l2_errors = 0, 0
+    total = 0
+    for trial in range(N_TRIALS):
+        with torch.no_grad():
+            idx = get_batch(1, block_size, DEVICE, vocab_n=vocab_n)
+            model(idx, block_size=block_size)
+            tokens = idx[0].cpu().numpy()
+            unsorted = tokens[:block_size]
+            sorted_t = tokens[block_size+1:]
+            val_to_pos = {}
+            for p in range(block_size):
+                val_to_pos[int(unsorted[p])] = p
+            for layer_idx in [0, 1]:
+                attn = model.transformer.h[layer_idx].attn.attn.cpu().numpy()
+                for p in range(block_size - 1):
+                    qp = block_size + 1 + p
+                    target = int(sorted_t[p + 1])
+                    if target not in val_to_pos:
+                        continue
+                    correct_key_pos = val_to_pos[target]
+                    attended_pos = np.argmax(attn[qp, :block_size])
+                    if attended_pos != correct_key_pos:
+                        if layer_idx == 0:
+                            l1_errors += 1
+                        else:
+                            l2_errors += 1
+                    total += 1 if layer_idx == 0 else 0
+    l1_rate = l1_errors / total if total > 0 else 0
+    l2_rate = l2_errors / total if total > 0 else 0
+    print(f"  Attn1 error: {l1_rate:.3f}, Attn2 error: {l2_rate:.3f}")
+
+    z_ref = 250
+    Q_fixed = compute_Q_all(z_ref)
+    q_vec = Q_fixed[z_ref + 1]
+    hm_key = np.zeros((vocab_n, vocab_n))
+    for y_val in range(vocab_n):
+        K = compute_K_all(y_val)
+        scores = (q_vec.unsqueeze(0) @ K.T).squeeze(0).cpu().numpy()
+        hm_key[y_val, :] = scores
+    hm_query = compute_heatmap_xt(z_ref, z_ref)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5),
+                              gridspec_kw={'width_ratios': [1, 1, 1], 'wspace': 0.45})
+
+    # Panel (a): error rates
+    ax = axes[0]
+    bars = ax.bar(['Attn1\n(Layer 1)', 'Attn2\n(Layer 2)'], [l1_rate, l2_rate],
+                  color=['#4C72B0', '#C44E52'], width=0.5, edgecolor='white')
+    for bar, val in zip(bars, [l1_rate, l2_rate]):
+        ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005,
+                f'{val:.1%}', ha='center', va='bottom', fontweight='bold', fontsize=13)
+    ax.set_ylabel('Top-1 Error Rate')
+    ax.set_title('Attention Top-1 Error Rate')
+    ax.set_ylim(0, max(l1_rate, l2_rate) * 1.25)
+
+    # Panels (b) and (c): heatmaps
+    for ax, hm, ylabel, title_suffix in [
+        (axes[1], hm_key,
+         'Key-side attn1 target ($y$)',
+         'Varying key-side target $y$'),
+        (axes[2], hm_query,
+         'Query-side attn1 target ($x$)',
+         'Varying query-side target $x$'),
+    ]:
+        vmax = np.percentile(np.abs(hm), 99)
+        im = ax.imshow(hm, aspect='auto', origin='lower', cmap='RdBu_r',
+                       vmin=-vmax, vmax=vmax, interpolation='nearest',
+                       extent=[0, vocab_n, 0, vocab_n])
+        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label='QK score')
+        ax.set_xlabel('Key token value ($t$)')
+        ax.set_ylabel(ylabel)
+        ax.set_title(title_suffix)
+
+    outpath = os.path.join(OUTDIR, 'error_and_heatmaps_combined.png')
+    fig.savefig(outpath, dpi=200, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved error_and_heatmaps_combined.png")
+
+
 if __name__ == '__main__':
-    fig1_attn_error_rates()
-    fig2_qk_heatmap_asymmetry()
-    fig3_qk_score_slices_band()
-    fig4_argmax_saturation()
-    fig5_l1_vs_l2_smoothness()
-    fig6_attn_spread()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--combined-only', action='store_true')
+    args = parser.parse_args()
+    if args.combined_only:
+        fig_combined_error_and_heatmaps()
+    else:
+        fig1_attn_error_rates()
+        fig2_qk_heatmap_asymmetry()
+        fig3_qk_score_slices_band()
+        fig4_argmax_saturation()
+        fig5_l1_vs_l2_smoothness()
+        fig6_attn_spread()
     print("\nAll figures generated.")

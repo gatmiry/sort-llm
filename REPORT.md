@@ -269,22 +269,69 @@ Attn2 QK scores are smoother than attn1 within their windows. At threshold 0.04:
 
 ---
 
-## 8. Split Attn1 Attention and Argmax Bias (April 16–17, 2026)
+## 8. Hijack Experiments: MLP1 vs ATTN2 Contributions (April 18–20, 2026)
 
-### 8.1 Robustness to Split Attention
+**Scripts**: `mechanistic-interpretability/role-of-position/plot_hijack_per_i.py`, `plot_no_attn2_by_group.py`, `plot_hijack_avg_seeds.py`
+**Models**: k32_N512, seeds 1–5, 100k checkpoint
+
+### 8.1 Experimental Design
+
+Four hijack conditions measured per (current_value i, offset) pair:
+1. **MLP1 hijack**: Force attn1 to attend to i+offset, recompute mlp1, feed modified mlp1 to normal attn2/mlp2
+2. **ATTN2 hijack**: Force attn2 to attend to i+offset, mlp1 stays normal
+3. **Both simultaneously**: Apply both MLP1 and ATTN2 hijacks to the same wrong target
+4. **Both individually succeed**: Fraction where independent MLP1 AND ATTN2 hijacks each predict the hijacked value
+
+### 8.2 Gap=1: Two Distinct Learned Strategies
+
+**Seed 1** (hybrid strategy):
+- Small i (1–3): MLP1 hijack ~100%, ATTN2 hijack ~0% → MLP1 specifies the number
+- Large i (477–497): ATTN2 hijack dominates, MLP1 partially effective → Dual pathway
+- Smooth monotonic transition across vocabulary
+
+**Seed 4** (MLP1-dominant strategy):
+- MLP1 hijack ~100% across ALL i values (1 through 497)
+- ATTN2 hijack ~0% everywhere
+- The model routes everything through MLP1 for gap=1
+
+This demonstrates that multiple valid sorting circuits exist under identical training configurations — only the random seed differs.
+
+### 8.3 Larger Gaps (10, 20, 40): Universal ATTN2 Dominance
+
+For gap ≥ 10, all seeds converge to ATTN2-dominant behavior:
+- MLP1 hijack success drops sharply
+- ATTN2 hijack success approaches 100%
+- This holds across all i-values and all seeds
+
+### 8.4 Attn2 Ablation Confirms Hijack Results
+
+Removing attn2 (keeping MLP2) and measuring per-token accuracy:
+- **Seed 1**: Strong i-dependence — small i catastrophic (~6%), large i fine (~99%)
+- **Seed 4**: Much less i-dependent — MLP1 alone handles most gap=1 cases
+- Both seeds show attn2 is critical for large gaps regardless of i
+
+### 8.5 Cross-Seed Averaging
+
+All 5 seeds (seed 1 from new-grid, seeds 2–5 from new-grid-multiple) run with averaged-over-all-i data for gaps 1, 10, 20, 40. Combined plot shows mean ± std across seeds, revealing which behaviors are universal vs seed-specific.
+
+---
+
+## 9. Split Attn1 Attention and Argmax Bias (April 16–17, 2026)
+
+### 9.1 Robustness to Split Attention
 
 Replacing single-token attn1 output with uniform split: `V_split(x, n, δ) = (1/n) Σ V^(1)_{x+iδ}`. Tested n∈{2,3,4}, δ∈{1,5,20}:
 
 - **Heatmaps**: Band structure preserved for all n.
 - **Score slices**: Windowed monotonicity persists. Argmax shifts slightly rightward with larger δ but remains modest even at n=4, δ=20 (60-token span).
 
-### 8.2 Argmax Bias Toward x_min
+### 9.2 Argmax Bias Toward x_min
 
 When attn1 splits across n tokens, the argmax t* tracks x_min (smallest token), not x_mean or x_max. |t* − x_min| ≪ |t* − x_mean| for n > 1.
 
 **Functional advantage**: The correct next output depends on the smallest candidate above z, so anchoring near x_min preserves correct sorting.
 
-### 8.3 Scripts and Plots
+### 9.3 Scripts and Plots
 
 - `mechanistic-interpretability/attn2-qk-appendix/generate_plots.py` — Heatmaps and slice plots
 - `mechanistic-interpretability/attn2-qk-appendix/plot_argmax_bias.py` — Argmax bias figure
@@ -293,7 +340,7 @@ When attn1 splits across n tokens, the argmax t* tracks x_min (smallest token), 
 
 ---
 
-## 9. Overleaf Paper (April 15–17, 2026)
+## 10. Overleaf Paper (April 15–17, 2026)
 
 Maintained at `/mnt/task_runtime/69c9a928b8ca815361b30519/` (Overleaf git repo).
 

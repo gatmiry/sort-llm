@@ -1,0 +1,69 @@
+\subsection{Residual Stream Cleanup: Redundant Direct Paths}
+\label{sec:residual-cleanup}
+
+The residual stream after both layers contains five additive components:
+$\mathbf{e}$ (token embedding), $\mathbf{a}_1$ (attn1 output),
+$\mathbf{m}_1$ (MLP1 output), $\mathbf{a}_2$ (attn2 output), and
+$\mathbf{m}_2$ (MLP2 output). We ask whether each component's \emph{direct}
+additive contribution to the residual is necessary for the correct prediction,
+or whether its information is already subsumed by downstream components that
+consumed it as input.
+
+\paragraph{Claim~1: $\mathbf{a}_1$ is redundant after feeding MLP1.}
+We remove $\mathbf{a}_1$ from the residual stream immediately after it has
+served as input to MLP1 (which sees
+$\mathrm{LN}_2(\mathbf{e} + \mathbf{a}_1)$). The modified residual entering
+block~2 is $\mathbf{e} + \mathbf{m}_1$ instead of
+$\mathbf{e} + \mathbf{a}_1 + \mathbf{m}_1$; all downstream computation
+(attn2, MLP2, final readout) uses this reduced residual.
+
+\paragraph{Claim~2: $\mathbf{m}_1$ is redundant at the final readout.}
+We keep $\mathbf{m}_1$ in the residual for the computation of attn2 and MLP2,
+but subtract it from the final residual before applying $\mathrm{LN}_f$ and the
+language model head. The readout thus sees
+$\mathbf{e} + \mathbf{a}_1 + \mathbf{a}_2 + \mathbf{m}_2$ instead of the full
+five-term sum.
+
+\paragraph{Protocol.}
+For each of the 40~checkpoints in our grid
+($k \in \{16,32\}$, $N \in \{128,256,512,1024\}$, 5~seeds), we first classify
+the model as a leap-former if per-token accuracy drops below 90\% when attn2 is
+ablated (17 out of 40). For each leap-former we evaluate both claims on
+500~randomly sampled sequences, checking whether the argmax prediction at every
+sorted-output position agrees with the unmodified forward pass.
+
+\paragraph{Results.}
+Claim~1 holds universally: across all 17~leap-formers, the argmax agreement is
+$\geq 98.5\%$ (mean $99.9\%$). The direct path of $\mathbf{a}_1$ through the
+residual carries no decision-relevant information beyond what is already encoded
+in $\mathbf{m}_1$.
+
+Claim~2 holds for 12 of 17 leap-formers (agreement $\geq 91\%$, mean $97.6\%$),
+but fails for 5 (agreement $2$--$47\%$). The failures include the two
+$N{=}1024$ outliers previously identified in
+Section~\ref{sec:attn2-mlp1-dependence} (\texttt{k16\_N1024\_s3} and
+\texttt{k32\_N1024\_s5}), where attn2 exploits residual stream components
+beyond $\mathbf{m}_1$, as well as three additional $k{=}16$ checkpoints
+(\texttt{k16\_N1024\_s1}, \texttt{k16\_N1024\_s4}, \texttt{k16\_N512\_s5}).
+In these models, $\mathbf{m}_1$ carries information that is not fully captured
+by $\mathbf{a}_2 + \mathbf{m}_2$ and is needed at readout.
+
+Figure~\ref{fig:residual-cleanup} summarizes both claims across all
+leap-formers. For the 12 standard leap-formers (excluding the 5 failures), the
+model's sorting circuit can be decomposed into a clean pipeline: $\mathbf{a}_1$
+feeds MLP1 and is then discarded; $\mathbf{m}_1$ feeds attn2 and MLP2 and is
+then discarded; only $\mathbf{e} + \mathbf{a}_2 + \mathbf{m}_2$ is needed at
+readout.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/residual_stream_cleanup.png}
+  \caption{Residual stream component removal across 17 leap-former checkpoints.
+    \textbf{Left:} Per-checkpoint argmax agreement rates for Claim~1 (remove
+    $\mathbf{a}_1$, teal) and Claim~2 (remove $\mathbf{m}_1$ at readout,
+    coral). Hatched bars mark known outliers. \textbf{Right:} Scatter of
+    Claim~1 vs Claim~2 agreement. The shaded region (${\geq}90\%$ on both axes)
+    contains the 12 standard leap-formers where both direct paths are
+    redundant.}
+  \label{fig:residual-cleanup}
+\end{figure}

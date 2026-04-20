@@ -160,11 +160,11 @@ therefore afford a sharper distribution.
   \label{fig:attn-spread}
 \end{figure}
 
-\subsection{Summary of the Leap-Former Sorting Circuit}
+\subsection{Summary: How Attn1 Steers Attn2}
 \label{sec:leapformer-summary}
 
-Combining the observations above, we can describe the full sorting circuit of
-the leap-former as follows:
+Combining the observations above, we can describe the attn1$\to$attn2
+signaling pathway in the leap-former:
 \begin{enumerate}[nosep]
   \item \textbf{Attn1} produces a coarse estimate of the next sorted value by
     attending to a small set of unsorted keys near the target. Its error rate
@@ -182,8 +182,15 @@ the leap-former as follows:
   \item \textbf{Bounded trust} prevents out-of-distribution attn1 signals from
     corrupting attn2: if $x$ is implausibly large, attn2's argmax saturates at
     a moderate distance above~$z$.
-  \item \textbf{MLP2 and readout} combine the attn2 output with the residual
-    stream to produce the final prediction. The precise role of MLP2 depends on
-    the token value range, as described in the hijack experiments
-    (\S\ref{sec:hijack-experiments}).
 \end{enumerate}
+
+This describes how attn1's hint reaches attn2 through MLP1, but it does not yet
+characterize the \emph{full} sorting circuit. In particular, it leaves open
+whether attn1's role is limited to providing this hint, or whether its output
+also affects the final prediction through pathways independent of attn2. In the
+next section we show that the impact of attn1 is in fact broader than serving as
+a hint for attn2.
+
+\subsection{Role of Attn1 Beyond Hinting for Attn2, and the Diversity of Leap-Former Models}
+
+% NATHAN: fill in this subsection

@@ -501,7 +501,104 @@ git add -A && git commit -m "message" && git push
 ```
 Note: git push sometimes shows "Everything up-to-date" erroneously; verify with `git status` that branch is synced.
 
-## 15. What Has NOT Been Investigated Yet
+## 15. Detailed Hijack Experiments & Cross-Seed Diversity (April 18–20, 2026)
+
+### Per-i Hijack Comparison Framework
+
+**Script**: `mechanistic-interpretability/role-of-position/plot_hijack_per_i.py`
+
+A comprehensive hijack experiment framework that measures four signals for each (i, offset) pair:
+
+1. **MLP1 hijack** — Force attn1→wrong key (i+offset), recompute mlp1, feed to attn2/mlp2 naturally
+2. **ATTN2 hijack** — Force attn2→wrong key (i+offset), mlp1 stays normal
+3. **Both simultaneously** — Force attn1→wrong key AND force attn2→same wrong key
+4. **Both individually succeed** — Fraction where MLP1 hijack AND ATTN2 hijack independently predict the hijacked value (logical AND of independent runs)
+
+### CLI Interface
+
+```bash
+python plot_hijack_per_i.py \
+    --gap 1 --fine-offsets --group-avg "0-497" \
+    --ckpt path/to/checkpoint.pt --out-tag seed1_allI \
+    --max-batches 5000 --save-data data_allI/seed1_gap1.json
+```
+
+Key flags:
+- `--gap G`: Gap between current value and correct next value
+- `--fine-offsets`: Use offsets 1..15 (for gap=1)
+- `--offsets "21,25,30,..."`: Custom comma-separated offsets (for large gaps)
+- `--group-avg "0-497"` or `"1-3,4-6,7-9"`: Average over i-value groups
+- `--max-batches N`: Hard cap on batch count (crucial for large i-ranges)
+- `--save-data path.json`: Save per-offset rates as JSON for cross-seed averaging
+- `--ckpt path`: Override checkpoint (for multi-seed runs)
+- `--out-tag tag`: Extra label in output filename
+
+### Batch Generation Strategies
+
+- **Random batches** (`--fine-offsets` or small gaps): Standard random batches, scan for matching (i, gap) occurrences
+- **Targeted batches** (`--offsets` with gap≥20): Custom batches guaranteeing cval, cval+GAP, and all cval+offset targets are present in the batch
+
+### Key Findings
+
+#### Gap=1, i-Grouped Analysis (Beginning vs End of Vocabulary)
+
+**Seed 1** (default model):
+- i=1-3: MLP1 dominates (~100%), ATTN2 ~0%
+- i=4-6 through i=16-18: Gradual transition — MLP1 decreases, ATTN2 increases
+- i=477-497 (end of vocab): ATTN2 dominates, MLP1 still partially effective
+- Transition is smooth and monotonic across the vocabulary
+
+**Seed 4**:
+- MLP1 ~100% across ALL i values (beginning and end of vocab)
+- ATTN2 ~0% everywhere
+- This seed learned to route everything through MLP1 for gap=1
+
+#### Larger Gaps (10, 20, 40)
+
+For gap≥10, ATTN2 generally dominates across all seeds and i-values:
+- MLP1 hijack success drops sharply
+- ATTN2 hijack success increases
+- The "both simultaneously" curve confirms near-complete attn2 control
+
+#### Cross-Seed Diversity
+
+Different training seeds learn genuinely different strategies:
+- **Seed 1**: Hybrid strategy (MLP1 for small i, ATTN2 for large i at gap=1)
+- **Seed 4**: MLP1-dominant strategy (gap=1)
+- Both converge to ATTN2-dominant for large gaps
+- This constitutes evidence that multiple valid sorting circuits exist
+
+#### Attn2 Ablation Confirmation
+
+**Script**: `mechanistic-interpretability/role-of-position/plot_no_attn2_by_group.py`
+
+Removes attn2 and measures per-token accuracy by i-group and gap:
+- Seed 1: Strong i-dependence (small i catastrophic, large i fine) — consistent with hijack findings
+- Seed 4: Less i-dependent (MLP1 alone handles most cases at gap=1)
+
+### All-i Averaged Plots (All Seeds)
+
+**Script**: `mechanistic-interpretability/role-of-position/run_all_seeds.sh`
+**Combiner**: `mechanistic-interpretability/role-of-position/plot_hijack_avg_seeds.py`
+
+Runs all 5 seeds × 4 gaps (1, 10, 20, 40) with `--max-batches 5000 --group-avg "0-497"`, saving JSON data. Combiner plots mean ± std across seeds.
+
+### Plots
+
+Organized across multiple directories:
+- `mechanistic-interpretability/role-of-position/plots/` — Primary working plots
+- `new-grid/k32_N512/plots/` — Seed 1 curated plots
+- `new-grid-multiple/k32_N512/seed{3,4}/` — Per-seed plots
+
+Key plot files:
+- `hijack_per_i0-497_gap{1,10,20,40}_*_grouped_seed{1..5}_allI.png` — Per-seed all-i averaged
+- `hijack_per_i1-18_gap{1,3,5,10,20,40}_*_grouped_seed{1,3,4}.png` — i-grouped (beginning)
+- `hijack_per_i477-497_gap*_grouped_seed{1,3,4}.png` — i-grouped (end of vocab)
+- `hijack_per_i1-200_gap1_fine_grouped_seed{1,4}.png` — Individual i values (1,10,40,200)
+- `no_attn2_acc_by_group_seed{1,4}.png` — Attn2 ablation accuracy
+- `hijack_allI_avg_seeds.png` — Cross-seed averaged (2×2 grid, gap=1,10,20,40)
+
+## 16. What Has NOT Been Investigated Yet
 
 - **Why training dynamics produce the small-i/large-i split**: The model has capacity
   to handle all i values without attn2. Why gradient descent finds a solution that

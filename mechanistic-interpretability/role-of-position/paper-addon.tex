@@ -1,0 +1,35 @@
+% === Accuracy Without Attn2: Dependence on Current Value and Gap ===
+% Appendix section
+% Insert after Residual Stream Cleanup appendix
+
+\section{Accuracy Without Attn2: Dependence on Current Value and Gap}
+\label{sec:no-attn2-by-gap}
+
+We ablate attn2 (skip the second-layer attention, retain MLP2) and measure
+per-token accuracy as a function of the current sorted value~$i$ and the
+gap~$g = v_{\mathrm{next}} - i$.  Figure~\ref{fig:no-attn2-by-gap} shows
+three representative gaps: $g = 1$, $g = 10$, and $g = 50$.
+
+For the smallest gap ($g = 1$), the model without attn2 is nearly at chance
+when~$i$ is small, but accuracy rises steeply around $i \approx 150$ and
+saturates close to~$1$ for $i \gtrsim 250$.  At $g = 10$ a similar ramp
+appears but saturates at a lower level (${\approx}0.7$), and at $g = 50$
+accuracy remains near zero for all values of~$i$.
+
+This demonstrates that the first-layer pathway alone can resolve the correct
+next token only when the target lies close in value to the current
+token---a regime where the token embedding alone provides
+enough information without the fine-grained windowed search that attn2
+performs.  As the gap grows, attn2 becomes indispensable.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{newpics/no_attn2_acc_by_gap.png}
+  \caption{Per-token accuracy without attn2 as a function of current sorted
+    value~$i$, for gaps $g \in \{1, 10, 50\}$ (left to right).  Grey dots
+    show per-$i$ accuracy; the solid curve is a rolling average (window 20);
+    shaded bands show 95\% bootstrap confidence intervals.  For small gaps
+    the first-layer pathway alone achieves high accuracy once~$i$ is
+    sufficiently large; for large gaps attn2 is indispensable.}
+  \label{fig:no-attn2-by-gap}
+\end{figure}

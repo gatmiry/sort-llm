@@ -1,0 +1,390 @@
+[
+  {
+    "label": "k16_N128_s1",
+    "config": "k16_N128",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N128_s2",
+    "config": "k16_N128",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N128_s3",
+    "config": "k16_N128",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N128_s4",
+    "config": "k16_N128",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.0894,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 96.1875,
+    "both_agree_pct": 96.1875,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N128_s5",
+    "config": "k16_N128",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N256_s1",
+    "config": "k16_N256",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N256_s2",
+    "config": "k16_N256",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N256_s3",
+    "config": "k16_N256",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N256_s4",
+    "config": "k16_N256",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N256_s5",
+    "config": "k16_N256",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N512_s1",
+    "config": "k16_N512",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N512_s2",
+    "config": "k16_N512",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.4747,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 98.2625,
+    "both_agree_pct": 98.2625,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N512_s3",
+    "config": "k16_N512",
+    "seed": 3,
+    "normal_acc": 0.9997,
+    "no_attn2_acc": 0.9997,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N512_s4",
+    "config": "k16_N512",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k16_N512_s5",
+    "config": "k16_N512",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.6775,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 37.525,
+    "both_agree_pct": 37.525,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N1024_s1",
+    "config": "k16_N1024",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.1378,
+    "is_leapformer": true,
+    "claim1_agree_pct": 99.9875,
+    "claim2_agree_pct": 46.7125,
+    "both_agree_pct": 46.7,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N1024_s2",
+    "config": "k16_N1024",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.0322,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 98.725,
+    "both_agree_pct": 98.725,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N1024_s3",
+    "config": "k16_N1024",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.6031,
+    "is_leapformer": true,
+    "claim1_agree_pct": 99.4875,
+    "claim2_agree_pct": 46.5875,
+    "both_agree_pct": 46.3375,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N1024_s4",
+    "config": "k16_N1024",
+    "seed": 4,
+    "normal_acc": 0.9997,
+    "no_attn2_acc": 0.2653,
+    "is_leapformer": true,
+    "claim1_agree_pct": 99.9875,
+    "claim2_agree_pct": 47.225,
+    "both_agree_pct": 47.2125,
+    "total_positions": 8000
+  },
+  {
+    "label": "k16_N1024_s5",
+    "config": "k16_N1024",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.1047,
+    "is_leapformer": true,
+    "claim1_agree_pct": 98.5375,
+    "claim2_agree_pct": 100.0,
+    "both_agree_pct": 98.5375,
+    "total_positions": 8000
+  },
+  {
+    "label": "k32_N128_s1",
+    "config": "k32_N128",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N128_s2",
+    "config": "k32_N128",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N128_s3",
+    "config": "k32_N128",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N128_s4",
+    "config": "k32_N128",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N128_s5",
+    "config": "k32_N128",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N256_s1",
+    "config": "k32_N256",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.1542,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 94.80625,
+    "both_agree_pct": 94.80625,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N256_s2",
+    "config": "k32_N256",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.1339,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 91.33125,
+    "both_agree_pct": 91.33125,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N256_s3",
+    "config": "k32_N256",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.2456,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 98.74375,
+    "both_agree_pct": 98.74375,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N256_s4",
+    "config": "k32_N256",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N256_s5",
+    "config": "k32_N256",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 1.0,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N512_s1",
+    "config": "k32_N512",
+    "seed": 1,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.4345,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 99.9625,
+    "both_agree_pct": 99.9625,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N512_s2",
+    "config": "k32_N512",
+    "seed": 2,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.5295,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 99.76875,
+    "both_agree_pct": 99.76875,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N512_s3",
+    "config": "k32_N512",
+    "seed": 3,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.5552,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 96.6375,
+    "both_agree_pct": 96.6375,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N512_s4",
+    "config": "k32_N512",
+    "seed": 4,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.7008,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 96.90625,
+    "both_agree_pct": 96.90625,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N512_s5",
+    "config": "k32_N512",
+    "seed": 5,
+    "normal_acc": 1.0,
+    "no_attn2_acc": 0.112,
+    "is_leapformer": true,
+    "claim1_agree_pct": 100.0,
+    "claim2_agree_pct": 99.9125,
+    "both_agree_pct": 99.9125,
+    "total_positions": 16000
+  },
+  {
+    "label": "k32_N1024_s1",
+    "config": "k32_N1024",
+    "seed": 1,
+    "normal_acc": 0.9989,
+    "no_attn2_acc": 0.998,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N1024_s2",
+    "config": "k32_N1024",
+    "seed": 2,
+    "normal_acc": 0.9986,
+    "no_attn2_acc": 0.9967,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N1024_s3",
+    "config": "k32_N1024",
+    "seed": 3,
+    "normal_acc": 0.9958,
+    "no_attn2_acc": 0.9912,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N1024_s4",
+    "config": "k32_N1024",
+    "seed": 4,
+    "normal_acc": 0.997,
+    "no_attn2_acc": 0.9959,
+    "is_leapformer": false
+  },
+  {
+    "label": "k32_N1024_s5",
+    "config": "k32_N1024",
+    "seed": 5,
+    "normal_acc": 0.9992,
+    "no_attn2_acc": 0.8583,
+    "is_leapformer": true,
+    "claim1_agree_pct": 99.80625,
+    "claim2_agree_pct": 2.35,
+    "both_agree_pct": 2.35,
+    "total_positions": 16000
+  }
+]

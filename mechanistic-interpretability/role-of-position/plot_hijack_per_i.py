@@ -46,6 +46,8 @@ parser.add_argument('--max-batches', type=int, default=None,
                     help='Override max batches (useful for large i ranges)')
 parser.add_argument('--save-data', type=str, default=None,
                     help='Save per-offset rates to JSON file at this path')
+parser.add_argument('--curves', type=str, default=None,
+                    help='Comma-separated curve names to plot, e.g. "attn2,firstlayer,and_fl"')
 ARGS = parser.parse_args()
 GAP = ARGS.gap
 
@@ -219,6 +221,33 @@ def mlp1_hijack(pre, idx, qpos, wpos):
 
 
 @torch.no_grad()
+def firstlayer_hijack(pre, idx, qpos, wpos):
+    """Force full L1 output (attn1+mlp1) to wrong key, but attn2 uses real input."""
+    B, T = idx.size()
+    raw = pre['raw_att'].clone()
+    raw[:, :, qpos, :] = -1e9
+    raw[:, :, qpos, wpos] = 20.0
+    att = raw.masked_fill(pre['causal'].unsqueeze(0).unsqueeze(0), float('-inf'))
+    att = F.softmax(att, dim=-1)
+    y = (att @ pre['v4']).transpose(1, 2).contiguous().view(B, T, pre['ne'])
+    forced_attn0 = block0.attn.c_proj(y)
+
+    x_forced = pre['embed'] + forced_attn0
+    forced_mlp0 = block0.mlp(block0.ln_2(x_forced))
+
+    x_mod = pre['x_real'].clone()
+    x_mod[0, qpos] = (pre['embed'][0, qpos]
+                       + forced_attn0[0, qpos]
+                       + forced_mlp0[0, qpos])
+
+    x_after = x_mod + pre['real_attn1']
+    mlp_out = block1.mlp(block1.ln_2(x_after))
+    final = model.transformer.ln_f(x_after + mlp_out)
+    logits = model.lm_head(final)
+    return logits[0, qpos].argmax().item()
+
+
+@torch.no_grad()
 def mlp1_and_attn2_hijack(pre, idx, qpos, wpos):
     """MLP1 hijack + force attn2 to same wrong key simultaneously."""
     B, T = idx.size()
@@ -298,7 +327,7 @@ def collect_data():
     """Collect hijack results for all (i, offset) combinations."""
     # results[hijack_type][i_val][offset] = list of bools
     results = {ht: {i: {off: [] for off in OFFSETS} for i in I_VALUES}
-               for ht in ['mlp1', 'attn1', 'attn2', 'both']}
+               for ht in ['mlp1', 'attn1', 'attn2', 'both', 'firstlayer']}
 
     i_set = set(I_VALUES)
     needed = {i: {off: MIN_SAMPLES for off in OFFSETS} for i in I_VALUES}
@@ -367,6 +396,9 @@ def collect_data():
                 pred_both = mlp1_and_attn2_hijack(pre, idx, qpos, wpos)
                 results['both'][cval][off].append(pred_both == wval)
 
+                pred_fl = firstlayer_hijack(pre, idx, qpos, wpos)
+                results['firstlayer'][cval][off].append(pred_fl == wval)
+
                 needed[cval][off] -= 1
 
         if (batch_num + 1) % 500 == 0:
@@ -385,19 +417,20 @@ def collect_data():
 def _compute_row_data(results, i_vals_for_row):
     """Compute per-offset rates for a set of i values (pooled)."""
     row_data = {}
-    for ht in ['mlp1', 'attn2', 'both', 'and']:
+    for ht in ['mlp1', 'attn2', 'both', 'and', 'firstlayer', 'and_fl']:
         rates, valid_offs = [], []
         for off in OFFSETS:
-            if ht == 'and':
-                all_m, all_a = [], []
+            if ht in ('and', 'and_fl'):
+                key_a = 'mlp1' if ht == 'and' else 'firstlayer'
+                all_x, all_a = [], []
                 for iv in i_vals_for_row:
-                    m = results['mlp1'][iv][off]
+                    x = results[key_a][iv][off]
                     a = results['attn2'][iv][off]
-                    n = min(len(m), len(a))
-                    all_m.extend(m[:n])
+                    n = min(len(x), len(a))
+                    all_x.extend(x[:n])
                     all_a.extend(a[:n])
-                if len(all_m) >= 5:
-                    both_ok = [all_m[j] and all_a[j] for j in range(len(all_m))]
+                if len(all_x) >= 5:
+                    both_ok = [all_x[j] and all_a[j] for j in range(len(all_x))]
                     rates.append(100 * np.mean(both_ok))
                     valid_offs.append(off)
             else:
@@ -424,12 +457,19 @@ def plot_results(results):
     if n_rows == 1:
         axes = [axes]
 
-    ht_styles = {
-        'mlp1':  {'color': '#d6604d', 'label': 'MLP1 hijack',              'ls': '-'},
-        'attn2': {'color': '#2166ac', 'label': 'ATTN2 hijack',             'ls': '-'},
-        'both':  {'color': '#4daf4a', 'label': 'Both simultaneously',      'ls': '--'},
-        'and':   {'color': '#984ea3', 'label': 'Both individually succeed', 'ls': '--'},
+    all_styles = {
+        'mlp1':       {'color': '#d6604d', 'label': 'MLP1 hijack',              'ls': '-'},
+        'attn2':      {'color': '#2166ac', 'label': 'ATTN2 hijack',             'ls': '-'},
+        'firstlayer': {'color': '#e41a1c', 'label': 'First-layer hijack',       'ls': '-'},
+        'both':       {'color': '#4daf4a', 'label': 'Both simultaneously',      'ls': '--'},
+        'and':        {'color': '#984ea3', 'label': 'Both individually succeed', 'ls': '--'},
+        'and_fl':     {'color': '#984ea3', 'label': 'FL+ATTN2 individually succeed', 'ls': '--'},
     }
+    if ARGS.curves:
+        show = [c.strip() for c in ARGS.curves.split(',')]
+        ht_styles = {k: v for k, v in all_styles.items() if k in show}
+    else:
+        ht_styles = {k: v for k, v in all_styles.items() if k != 'and_fl'}
 
     for row, (label, i_vals) in enumerate(row_items):
         ax = axes[row]
@@ -485,7 +525,7 @@ if __name__ == '__main__':
             all_i = I_VALUES
         row_data, n_total = _compute_row_data(results, all_i)
         out = {'offsets': OFFSETS, 'gap': GAP, 'n_total': n_total}
-        for ht in ['mlp1', 'attn2', 'both', 'and']:
+        for ht in ['mlp1', 'attn2', 'both', 'and', 'firstlayer']:
             v_offs, v_rates = row_data[ht]
             out[ht] = {'offsets': v_offs, 'rates': v_rates}
         os.makedirs(os.path.dirname(ARGS.save_data) or '.', exist_ok=True)

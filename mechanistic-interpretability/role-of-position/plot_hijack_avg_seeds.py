@@ -3,25 +3,37 @@
 Combine per-seed hijack JSON data and plot average curves with confidence
 intervals (mean +/- 1 std across seeds) for gap=1,10,20,40 in a 2x2 grid.
 """
-import os, sys, json, glob
+import os, sys, json, glob, argparse
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-DATADIR = os.path.join(os.path.dirname(__file__), 'data_allI')
+parser = argparse.ArgumentParser()
+parser.add_argument('--mode', choices=['mlp1', 'firstlayer'], default='mlp1',
+                    help='Which L1 hijack to show: mlp1 (default) or firstlayer')
+ARGS = parser.parse_args()
+
+DATADIR = os.path.join(os.path.dirname(__file__),
+                       'data_allI' if ARGS.mode == 'mlp1' else 'data_allI_v2')
 OUTDIR  = os.path.join(os.path.dirname(__file__), 'plots')
 os.makedirs(OUTDIR, exist_ok=True)
 
-GAPS = [1, 10, 20, 40]
+GAPS = [1, 5, 10, 20, 40, 60]
 SEEDS = ['seed1', 'seed2', 'seed3', 'seed4', 'seed5']
 
-HT_STYLES = {
-    'mlp1':  {'color': '#d6604d', 'label': 'MLP1 hijack',              'ls': '-'},
-    'attn2': {'color': '#2166ac', 'label': 'ATTN2 hijack',             'ls': '-'},
-    'both':  {'color': '#4daf4a', 'label': 'Both simultaneously',      'ls': '--'},
-    'and':   {'color': '#984ea3', 'label': 'Both individually succeed', 'ls': '--'},
-}
+if ARGS.mode == 'firstlayer':
+    HT_STYLES = {
+        'firstlayer': {'color': '#e41a1c', 'label': 'ATTN1 direct circuit hijack',  'ls': '-'},
+        'attn2':      {'color': '#2166ac', 'label': 'ATTN2 hijack',               'ls': '-'},
+        'and_fl':     {'color': '#984ea3', 'label': 'ATTN1 direct+ATTN2 individually succeed', 'ls': '--'},
+    }
+else:
+    HT_STYLES = {
+        'mlp1':  {'color': '#d6604d', 'label': 'MLP1 hijack',              'ls': '-'},
+        'attn2': {'color': '#2166ac', 'label': 'ATTN2 hijack',             'ls': '-'},
+        'and':   {'color': '#984ea3', 'label': 'Both individually succeed', 'ls': '--'},
+    }
 
 plt.rcParams.update({
     'figure.facecolor': 'white', 'axes.facecolor': 'white',
@@ -46,7 +58,7 @@ def load_all_data():
 
 
 def plot_combined(all_data):
-    fig, axes = plt.subplots(2, 2, figsize=(14, 9))
+    fig, axes = plt.subplots(2, 3, figsize=(20, 9))
     axes = axes.flatten()
 
     for idx, gap in enumerate(GAPS):
@@ -59,7 +71,15 @@ def plot_combined(all_data):
 
         for ht, style in HT_STYLES.items():
             ref = list(seed_data.values())[0]
-            offsets = ref[ht]['offsets']
+            if ht == 'and_fl':
+                src_key = 'firstlayer'
+            elif ht == 'and':
+                src_key = 'mlp1'
+            else:
+                src_key = ht
+            if src_key not in ref:
+                continue
+            offsets = ref[src_key]['offsets']
             if not offsets:
                 continue
 
@@ -68,9 +88,18 @@ def plot_combined(all_data):
                 if seed not in seed_data:
                     continue
                 sd = seed_data[seed]
-                s_offsets = sd[ht]['offsets']
-                s_rates = sd[ht]['rates']
-                off_to_rate = dict(zip(s_offsets, s_rates))
+                if ht in ('and_fl', 'and'):
+                    s_offsets = sd[src_key]['offsets']
+                    s_rates_x = sd[src_key]['rates']
+                    s_rates_a = sd['attn2']['rates']
+                    a_offsets = sd['attn2']['offsets']
+                    a_map = dict(zip(a_offsets, s_rates_a))
+                    row = [min(r, a_map.get(o, 0)) for o, r in zip(s_offsets, s_rates_x)]
+                    off_to_rate = dict(zip(s_offsets, row))
+                else:
+                    s_offsets = sd[ht]['offsets']
+                    s_rates = sd[ht]['rates']
+                    off_to_rate = dict(zip(s_offsets, s_rates))
                 row = [off_to_rate.get(o, np.nan) for o in offsets]
                 seed_rates.append(row)
 
@@ -81,7 +110,7 @@ def plot_combined(all_data):
             marker = 'o' if style['ls'] == '-' else 's'
             ax.plot(offsets, mean, linestyle=style['ls'], marker=marker,
                     color=style['color'], linewidth=2, markersize=4,
-                    alpha=0.9, label=style['label'] if idx == 0 else None)
+                    alpha=0.9, label=style['label'])
             ax.fill_between(offsets, mean - std, mean + std,
                             color=style['color'], alpha=0.15)
 
@@ -92,16 +121,18 @@ def plot_combined(all_data):
         ax.set_ylim(-5, 105)
         ax.set_title(f'gap = {gap}', fontsize=13, fontweight='bold')
         ax.set_xlabel('Offset (hijack to $i$ + offset)', fontsize=10)
-        if idx % 2 == 0:
+        if idx % 3 == 0:
             ax.set_ylabel('Hijack success rate (%)', fontsize=10)
         ax.text(0.98, 0.02, f'{n_seeds} seeds', transform=ax.transAxes,
                 fontsize=8, ha='right', va='bottom', color='gray')
 
-    axes[0].legend(fontsize=8, loc='lower right', framealpha=0.9)
+    for ax in axes:
+        ax.legend(fontsize=8, loc='best', framealpha=0.9)
     fig.suptitle('Hijack success rate averaged over all $i$ and all seeds (k32_N512)',
                  fontsize=14, fontweight='bold', y=1.01)
     fig.tight_layout()
-    out_path = os.path.join(OUTDIR, 'hijack_allI_avg_seeds.png')
+    tag = '_fl' if ARGS.mode == 'firstlayer' else ''
+    out_path = os.path.join(OUTDIR, f'hijack_allI_avg_seeds{tag}.png')
     fig.savefig(out_path, dpi=200, bbox_inches='tight', facecolor='white')
     plt.close()
     print(f"Saved {out_path}")

@@ -1,0 +1,33 @@
+{
+  "offsets": [
+    20,
+    40,
+    60,
+    80,
+    100,
+    120,
+    140
+  ],
+  "gap": 20,
+  "n_total": 0,
+  "mlp1": {
+    "offsets": [],
+    "rates": []
+  },
+  "attn2": {
+    "offsets": [],
+    "rates": []
+  },
+  "both": {
+    "offsets": [],
+    "rates": []
+  },
+  "and": {
+    "offsets": [],
+    "rates": []
+  },
+  "firstlayer": {
+    "offsets": [],
+    "rates": []
+  }
+}

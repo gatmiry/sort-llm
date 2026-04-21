@@ -20,7 +20,7 @@ OUTDIR  = os.path.join(os.path.dirname(__file__), 'plots')
 os.makedirs(OUTDIR, exist_ok=True)
 
 GAPS = [1, 5, 10, 20, 40, 60]
-SEEDS = ['seed1', 'seed2', 'seed3', 'seed4', 'seed5']
+SEEDS = [f'seed{i}' for i in range(1, 26)]
 
 if ARGS.mode == 'firstlayer':
     HT_STYLES = {

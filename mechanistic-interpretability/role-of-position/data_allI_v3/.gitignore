@@ -1,0 +1,3 @@
+# Per-job stdout from the sweep, ~26 MB. The JSON results are the record.
+logs/
+provenance/logs/

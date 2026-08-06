@@ -1,0 +1,181 @@
+{
+  "criterion": "ablated_fullseq <= 0.5",
+  "n_trials": 200,
+  "seeds": {
+    "1": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.4290625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "2": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.53625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "3": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.55625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "4": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.709375,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "5": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.11625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "6": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.61078125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "7": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.63828125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "8": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.99890625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.97,
+      "is_leap": false
+    },
+    "9": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.46171875,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "10": {
+      "normal_acc": 0.9996875,
+      "ablated_acc": 0.9996875,
+      "normal_fullseq": 0.99,
+      "ablated_fullseq": 0.99,
+      "is_leap": false
+    },
+    "11": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.48546875,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "12": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.44578125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "13": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.51953125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "14": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.6665625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "15": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.64546875,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "16": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.41828125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "17": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.41359375,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "18": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.2884375,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "19": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.52140625,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "20": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.55359375,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "21": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.61703125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "22": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.6553125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "23": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.698125,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "24": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.5446875,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    },
+    "25": {
+      "normal_acc": 1.0,
+      "ablated_acc": 0.579375,
+      "normal_fullseq": 1.0,
+      "ablated_fullseq": 0.0,
+      "is_leap": true
+    }
+  }
+}

@@ -297,11 +297,39 @@ for s in range(1, 26):
 EOF
 ```
 
-Verify 25 files landed:
+Verify 25 files landed (run from the repo root):
 
 ```bash
 find new-grid* -name 'std0p01_iseed*__ckpt100000.pt' | wc -l   # expect 25
 ```
+
+**Provenance check, worth the five minutes.** The existing seeds 1–5 data was
+produced from local `new-grid/` and `new-grid-multiple/` checkpoints. The
+Hugging Face copies have identical filenames but nothing proves they are the
+same training runs. Reproduce one cell that already exists and compare:
+
+```bash
+cd mechanistic-interpretability/role-of-position
+python plot_hijack_per_i.py --gap 60 \
+  --offsets 61,65,70,80,90,100,120,150 --group-avg "0-497" \
+  --ckpt ../../new-grid/k32_N512/checkpoints/std0p01_iseed1__ckpt100000.pt \
+  --out-tag provenance_check --max-batches 5000 \
+  --save-data /tmp/seed1_gap60_check.json
+
+python - <<'EOF'
+import json
+new = json.load(open('/tmp/seed1_gap60_check.json'))
+old = json.load(open('data_allI_v2/seed1_gap60.json'))
+for k in ('attn2', 'firstlayer'):
+    for o, a, b in zip(old[k]['offsets'], old[k]['rates'], new[k]['rates']):
+        print(f"{k:11s} off{o:<4d} old={a:6.2f}  new={b:6.2f}  d={abs(a-b):5.2f}")
+EOF
+```
+
+Gap 60 is fully populated for all 25 seeds in `data_allI_v2`, so this is a clean
+comparison. Rates are sampled, not deterministic, so small differences are
+expected — a few percent is fine, but tens of percent means the checkpoints are
+different models and the whole plan needs revisiting before you burn GPU hours.
 
 ### Step 3 — sweep
 
@@ -377,6 +405,7 @@ red curve for "MLP1 hijack" (first-layer direct path left intact).
 ## 10. Acceptance checklist
 
 - [ ] 25 checkpoint files present under `new-grid*`
+- [ ] provenance check on seed 1 gap 60 reproduces the committed rates
 - [ ] `data_allI_v3/` has no JSON with an empty `attn2.rates`
 - [ ] merge grid audit prints `OK` for all six gaps
 - [ ] classification labels exactly seeds 8 and 10 as `SINGLE`

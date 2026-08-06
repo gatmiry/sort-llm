@@ -12,15 +12,37 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 parser.add_argument('--mode', choices=['mlp1', 'firstlayer'], default='mlp1',
                     help='Which L1 hijack to show: mlp1 (default) or firstlayer')
+parser.add_argument('--datadir', default=None,
+                    help='Data directory, relative to this file or absolute')
+parser.add_argument('--out-suffix', default='',
+                    help='Appended to the output filename')
+parser.add_argument('--exclude-seeds', default='8,10',
+                    help='Comma-separated seeds to drop; pass "" to keep all')
+parser.add_argument('--classification', default=None,
+                    help='JSON from classify_new_seeds.py --save-json; when given, '
+                         'the exclusion list is derived from it instead')
 ARGS = parser.parse_args()
 
 DATADIR = os.path.join(os.path.dirname(__file__),
-                       'data_allI' if ARGS.mode == 'mlp1' else 'data_allI_v2')
+                       ARGS.datadir or
+                       ('data_allI' if ARGS.mode == 'mlp1' else 'data_allI_v2'))
 OUTDIR  = os.path.join(os.path.dirname(__file__), 'plots')
 os.makedirs(OUTDIR, exist_ok=True)
 
 GAPS = [1, 5, 10, 20, 40, 60]
-SEEDS = [f'seed{i}' for i in range(1, 26) if i not in (8, 10)]
+ALL_SEEDS = list(range(1, 26))
+
+if ARGS.classification:
+    with open(ARGS.classification) as f:
+        _cls = json.load(f)['seeds']
+    EXCLUDED = sorted(int(s) for s, r in _cls.items() if not r['is_leap'])
+    _why = f'not leap-formers per {os.path.basename(ARGS.classification)}'
+else:
+    EXCLUDED = sorted(int(s) for s in ARGS.exclude_seeds.split(',') if s.strip())
+    _why = 'single-stage models, see classify_new_seeds.py'
+
+SEEDS = [f'seed{i}' for i in ALL_SEEDS if i not in EXCLUDED]
+print(f"Excluding seeds {EXCLUDED} ({_why}); averaging over {len(SEEDS)}")
 
 if ARGS.mode == 'firstlayer':
     HT_STYLES = {
@@ -107,6 +129,13 @@ def plot_combined(all_data):
             mean = np.nanmean(seed_rates, axis=0)
             std = np.nanstd(seed_rates, axis=0)
 
+            if ht == 'attn2':
+                # Seeds swept on a different offset grid contribute NaN here and
+                # are excluded from the mean, so the annotation must count what
+                # actually survived rather than how many files were loaded.
+                contributing = np.sum(~np.isnan(seed_rates), axis=0)
+                n_seeds = (int(contributing.min()), int(contributing.max()))
+
             marker = 'o' if style['ls'] == '-' else 's'
             ax.plot(offsets, mean, linestyle=style['ls'], marker=marker,
                     color=style['color'], linewidth=2, markersize=4,
@@ -123,7 +152,12 @@ def plot_combined(all_data):
         ax.set_xlabel('Offset (hijack to $i$ + offset)', fontsize=10)
         if idx % 3 == 0:
             ax.set_ylabel('Hijack success rate (%)', fontsize=10)
-        ax.text(0.98, 0.02, f'{n_seeds} seeds', transform=ax.transAxes,
+        if isinstance(n_seeds, tuple):
+            lo_n, hi_n = n_seeds
+            seed_label = f'{lo_n} seeds' if lo_n == hi_n else f'{lo_n}-{hi_n} seeds'
+        else:
+            seed_label = f'{n_seeds} seeds'
+        ax.text(0.98, 0.02, seed_label, transform=ax.transAxes,
                 fontsize=8, ha='right', va='bottom', color='gray')
 
     for ax in axes:
@@ -132,7 +166,7 @@ def plot_combined(all_data):
                  fontsize=14, fontweight='bold', y=1.01)
     fig.tight_layout()
     tag = '_fl' if ARGS.mode == 'firstlayer' else ''
-    out_path = os.path.join(OUTDIR, f'hijack_allI_avg_seeds{tag}.png')
+    out_path = os.path.join(OUTDIR, f'hijack_allI_avg_seeds{tag}{ARGS.out_suffix}.png')
     fig.savefig(out_path, dpi=200, bbox_inches='tight', facecolor='white')
     plt.close()
     print(f"Saved {out_path}")

@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
-"""Classify seeds 6-25 for k32_N512 as leap-former or not."""
-import os, sys
+"""Classify k32_N512 seeds as leap-former (two-stage) or single-stage.
+
+Seeds that come out SINGLE are the ones dropped from the cross-seed hijack
+average; use --save-json so plot_hijack_avg_seeds.py --classification can read
+the verdict instead of relying on a hardcoded seed list.
+"""
+import os, sys, json, argparse
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'sortgpt_toolkit'))
 
 import torch
 import torch.nn.functional as F
 from model import DEVICE, load_model_from_checkpoint
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--seeds', default='1-25', help='e.g. "1-25" or "6-25"')
+parser.add_argument('--save-json', default=None, help='Write verdicts to this path')
+ARGS = parser.parse_args()
+
+_lo, _hi = (int(x) for x in ARGS.seeds.split('-'))
+SEED_RANGE = range(_lo, _hi + 1)
 
 N_TRIALS = 200
 
@@ -37,12 +50,26 @@ def classify(model):
     return normal_correct / total, ablated_correct / total
 
 BASE = os.path.join(os.path.dirname(__file__), '..', '..')
-results = []
-for seed in range(6, 26):
-    if seed <= 15:
-        ckpt = os.path.join(BASE, f'new-grid-multiple-2/k32_N512/seed{seed}/checkpoints/std0p01_iseed{seed}__ckpt100000.pt')
+
+
+def checkpoint_for(seed):
+    if seed == 1:
+        rel = 'new-grid/k32_N512/checkpoints'
+    elif seed <= 5:
+        rel = f'new-grid-multiple/k32_N512/seed{seed}/checkpoints'
+    elif seed <= 15:
+        rel = f'new-grid-multiple-2/k32_N512/seed{seed}/checkpoints'
     else:
-        ckpt = os.path.join(BASE, f'new-grid-multiple-3/k32_N512/seed{seed}/checkpoints/std0p01_iseed{seed}__ckpt100000.pt')
+        rel = f'new-grid-multiple-3/k32_N512/seed{seed}/checkpoints'
+    return os.path.join(BASE, rel, f'std0p01_iseed{seed}__ckpt100000.pt')
+
+
+results = []
+for seed in SEED_RANGE:
+    ckpt = checkpoint_for(seed)
+    if not os.path.exists(ckpt):
+        print(f"seed{seed}: MISSING {ckpt}")
+        continue
     model = load_model_from_checkpoint(ckpt)
     norm_acc, abl_acc = classify(model)
     is_leap = abl_acc < 0.10
@@ -55,3 +82,12 @@ leaps = [s for s, _, _, lf in results if lf]
 singles = [s for s, _, _, lf in results if not lf]
 print(f"Leap-formers ({len(leaps)}): seeds {leaps}")
 print(f"Single-stage ({len(singles)}): seeds {singles}")
+
+if ARGS.save_json:
+    payload = {str(s): {'normal_acc': n, 'ablated_acc': a, 'is_leap': lf}
+               for s, n, a, lf in results}
+    os.makedirs(os.path.dirname(ARGS.save_json) or '.', exist_ok=True)
+    with open(ARGS.save_json, 'w') as f:
+        json.dump({'criterion': 'ablated_acc < 0.10', 'n_trials': N_TRIALS,
+                   'seeds': payload}, f, indent=2)
+    print(f"Saved {ARGS.save_json}")
